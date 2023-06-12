@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
-use App\Models\User;
+use App\Models\BuildingUnit;
 
 class PublicUnitController extends Controller
 {
