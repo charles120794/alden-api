@@ -7,6 +7,7 @@ use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\BuildingUnitController;
 use App\Http\Controllers\BuildingAmenityController;
 use App\Http\Controllers\BuildingPolicyController;
+use App\Http\Controllers\PublicUnitController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
@@ -24,6 +25,8 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'create']);
 
 Route::post('/register', [LoginController::class, 'store']);
+
+Route::post('/units', [PublicUnitController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
 

@@ -17,7 +17,7 @@ class BuildingUnitController extends Controller
 {
 	public function index(Request $request)
 	{
-		return BuildingUnit::with('building','unitAmenity','unitPolicy','userCreated')->get();
+		return BuildingUnit::with('building','unitAmenity','unitPolicy','userCreated')->where('created_by', Auth()->User()->id)->get();
 	}
 
 	public function show($id)

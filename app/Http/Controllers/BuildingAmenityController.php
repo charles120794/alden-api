@@ -17,7 +17,7 @@ class BuildingAmenityController extends Controller
 {
 	public function index(Request $request)
 	{
-		return BuildingUnitAmenity::get();
+		return BuildingUnitAmenity::where('created_by', Auth()->User()->id)get();
 	}
 
 	public function show($id)

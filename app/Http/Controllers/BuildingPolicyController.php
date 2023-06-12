@@ -17,7 +17,7 @@ class BuildingPolicyController extends Controller
 {
 	public function index(Request $request)
 	{
-		return BuildingUnitPolicy::get();
+		return BuildingUnitPolicy::where('created_by', Auth()->User()->id)get();
 	}
 
 	public function show($id)

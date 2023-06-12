@@ -17,7 +17,7 @@ class BuildingController extends Controller
 {
 	public function index(Request $request)
 	{
-		return Building::with('buildingUnit.userCreated')->with('buildingAmenity')->get();
+		return Building::with('buildingUnit.userCreated')->with('buildingAmenity')->where('created_by', Auth()->User()->id)->get();
 	}
 
 	public function show($id)
