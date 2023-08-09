@@ -84,7 +84,7 @@ class LoginController extends Controller
                 'token' => ''
             ]);
 
-        } catch (ValidationException $e) {
+        } catch (\Exception $e) {
 
             return response()->json([
                 'authenticated' => false,
