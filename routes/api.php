@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::get('/user/update/owner', UserController::class, 'updateOwner');
+
     //
     // BUILDINGS
     //
