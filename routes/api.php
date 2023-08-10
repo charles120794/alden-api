@@ -8,6 +8,7 @@ use App\Http\Controllers\BuildingUnitController;
 use App\Http\Controllers\BuildingAmenityController;
 use App\Http\Controllers\BuildingPolicyController;
 use App\Http\Controllers\PublicUnitController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
@@ -34,7 +35,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::get('/user/update/owner', UserController::class, 'updateOwner');
+    Route::post('/user/update/owner', [UserController::class, 'updateOwner']);
 
     //
     // BUILDINGS
