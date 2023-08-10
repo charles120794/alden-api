@@ -27,7 +27,7 @@ class UserController extends Controller
                 throw new Exception("Image is required", 1);
             }
 
-            Auth()->User()->update([
+            $user = Auth()->User()->update([
                 'valid_doc' => $path,
                 'type' => 1
             ]);
@@ -35,7 +35,10 @@ class UserController extends Controller
             return response()->json([
                 'authenticated' => true,
                 'response' => 'Successfully updated',
-                'data' => $path
+                'data' => [
+                	'valid_doc' => $path,
+                	'type' => $user->type
+                ]
             ]);
 
         } catch (\Exception $e) {
