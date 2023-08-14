@@ -9,6 +9,7 @@ use App\Http\Controllers\BuildingAmenityController;
 use App\Http\Controllers\BuildingPolicyController;
 use App\Http\Controllers\PublicUnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ResortController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
