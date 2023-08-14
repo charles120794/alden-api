@@ -37,6 +37,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/user/update/owner', [UserController::class, 'updateOwner']);
 
+    Route::post('/resort/create', [ResortController::class, 'create']);
+
     //
     // BUILDINGS
     //
