@@ -17,10 +17,12 @@ class ResortController extends Controller
             DB::beginTransaction();
 
             $resort = DB::table('resort')->insertGetId([
-                'owner_name' => $request->owner_name,
                 'resort_name' => $request->resort_name,
                 'resort_desc' => $request->resort_desc,
                 'resort_address' => $request->resort_address,
+                'province' => $request->province,
+                'city' => $request->city,
+                'barangay' => $request->barangay,
                 'capture-status' => 0,
                 'is_for_rent' => 0,
                 // 'capture_date'
