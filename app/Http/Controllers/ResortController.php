@@ -69,7 +69,7 @@ class ResortController extends Controller
 
     public function getResortList()
     {
-        return DB::table('resort')->where('owner_id', Auth()->User()->id)->get()->map(function($value) {
+        return DB::table('resort')->where('created_by', Auth()->User()->id)->get()->map(function($value) {
             return collect($value)->merge([
                 'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
                 'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get()
