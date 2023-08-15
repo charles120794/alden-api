@@ -20,10 +20,11 @@ class ResortController extends Controller
                 'resort_name' => $request->resort_name,
                 'resort_desc' => $request->resort_desc,
                 'resort_address' => $request->resort_address,
+                'resort_price' => $request->resort_price,
                 'province' => $request->province,
                 'city' => $request->city,
                 'barangay' => $request->barangay,
-                'capture-status' => 0,
+                'capture_status' => 0,
                 'is_for_rent' => 0,
                 // 'capture_date'
                 // 'vr_url'
@@ -35,7 +36,7 @@ class ResortController extends Controller
                 // CREATE AMENITIES
                 DB::table('resort_amenities')->insert([
                     'resort_id' => $resort,
-                    'description' => $row['description'],
+                    'description' => $row['amenitiesTitle'],
                     'created_at' => now(),
                     'created_by' => Auth()->User()->id
                 ]);
@@ -45,7 +46,7 @@ class ResortController extends Controller
                 // CREATE AMENITIES
                 DB::table('resort_policy')->insert([
                     'resort_id' => $resort,
-                    'description' => $row['description'],
+                    'description' => $row['policiesTitle'],
                     'created_at' => now(),
                     'created_by' => Auth()->User()->id
                 ]);
