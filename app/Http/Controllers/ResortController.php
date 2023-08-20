@@ -9,6 +9,34 @@ use App\Models\User;
 
 class ResortController extends Controller
 {
+    public function index()
+    {
+        try {
+
+            $data = DB::table('resort')->get()->map(function($value) {
+                return collect($value)->merge([
+                    'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
+                    'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
+                    'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
+                    'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
+                    'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
+                    'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
+                    'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
+                    'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
+                ]);
+            });;
+
+            return response()->json([
+                'response' => $data,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'response' => $e->getMessage(),
+            ]);
+        }
+    }
+
 	public function create(Request $request)
 	{
 
@@ -73,7 +101,13 @@ class ResortController extends Controller
         return DB::table('resort')->get()->map(function($value) {
             return collect($value)->merge([
                 'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
-                'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get()
+                'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
+                'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
+                'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
+                'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
+                'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
+                'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
+                'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
             ]);
         });
     }

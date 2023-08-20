@@ -30,6 +30,8 @@ Route::post('/register', [LoginController::class, 'store']);
 
 Route::get('/units', [PublicUnitController::class, 'index']);
 
+Route::get('/resorts', [ResortController::class, 'index']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/user', function (Request $request) {
@@ -37,7 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::post('/user/update/owner', [UserController::class, 'updateOwner']);
-
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);
 
