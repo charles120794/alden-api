@@ -13,7 +13,7 @@ class ResortController extends Controller
     {
         try {
 
-            $data = DB::table('resort')->get()->map(function($value) {
+            return DB::table('resort')->get()->map(function($value) {
                 return collect($value)->merge([
                     'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
                     'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
@@ -25,10 +25,6 @@ class ResortController extends Controller
                     'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
                 ]);
             });;
-
-            return response()->json([
-                'response' => $data,
-            ]);
 
         } catch (\Exception $e) {
             return response()->json([
