@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\BuildingUnitController;
@@ -10,7 +11,7 @@ use App\Http\Controllers\BuildingPolicyController;
 use App\Http\Controllers\PublicUnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ResortController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +51,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/update/owner', [UserController::class, 'updateOwner']);
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);
+
+    //
+    // CHAT MESSAGES
+    //
+    Route::get('/chats', [ChatController::class, 'index']);
 
     //
     // BUILDINGS
