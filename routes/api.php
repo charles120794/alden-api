@@ -31,6 +31,15 @@ Route::post('/register', [LoginController::class, 'store']);
 Route::get('/units', [PublicUnitController::class, 'index']);
 
 Route::get('/resorts', [ResortController::class, 'index']);
+Route::get('/resorts/show', [ResortController::class, 'indexShow']);
+
+Route::post('/alden/api', function () {
+    $result = [];
+    foreach(request()->file('file_upload') as $key => $file) {
+        $result[] = $file->getClientOriginalName();
+    }
+    return $result;
+});
 
 Route::middleware('auth:sanctum')->group(function () {
 
