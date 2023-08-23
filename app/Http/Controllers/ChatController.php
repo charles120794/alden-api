@@ -40,6 +40,8 @@ class ChatController extends Controller
             $chats = Chats::create($request->chats);
 
             $chats->chatsMessages()->createByMany($request->meessages);
+
+            $chats->save();
          
             return response()->json([
                 'response' => 'success',
