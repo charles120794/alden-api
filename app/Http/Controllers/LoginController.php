@@ -33,6 +33,10 @@ class LoginController extends Controller
             $request->authenticate();
 
             $token = $request->user()->createToken($request->token_name);
+
+            $request->user()->status = 1;
+
+            $request->user()->save();
      
             return response()->json([
                 'authenticated' => true,
@@ -137,6 +141,10 @@ class LoginController extends Controller
     public function destroy(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
+
+        $request->user()->status = 0;
+
+        $request->user()->save();
 
         return response()->json([
             'authenticated' => false,

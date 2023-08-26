@@ -6,6 +6,7 @@ use Storage;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Chats;
+use App\Models\ChatsMessages;
 
 class ChatController extends Controller
 {
@@ -37,15 +38,44 @@ class ChatController extends Controller
 
         try {
 
-            $chats = Chats::create($request->chats);
+            $chats = Chats::where('user1_id', $request->chats['user1_id'])
+                ->where('user2_id', $request->chats['user2_id'])
+                ->first();
 
-            $chats->chatsMessages()->createByMany($request->meessages);
+            if(!empty($chats)) {
 
-            $chats->save();
+                $chats->user1_id = $request->chats['user1_id'];
+                $chats->user2_id = $request->chats['user2_id'];
+
+                $chats->save();
+
+                ChatsMessages::insert([
+                    'channel_id' => $chats->id,
+                    'user_id' => $request->chats_messages['user_id'],
+                    'message_body' => $request->chats_messages['message_body'],
+                    'status' => 0
+                ]);
+
+            } else {
+
+                $create = new Chats;
+                $createMessage = new ChatsMessages;
+
+                $id = $create->insertGetId([
+                    'user1_id' => $request->chats['user1_id'],
+                    'user2_id' => $request->chats['user2_id'],
+                    'created_by' => auth()->id()
+                ]);
+
+                $createMessage->insert([
+                    'channel_id' => $id,
+                    'user_id' => $request->chats_messages['user_id'],
+                    'message_body' => $request->chats_messages['message_body']
+                ]);
+            }
          
             return response()->json([
                 'response' => 'success',
-                'data' => $chats
             ]);
 
         } catch (\Exception $e) {

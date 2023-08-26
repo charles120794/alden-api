@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Resorts;
 use App\Models\ResortRatings;
+use App\Models\Reservation;
+use App\Models\Notification;
 
 class ResortController extends Controller
 {
@@ -50,7 +52,7 @@ class ResortController extends Controller
             $resort->policies = DB::table('resort_policy')->where('resort_id', $request->resort_id)->get();
             $resort->ratings = ResortRatings::with('createdUser')->where('resort_id', $request->resort_id)->get();
             $resort->ratings_avarage = DB::table('resort_rate')->where('resort_id', $request->resort_id)->avg('rating') ?? 0;
-            $resort->feedback = DB::table('resort_feedback')->where('resort_id', $request->resort_id)->get();
+            // $resort->feedback = DB::table('resort_feedback')->where('resort_id', $request->resort_id)->get();
             $resort->images = DB::table('resort_images')->where('resort_id', $request->resort_id)->get();
             $resort->pricing = DB::table('resort_pricing')->where('resort_id', $request->resort_id)->get();
             $resort->reservation = DB::table('resort_reservation')->where('resort_id', $request->resort_id)->get();
@@ -78,14 +80,14 @@ class ResortController extends Controller
                 'resort_address' => $request->resort_address,
                 'resort_address_lon' => $this->getLatLngFromGoogleMapsURL($request->resort_address_url)['longitude'] ?? "",
                 'resort_address_lat' => $this->getLatLngFromGoogleMapsURL($request->resort_address_url)['latitude'] ?? "",
-                'resort_price' => $request->resort_price,
-                'province' => $request->province,
-                'city' => $request->city,
-                'barangay' => $request->barangay,
+                'resort_region' => $request->resort_region,
+                'resort_province' => $request->resort_province,
+                'resort_city' => $request->resort_city,
+                'resort_barangay' => $request->resort_barangay,
                 'capture_status' => 0,
                 'is_for_rent' => 0,
-                // 'capture_date'
-                // 'vr_url'
+                'capture_date_from' => date('Y-m-d', strtotime($request->capture_date[0]['startDate'])),
+                'capture_date_to' => date('Y-m-d', strtotime($request->capture_date[0]['endDate'])),
                 'created_at' => now(),
                 'created_by' => Auth()->User()->id
             ]);
@@ -101,10 +103,22 @@ class ResortController extends Controller
             }
 
             foreach($request->policies as $row) {
-                // CREATE AMENITIES
+                // CREATE POLICIES
                 DB::table('resort_policy')->insert([
                     'resort_id' => $resort,
                     'description' => $row['policiesTitle'],
+                    'created_at' => now(),
+                    'created_by' => Auth()->User()->id
+                ]);
+            }
+
+            foreach($request->pricing as $row) {
+                // CREATE PRICING
+                DB::table('resort_pricing')->insert([
+                    'resort_id' => $resort,
+                    'price_desc' => $row['description'],
+                    'price' => $row['price'],
+                    'downpayment_percent' => $row['downpayment_percent'],
                     'created_at' => now(),
                     'created_by' => Auth()->User()->id
                 ]);
@@ -125,6 +139,52 @@ class ResortController extends Controller
             ]);
         }
 	}
+
+    public function createReservation(Request $request)
+    {
+        try {
+
+            DB::table('resort_reservation')->insert([
+                'resort_id' => $request->resort_id,
+                'pricing_id' => $request->pricing_id,
+                'reserve_date' => $request->reserve_date,
+                'reserve_desc' => $request->reserve_desc,
+                'ref_no' => $request->ref_no,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'response' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function notifiReservation()
+    {
+        $reservation = Reservation::get();
+
+        foreach ($reservation as $reserve) {
+
+            if($reserve->reserve_date < now()) {
+                
+                $count = new Notification::query()
+                    ->where('user_id',  $reserve->created_by)
+                    ->where('message', "Please rate your experince")
+                    ->where('type',  'TO_REVIEW')
+                    ->where('source',  'SYSTEM_GENERATED')
+                    ->count();
+
+                if($count == 0) {
+                    Notification::create([
+                        'user_id' => $reserve->created_by,
+                        'message' => "Please rate your experience",
+                        'type' => 'TO_REVIEW',
+                        'source' => 'SYSTEM_GENERATED'
+                    ]);
+                }
+            }
+        }
+    }
 
     private function getLatLngFromGoogleMapsURL($url) {
         // Extract the latitude and longitude values from the URL using regular expressions

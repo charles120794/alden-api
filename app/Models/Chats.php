@@ -13,6 +13,8 @@ class Chats extends Model
 
     protected $primaryKey = "id";
 
+    protected $fillable = ['user1_id', 'user2_id', 'created_at'];
+
     public $timestamps = false;
 
     public function userInfo1() 

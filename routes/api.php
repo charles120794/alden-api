@@ -12,6 +12,7 @@ use App\Http\Controllers\PublicUnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ResortController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,8 @@ Route::post('/alden/api', function () {
     return $result;
 });
 
+Route::post('/reservation/notif', [ResortController::class, 'create']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/user', function (Request $request) {
@@ -51,6 +54,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/update/owner', [UserController::class, 'updateOwner']);
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);
+    Route::post('/resort/create/reservation', [ResortController::class, 'createReservation']);
+
+    //
+    // NOTIFICATION
+    //
+    Route::get('/notification', [NotificationController::class, 'index']);
+    Route::get('/notification/show', [NotificationController::class, 'show']);
+    Route::post('/notification/create', [NotificationController::class, 'create']);
+    Route::post('/notification/update', [NotificationController::class, 'update']);
 
     //
     // CHAT MESSAGES
