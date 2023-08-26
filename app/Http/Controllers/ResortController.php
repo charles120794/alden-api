@@ -167,7 +167,7 @@ class ResortController extends Controller
 
             if($reserve->reserve_date < now()) {
                 
-                $count = new Notification::query()
+                $count = Notification::query()
                     ->where('user_id',  $reserve->created_by)
                     ->where('message', "Please rate your experince")
                     ->where('type',  'TO_REVIEW')
