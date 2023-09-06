@@ -43,7 +43,7 @@ Route::post('/alden/api', function () {
     return $result;
 });
 
-Route::post('/reservation/notif', [ResortController::class, 'create']);
+Route::post('/reservation/notif', [ResortController::class, 'notifiReservation']);//changed create to notifiReservation
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/user/update/owner', [UserController::class, 'updateOwner']);
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
+    Route::get('/resort/list/capture', [ResortController::class, 'getCaptureResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);
     Route::post('/resort/create/reservation', [ResortController::class, 'createReservation']);
 
@@ -63,12 +64,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notification/show', [NotificationController::class, 'show']);
     Route::post('/notification/create', [NotificationController::class, 'create']);
     Route::post('/notification/update', [NotificationController::class, 'update']);
+    // Route::post('/notification/review', [ResortController::class, 'notifiReservation']);
+
 
     //
     // CHAT MESSAGES
     //
     Route::get('/chats', [ChatController::class, 'index']);
     Route::post('/chats/create', [ChatController::class, 'create']);
+
+
+
+
+
 
     //
     // BUILDINGS

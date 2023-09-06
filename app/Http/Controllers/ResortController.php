@@ -20,6 +20,7 @@ class ResortController extends Controller
                 return $query->where('resort_name', 'like', '%' . request()->search. '%')
                     ->orWhere('resort_desc', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
                     ->orWhere('resort_address', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
+                    ->orWhere('region', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
                     ->orWhere('province', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
                     ->orWhere('city', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
                     ->orWhere('barangay', 'like', '%' . request()->search. '%')->where('is_for_rent', 1);
@@ -84,6 +85,10 @@ class ResortController extends Controller
                 'resort_province' => $request->resort_province,
                 'resort_city' => $request->resort_city,
                 'resort_barangay' => $request->resort_barangay,
+                'region' => $request->resort_region_name,
+                'province' => $request->resort_province_name,
+                'city' => $request->resort_city_name,
+                'barangay' => $request->resort_barangay_name,
                 'capture_status' => 0,
                 'is_for_rent' => 0,
                 'capture_date_from' => date('Y-m-d', strtotime($request->capture_date[0]['startDate'])),
@@ -147,9 +152,11 @@ class ResortController extends Controller
             DB::table('resort_reservation')->insert([
                 'resort_id' => $request->resort_id,
                 'pricing_id' => $request->pricing_id,
-                'reserve_date' => $request->reserve_date,
-                'reserve_desc' => $request->reserve_desc,
+                'reserve_date' => date('Y-m-d', strtotime($request->reserve_date)),
+                // 'reserve_desc' => $request->reserve_desc,
                 'ref_no' => $request->ref_no,
+                'created_at' => now(),
+                'created_by' => Auth()->User()->id
             ]);
 
         } catch (\Exception $e) {
@@ -175,11 +182,12 @@ class ResortController extends Controller
                     ->count();
 
                 if($count == 0) {
-                    Notification::create([
+                    Notification::insert([
                         'user_id' => $reserve->created_by,
                         'message' => "Please rate your experience",
                         'type' => 'TO_REVIEW',
-                        'source' => 'SYSTEM_GENERATED'
+                        'source' => 'SYSTEM_GENERATED',
+                        'created_at' => now(),
                     ]);
                 }
             }
@@ -200,9 +208,10 @@ class ResortController extends Controller
         }
     }
 
+    //list of owner's resorts
     public function getResortList()
     {
-        return DB::table('resort')->get()->map(function($value) {
+        return DB::table('resort')->where('created_by', auth()->id())->get()->map(function($value) {
             return collect($value)->merge([
                 'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
                 'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
@@ -215,4 +224,21 @@ class ResortController extends Controller
             ]);
         });
     }
+    //list of owner's resorts that are yet to be captured
+    public function getCaptureResortList()
+    {
+        return DB::table('resort')->where('capture_status', 0)->get()->map(function($value) {
+            return collect($value)->merge([
+                'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
+                'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
+                'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
+                'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
+                // 'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
+                'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
+                'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
+                'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
+            ]);
+        });
+    }
+
 }

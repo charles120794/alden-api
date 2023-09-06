@@ -9,7 +9,7 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $table = "reservation";
+    protected $table = "resort_reservation";
 
     protected $primaryKey = "id";
 
