@@ -22,6 +22,10 @@ Route::get('/optimize', function () {
     Artisan::call('optimize');
 });
 
+Route::get('/storage/link', function () {
+    Artisan::call('storage:link');
+});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
