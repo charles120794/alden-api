@@ -24,9 +24,20 @@ Route::get('/optimize', function () {
 });
 
 Route::get('/storage/link', function () {
-    Artisan::call('storage:link');
+    // Artisan::call('storage:link');
+    try {
+        // Use Artisan::call to run the storage:link command
+        \Illuminate\Support\Facades\Artisan::call('storage:link');
+
+        // Provide a success message
+        return 'Storage link created successfully.';
+    } catch (\Exception $e) {
+        // Handle any exceptions that may occur
+        return 'Error: ' . $e->getMessage();
+    }
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
