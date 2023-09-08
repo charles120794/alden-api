@@ -51,7 +51,8 @@ class UserController extends Controller
                 'authenticated' => true,
                 'response' => 'Successfully updated',
                 'data' => [
-                	'valid_doc' => $path,
+                	'valid_doc' => $valid_doc_path,
+                    'payment_qr_code' => $payment_qr_code_path,
                 	'type' => 1
                 ]
             ]);
