@@ -51,7 +51,7 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
-    Route::post('/user/update/owner', [UserController::class, 'updateOwner']);
+    Route::post('/user/update/owner', [UserController::class, 'updateToOwner']);
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::get('/resort/list/capture', [ResortController::class, 'getCaptureResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);

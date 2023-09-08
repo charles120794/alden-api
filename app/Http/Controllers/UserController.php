@@ -8,27 +8,42 @@ use App\Models\User;
 
 class UserController extends Controller
 {
-	public function updateOwner(Request $request)
+	public function updateToOwner(Request $request)
 	{
 
         try {
 
-            $path = "";
+            $valid_doc_path = "";
 
-            if ($request->hasFile('file')) {
+            if ($request->hasFile('valid_doc')) {
 
-                $file = $request->file('file');
+                $file = $request->file('valid_doc');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); // You can choose a storage disk here
                 // You can also save the filename to a database if needed
 
-                $path = Storage::disk('public')->url($filename);
+                $valid_doc_path = Storage::disk('public')->url($filename);
+            } else {
+                throw new Exception("Image is required", 1);
+            }
+
+            $payment_qr_code_path = "";
+
+            if ($request->hasFile('payment_qr_code')) {
+
+                $file = $request->file('payment_qr_code');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); // You can choose a storage disk here
+                // You can also save the filename to a database if needed
+
+                $payment_qr_code_path = Storage::disk('public')->url($filename);
             } else {
                 throw new Exception("Image is required", 1);
             }
 
             Auth()->User()->update([
-                'valid_doc' => $path,
+                'valid_doc' => $valid_doc_path,
+                'payment_qr_code' => $payment_qr_code_path,
                 'type' => 1
             ]);
          
@@ -50,4 +65,42 @@ class UserController extends Controller
             ]);
         }
 	}
+
+    public function getAllUser(){
+        try {
+
+            $users = User::get();
+
+            return response()->json([
+                'authenticated' => true,
+                'response' => $users
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'authenticated' => true,
+                'response' => $e->getMessage(),
+                'token' => ''
+            ]);
+        }
+    }
+
+    public function getAllPendingUser(){
+        try {
+
+            $users = User::where('type', 0)->get();
+
+            return response()->json([
+                'authenticated' => true,
+                'response' => $users
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'authenticated' => true,
+                'response' => $e->getMessage(),
+                'token' => ''
+            ]);
+        }
+    }
 }
