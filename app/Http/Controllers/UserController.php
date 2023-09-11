@@ -44,7 +44,7 @@ class UserController extends Controller
             Auth()->User()->update([
                 'valid_doc' => $valid_doc_path,
                 'payment_qr_code' => $payment_qr_code_path,
-                'approve_status' => 1
+                'approve_status' => 0
             ]);
          
             return response()->json([
@@ -89,7 +89,7 @@ class UserController extends Controller
     public function getAllPendingUser(){
         try {
 
-            $users = User::where('approve_status', 1)->get();
+            $users = User::where('approve_status', 0)->get();
 
             return response()->json([
                 'authenticated' => true,
@@ -105,33 +105,46 @@ class UserController extends Controller
         }
     }
 
-    // public function approveUserToOwner(Request $request){
-    //     try {
+    public function approveUserToOwner(Request $request){
+        try {
 
-    //         if($request->action === "approve"){
-                
-    //         }
+            if($request->action == 'approve'){
+                Auth()->User()->update([
+                    'type' => 1,
+                    'approve_status' => 1
+                ]);
 
-    //         Auth()->User()->update([
-    //             'type' => 1,
-    //             'approve_status' => 0
-    //         ]);
+                return response()->json([
+                    'authenticated' => true,
+                    'response' => 'Successfully updated',
+                    'data' => [
+                        'type' => 1,
+                        'approve_status' => 1
+                    ]
+                ]);
+            }else{
+                Auth()->User()->update([
+                    'approve_status' => 2
+                ]);
 
-    //         return response()->json([
-    //             'authenticated' => true,
-    //             'response' => 'Successfully updated',
-    //             'data' => [
-    //                 'type' => 1,
-    //                 'approve_status' => 0
-    //             ]
-    //         ]);
+                return response()->json([
+                    'authenticated' => true,
+                    'response' => 'Successfully updated',
+                    'data' => [
+                        'type' => 1,
+                        'approve_status' => 2
+                    ]
+                ]);
+            }
 
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'authenticated' => true,
-    //             'response' => $e->getMessage(),
-    //             'token' => ''
-    //         ]);
-    //     }
-    // }
+            
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'authenticated' => true,
+                'response' => $e->getMessage(),
+                'token' => ''
+            ]);
+        }
+    }
 }
