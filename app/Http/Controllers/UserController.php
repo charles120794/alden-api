@@ -79,9 +79,9 @@ class UserController extends Controller
 
             $users = $users->get();
 
-            return response()->json([
+            return response()->json(
                 $users
-            ]);
+            );
 
         } catch (\Exception $e) {
             return response()->json([
