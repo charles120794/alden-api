@@ -116,7 +116,7 @@ class UserController extends Controller
         try {
 
             if($request->action == 'approve'){
-                Auth()->User()->update([
+                User::where('id', $request->user_id)->update([
                     'type' => 1,
                     'approve_status' => 1
                 ]);
@@ -130,7 +130,7 @@ class UserController extends Controller
                     ]
                 ]);
             }else{
-                Auth()->User()->update([
+                User::where('id', $request->user_id)->update([
                     'approve_status' => 2
                 ]);
 
