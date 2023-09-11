@@ -44,7 +44,7 @@ class UserController extends Controller
             Auth()->User()->update([
                 'valid_doc' => $valid_doc_path,
                 'payment_qr_code' => $payment_qr_code_path,
-                'type' => 1
+                'approve_status' => 1
             ]);
          
             return response()->json([
@@ -53,7 +53,7 @@ class UserController extends Controller
                 'data' => [
                 	'valid_doc' => $valid_doc_path,
                     'payment_qr_code' => $payment_qr_code_path,
-                	'type' => 1
+                	'approve_status' => 1
                 ]
             ]);
 
@@ -89,7 +89,7 @@ class UserController extends Controller
     public function getAllPendingUser(){
         try {
 
-            $users = User::where('type', 0)->get();
+            $users = User::where('approve_status', 1)->get();
 
             return response()->json([
                 'authenticated' => true,
@@ -104,4 +104,34 @@ class UserController extends Controller
             ]);
         }
     }
+
+    // public function approveUserToOwner(Request $request){
+    //     try {
+
+    //         if($request->action === "approve"){
+                
+    //         }
+
+    //         Auth()->User()->update([
+    //             'type' => 1,
+    //             'approve_status' => 0
+    //         ]);
+
+    //         return response()->json([
+    //             'authenticated' => true,
+    //             'response' => 'Successfully updated',
+    //             'data' => [
+    //                 'type' => 1,
+    //                 'approve_status' => 0
+    //             ]
+    //         ]);
+
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'authenticated' => true,
+    //             'response' => $e->getMessage(),
+    //             'token' => ''
+    //         ]);
+    //     }
+    // }
 }

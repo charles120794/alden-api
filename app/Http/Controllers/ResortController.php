@@ -148,17 +148,35 @@ class ResortController extends Controller
     public function createReservation(Request $request)
     {
         try {
-
             DB::table('resort_reservation')->insert([
                 'resort_id' => $request->resort_id,
                 'pricing_id' => $request->pricing_id,
                 'reserve_date' => date('Y-m-d', strtotime($request->reserve_date)),
                 // 'reserve_desc' => $request->reserve_desc,
                 'ref_no' => $request->ref_no,
+                'confirm_status' => 0, //pending reservation, owner need to confirm 
                 'created_at' => now(),
                 'created_by' => Auth()->User()->id
             ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'response' => $e->getMessage(),
+            ]);
+        }
+    }
 
+    public function confirmReservation(Request $request)
+    {
+        try {
+            if($request->action == 'confirm'){
+                Reservation::where('id', $request->reservation_id)->update([
+                    'confirm_status' => 1, //owner confirmed 
+                ]);
+            }else{
+                Reservation::where('id', $request->reservation_id)->update([
+                    'confirm_status' => 2, //owner reject reservation 
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'response' => $e->getMessage(),

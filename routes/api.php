@@ -51,7 +51,14 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    // USERS
     Route::get('/users', [UserController::class, 'getAllUser']);
+    Route::get('/users/pending', [UserController::class, 'getAllPendingUser']);
+    Route::get('/users/approve', [UserController::class, 'approveUserToOwner']);
+
+    //RESERVATION
+    Route::post('/resort/reservation/confirm', [ResortController::class, 'confirmReservation']);
+
 
     Route::post('/user/update/owner', [UserController::class, 'updateToOwner']);
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
