@@ -36,11 +36,17 @@ Route::get('/resorts', [ResortController::class, 'index']);
 Route::get('/resorts/show', [ResortController::class, 'indexShow']);
 
 Route::post('/alden/api', function () {
-    $result = [];
+
     foreach(request()->file('file_upload') as $key => $file) {
-        $result[] = $file->getClientOriginalName();
+
+        $filename = time() . '_' . $file->getClientOriginalName();
+
+        // You can choose a storage disk here
+        $file->storeAs('public', $filename);
+        
+        // You can also save the filename to a database if needed
+        $getFileName = Storage::disk('public')->url($filename);
     }
-    return $result;
 });
 
 Route::post('/reservation/notif', [ResortController::class, 'notifiReservation']);//changed create to notifiReservation

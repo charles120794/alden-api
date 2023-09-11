@@ -20,7 +20,16 @@ Route::get('/', function () {
 });
 
 Route::get('/optimize', function () {
-    Artisan::call('optimize');
+    try {
+        // Use Artisan::call to run the storage:link command
+        \Illuminate\Support\Facades\Artisan::call('optimize');
+
+        // Provide a success message
+        return 'Optimize successfully.';
+    } catch (\Exception $e) {
+        // Handle any exceptions that may occur
+        return 'Error: ' . $e->getMessage();
+    }
 });
 
 Route::get('/storage/link', function () {
