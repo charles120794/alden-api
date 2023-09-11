@@ -67,10 +67,17 @@ class UserController extends Controller
         }
 	}
 
-    public function getAllUser(){
+    public function getAllUser(Request $request)
+    {
         try {
 
-            $users = User::get();
+            $users = new User;
+
+            if($request->has('approve_status')) {
+                $users = $users->where('approve_status', 1);
+            }
+
+            $users = $users->get();
 
             return response()->json([
                 'authenticated' => true,
@@ -86,7 +93,8 @@ class UserController extends Controller
         }
     }
 
-    public function getAllPendingUser(){
+    public function getAllPendingUser()
+    {
         try {
 
             $users = User::where('approve_status', 1)->get();
