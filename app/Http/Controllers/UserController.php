@@ -80,8 +80,7 @@ class UserController extends Controller
             $users = $users->get();
 
             return response()->json([
-                'authenticated' => true,
-                'response' => $users
+                $users
             ]);
 
         } catch (\Exception $e) {
