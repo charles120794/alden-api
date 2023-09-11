@@ -60,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // USERS
     Route::get('/users', [UserController::class, 'getAllUser']);
     Route::get('/users/pending', [UserController::class, 'getAllPendingUser']);
-    Route::get('/users/approve', [UserController::class, 'approveUserToOwner']);
+    Route::post('/users/approve', [UserController::class, 'approveUserToOwner']);
 
     //RESERVATION
     Route::post('/resort/reservation/confirm', [ResortController::class, 'confirmReservation']);
