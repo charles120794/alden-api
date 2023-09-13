@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use DB;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Reservation extends Model
+class ResortPricings extends Model
 {
     use HasFactory;
 
-    protected $table = "resort_reservation";
+    protected $table = "resort_pricing";
 
     protected $primaryKey = "id";
 
@@ -19,10 +18,5 @@ class Reservation extends Model
     public function userCreated()
     {
         return $this->hasOne(User::class, 'id', 'created_by');
-    }
-
-    public function reservationPriceDesc()
-    {
-        return $this->hasOne(ResortPricings::class, 'id', 'created_by');
     }
 }

@@ -238,7 +238,7 @@ class ResortController extends Controller
                 // 'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
                 'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
                 'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
-                'reservation' => Reservation::with('userCreated')->where('resort_id', $value->id)->get(),
+                'reservation' => Reservation::with('userCreated', 'reservationPriceDesc')->where('resort_id', $value->id)->get(),
             ]);
         });
     }
