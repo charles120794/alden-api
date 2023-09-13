@@ -266,7 +266,8 @@ class ResortController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename);
                 $getFileName = Storage::disk('public')->url($filename);
-                DB::table('resort_images')->where('resort_id', $request->resort_id)->update([
+                DB::table('resort_images')->insert([
+                    'resort_id' => $request->resort_id,
                     'resort_image' => $getFileName,
                     'created_at' => now(),
                 ]);
@@ -276,8 +277,10 @@ class ResortController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename);
                 $getFileName = Storage::disk('public')->url($filename);
-                DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->update([
+                DB::table('resort_vr_images')->insert([
+                    'resort_id' => $request->resort_id,
                     'resort_vr_image' => $getFileName,
+                    'created_at' => now(),
                 ]);
             }
 
@@ -287,11 +290,15 @@ class ResortController extends Controller
                 'vr_url' => $request->vr_url,
             ]);
 
+            return response()->json(
+                ['response' => "Image uploaded Successfully!",]
+            );
+
             
         } catch (\Exception $e) {
-            return response()->json(
-                'response' => $e->getMessage(),
-            );
+            return response()->json([
+                            'response' => $e->getMessage(),
+                        ]);
         }
         
     }
