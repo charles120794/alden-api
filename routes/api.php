@@ -71,7 +71,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/resort/list/capture', [ResortController::class, 'getCaptureResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);
     Route::post('/resort/create/reservation', [ResortController::class, 'createReservation']);
-    Route::post('/resort/update/images', [ResortController::class, 'uploadResortImages']);
+    Route::post('/resort/create/images', [ResortController::class, 'uploadResortImages']);
+    Route::get('/resort/list/reservations', [ReservationController::class, 'index']);
+
 
     //
     // NOTIFICATION

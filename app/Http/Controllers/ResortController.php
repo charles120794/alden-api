@@ -245,7 +245,7 @@ class ResortController extends Controller
     //list of owner's resorts that are yet to be captured
     public function getCaptureResortList()
     {
-        return DB::table('resort')->where('capture_status', 0)->get()->map(function($value) {
+        return Resorts::with('createdUser')->where('capture_status', 0)->get()->map(function($value) {
             return collect($value)->merge([
                 'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
                 'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
