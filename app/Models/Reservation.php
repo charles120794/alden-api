@@ -23,6 +23,6 @@ class Reservation extends Model
 
     public function reservationPriceDesc()
     {
-        return $this->hasOne(ResortPricings::class, 'id', 'created_by');
+        return $this->hasOne(ResortPricings::class, 'id', 'pricing_id');
     }
 }
