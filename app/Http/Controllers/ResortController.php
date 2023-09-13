@@ -259,4 +259,41 @@ class ResortController extends Controller
         });
     }
 
+    public function uploadResortImages(Request $request){
+        try{
+
+            foreach(request()->file('resort_image') as $key => $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename);
+                $getFileName = Storage::disk('public')->url($filename);
+                DB::table('resort_images')->where('resort_id', $request->resort_id)->update([
+                    'resort_image' => $getFileName,
+                    'created_at' => now(),
+                ]);
+            }
+
+            foreach(request()->file('resort_vr_image') as $key => $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename);
+                $getFileName = Storage::disk('public')->url($filename);
+                DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->update([
+                    'resort_vr_image' => $getFileName,
+                ]);
+            }
+
+            Resorts::where('id', $request->resort_id)->update([
+                'is_for_rent' => 1,
+                'capture_status' => 1,
+                'vr_url' => $request->vr_url,
+            ]);
+
+            
+        } catch (\Exception $e) {
+            return response()->json(
+                'response' => $e->getMessage(),
+            );
+        }
+        
+    }
+
 }
