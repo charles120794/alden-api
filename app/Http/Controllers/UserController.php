@@ -118,7 +118,7 @@ class UserController extends Controller
             if($request->action == 'approve'){
                 User::where('id', $request->user_id)->update([
                     'type' => 1,
-                    'approve_status' => 1
+                    'approve_status' => null
                 ]);
 
                 return response()->json([
@@ -126,7 +126,7 @@ class UserController extends Controller
                     'response' => 'Successfully updated',
                     'data' => [
                         'type' => 1,
-                        'approve_status' => 1
+                        'approve_status' => null
                     ]
                 ]);
             }else{
