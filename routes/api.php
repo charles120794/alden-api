@@ -37,7 +37,7 @@ Route::get('/resorts/show', [ResortController::class, 'indexShow']);
 
 Route::post('/alden/api', function () {
 
-    foreach(request()->file('file_upload') as $key => $file) {
+    foreach(request()->file('resort_image') as $key => $file) {
 
         $filename = time() . '_' . $file->getClientOriginalName();
 
