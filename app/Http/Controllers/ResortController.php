@@ -290,15 +290,10 @@ class ResortController extends Controller
                 'vr_url' => $request->vr_url,
             ]);
 
-            return response()->json(
-                ['response' => "Image uploaded Successfully!",]
-            );
-
+            return response()->json(['response' => "Image uploaded Successfully!",]);
             
         } catch (\Exception $e) {
-            return response()->json([
-                            'response' => $e->getMessage(),
-                        ]);
+            return response()->json(['response' => $e->getMessage(),]);
         }
         
     }

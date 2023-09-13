@@ -74,7 +74,7 @@ class UserController extends Controller
             $users = new User;
 
             if($request->has('approve_status')) {
-                $users = $users->where('approve_status', 1);
+                $users = $users->where('approve_status', 0);//pending users
             }
 
             $users = $users->get();
@@ -118,7 +118,7 @@ class UserController extends Controller
             if($request->action == 'approve'){
                 User::where('id', $request->user_id)->update([
                     'type' => 1,
-                    'approve_status' => null
+                    'approve_status' => 1
                 ]);
 
                 return response()->json([
@@ -126,7 +126,7 @@ class UserController extends Controller
                     'response' => 'Successfully updated',
                     'data' => [
                         'type' => 1,
-                        'approve_status' => null
+                        'approve_status' => 1
                     ]
                 ]);
             }else{
