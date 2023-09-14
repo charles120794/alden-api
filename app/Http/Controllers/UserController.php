@@ -80,7 +80,8 @@ class UserController extends Controller
                 $profile_picture_path = Storage::disk('public')->url($filename);
 
             } else {
-                throw new \Exception("Image is required", 1);
+                $profile_picture_path = $request->profile_picture
+                // throw new \Exception("Image is required", 1);
             }
 
             $payment_qr_code_path = "";
