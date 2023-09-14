@@ -66,6 +66,7 @@ class ChatController extends Controller
 
                 $chats->user1_id = $request->chats['user1_id'];
                 $chats->user2_id = $request->chats['user2_id'];
+                $chats->last_message = $request->chats_messages['message_body'];
 
                 $chats->save();
 
