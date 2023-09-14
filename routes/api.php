@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ResortController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ReservationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,13 +61,14 @@ Route::middleware('auth:sanctum')->group(function () {
     // USERS
     Route::get('/users', [UserController::class, 'getAllUser']);
     Route::get('/users/pending', [UserController::class, 'getAllPendingUser']);
+    Route::post('/user/update', [UserController::class, 'updateProfile']);
+    Route::post('/user/update/owner', [UserController::class, 'updateToOwner']);
     Route::post('/users/approve', [UserController::class, 'approveUserToOwner']);
 
     //RESERVATION
     Route::post('/resort/reservation/confirm', [ResortController::class, 'confirmReservation']);
 
 
-    Route::post('/user/update/owner', [UserController::class, 'updateToOwner']);
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::get('/resort/list/capture', [ResortController::class, 'getCaptureResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);
@@ -89,7 +91,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // CHAT MESSAGES
     //
     Route::get('/chats', [ChatController::class, 'index']);
+    Route::get('/chats/show', [ChatController::class, 'indexShow']);
     Route::post('/chats/create', [ChatController::class, 'create']);
+    Route::post('/chats/read', [ChatController::class, 'updateReadStatus']);
+    Route::post('/chats/unread', [ChatController::class, 'unreadStatus']);
 
 
 

@@ -16,7 +16,7 @@ class ChatController extends Controller
         try {
 
             $chats = Chats::where('user1_id', auth()->id())->orWhere('user2_id', auth()->id())
-            ->with('userInfo1', 'userInfo2', 'userInfoCreated', 'chatsMessages.userInfo')->get();
+            ->with('userInfo1', 'userInfo2', 'userInfoCreated')->orderBy('updated_at', 'desc')->get();
          
             return response()->json([
                 'response' => 'success',
@@ -32,6 +32,26 @@ class ChatController extends Controller
             ]);
         }
 	}
+
+    public function indexShow(Request $request)
+    {
+        try {
+            $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'desc')->get();
+         
+            return response()->json([
+                'response' => 'success',
+                'data' => $chatsMessages,
+                'channel_id' =>$request->channel_id
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'authenticated' => true,
+                'response' => $e->getMessage(),
+                'token' => ''
+            ]);
+        }
+    }
 
     public function create(Request $request)
     {
@@ -84,6 +104,40 @@ class ChatController extends Controller
                 'authenticated' => true,
                 'response' => $e->getMessage(),
                 'token' => ''
+            ]);
+        }
+    }
+
+    //seen message
+    public function updateReadStatus(Request $request)
+    {
+        try {
+            ChatsMessages::where('channel_id', $request->channel_id)->update(['status' => 1]);
+         
+            return response()->json([
+                'response' => 'success'
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'response' => $e->getMessage()
+            ]);
+        }
+    }
+
+    //mark as unread
+    public function unreadStatus(Request $request)
+    {
+        try {
+            ChatsMessages::where('channel_id', $request->channel_id)->update(['status' => 0]);
+         
+            return response()->json([
+                'response' => 'success'
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'response' => $e->getMessage()
             ]);
         }
     }

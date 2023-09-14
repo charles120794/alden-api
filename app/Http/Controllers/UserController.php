@@ -67,6 +67,70 @@ class UserController extends Controller
         }
 	}
 
+    public function updateProfile(Request $request)
+    {
+        try {
+
+            $profile_picture_path = "";
+            if ($request->hasFile('profile_picture')) {
+
+                $file = $request->file('profile_picture');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
+                $profile_picture_path = Storage::disk('public')->url($filename);
+
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
+
+            $payment_qr_code_path = "";
+            if ($request->hasFile('payment_qr_code')) {
+
+                $file = $request->file('payment_qr_code');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
+                $payment_qr_code_path = Storage::disk('public')->url($filename);
+
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
+
+            Auth()->User()->update([
+                'name' => $request->first_name . ' ' . $request->last_name,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'contact_no' => $request->contact_no,
+                'profile_picture' => $profile_picture_path,
+                'payment_qr_code' => $payment_qr_code_path,
+                'updated_at' => now(),
+            ]);
+            
+            return response()->json([
+                'authenticated' => true,
+                'response' => 'Successfully updated',
+                'data' => [
+                    'name' => $request->first_name . ' ' . $request->last_name,
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'contact_no' => $request->contact_no,
+                    'profile_picture' => $profile_picture_path,
+                    'payment_qr_code' => $payment_qr_code_path,
+                    'updated_at' => now(),
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'authenticated' => true,
+                'response' => $e->getMessage(),
+                'token' => ''
+            ]);
+        }
+    }
+
     public function getAllUser(Request $request)
     {
         try {

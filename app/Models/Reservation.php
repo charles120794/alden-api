@@ -25,4 +25,9 @@ class Reservation extends Model
     {
         return $this->hasOne(ResortPricings::class, 'id', 'pricing_id');
     }
+
+    public function resortInfo()
+    {
+        return $this->hasOne(Resorts::class, 'id', 'resort_id');
+    }
 }

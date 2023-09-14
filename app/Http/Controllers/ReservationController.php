@@ -17,7 +17,7 @@ class ReservationController extends Controller
     {
         try {
 
-            return Reservation::with('userCreated')->where('confirm_status', 0)->get()
+            return Reservation::with('userCreated', 'resortInfo')->get();
 
         } catch (\Exception $e) {
             return response()->json([
