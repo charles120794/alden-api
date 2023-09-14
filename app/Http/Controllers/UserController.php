@@ -93,7 +93,8 @@ class UserController extends Controller
                 $payment_qr_code_path = Storage::disk('public')->url($filename);
 
             } else {
-                throw new \Exception("Image is required", 1);
+                $payment_qr_code_path = $request->payment_qr_code
+                // throw new \Exception("Image is required", 1);
             }
 
             Auth()->User()->update([
