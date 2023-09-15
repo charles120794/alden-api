@@ -32,6 +32,7 @@ class ResortController extends Controller
                     'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
                     // 'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
                     'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
+                    'images_vr' => DB::table('resort_vr_images')->where('resort_id', $value->id)->get(),
                     'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
                     'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
                 ]);
