@@ -14,15 +14,14 @@ class UserController extends Controller
         try {
 
             $valid_doc_path = "";
-
             if ($request->hasFile('valid_doc')) {
 
                 $file = $request->file('valid_doc');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); // You can choose a storage disk here
                 // You can also save the filename to a database if needed
-
                 $valid_doc_path = Storage::disk('public')->url($filename);
+
             } else {
                 throw new \Exception("Image is required", 1);
             }
@@ -35,7 +34,6 @@ class UserController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); // You can choose a storage disk here
                 // You can also save the filename to a database if needed
-
                 $payment_qr_code_path = Storage::disk('public')->url($filename);
             } else {
                 throw new \Exception("Image is required", 1);
