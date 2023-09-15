@@ -69,7 +69,7 @@ class UserController extends Controller
     {
         try {
 
-            $profile_picture_path = "";
+            // $profile_picture_path = "";
             if ($request->hasFile('profile_picture')) {
 
                 $file = $request->file('profile_picture');
@@ -104,7 +104,7 @@ class UserController extends Controller
                 'last_name' => $request->last_name,
                 'email' => $request->email,
                 'contact_no' => $request->contact_no,
-                'profile_picture' => $profile_picture_path,
+                // 'profile_picture' => $profile_picture_path,
                 'payment_qr_code' => $payment_qr_code_path,
                 'updated_at' => now(),
             ]);
@@ -118,7 +118,7 @@ class UserController extends Controller
                     'last_name' => $request->last_name,
                     'email' => $request->email,
                     'contact_no' => $request->contact_no,
-                    'profile_picture' => $profile_picture_path,
+                    // 'profile_picture' => $profile_picture_path,
                     'payment_qr_code' => $payment_qr_code_path,
                     'updated_at' => now(),
                 ]
