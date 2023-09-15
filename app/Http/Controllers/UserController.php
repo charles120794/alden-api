@@ -76,6 +76,9 @@ class UserController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); 
                 $profile_picture_path = Storage::disk('public')->url($filename);
+                Auth()->User()->update([
+                'profile_picture' => $profile_picture_path
+            ]);
 
             } else {
                 $profile_picture_path = $request->profile_picture;
