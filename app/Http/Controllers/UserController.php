@@ -20,8 +20,8 @@ class UserController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); // You can choose a storage disk here
                 // You can also save the filename to a database if needed
-                $valid_doc_path = Storage::disk('public')->url($filename);
 
+                $valid_doc_path = Storage::disk('public')->url($filename);
             } else {
                 throw new \Exception("Image is required", 1);
             }
@@ -34,6 +34,7 @@ class UserController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); // You can choose a storage disk here
                 // You can also save the filename to a database if needed
+
                 $payment_qr_code_path = Storage::disk('public')->url($filename);
             } else {
                 throw new \Exception("Image is required", 1);
@@ -69,16 +70,13 @@ class UserController extends Controller
     {
         try {
 
-            // $profile_picture_path = "";
+            $profile_picture_path = "";
             if ($request->hasFile('profile_picture')) {
 
                 $file = $request->file('profile_picture');
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); 
                 $profile_picture_path = Storage::disk('public')->url($filename);
-                Auth()->User()->update([
-                'profile_picture' => $profile_picture_path
-            ]);
 
             } else {
                 $profile_picture_path = $request->profile_picture;
@@ -104,7 +102,7 @@ class UserController extends Controller
                 'last_name' => $request->last_name,
                 'email' => $request->email,
                 'contact_no' => $request->contact_no,
-                // 'profile_picture' => $profile_picture_path,
+                'profile_picture' => $profile_picture_path,
                 'payment_qr_code' => $payment_qr_code_path,
                 'updated_at' => now(),
             ]);
@@ -118,7 +116,7 @@ class UserController extends Controller
                     'last_name' => $request->last_name,
                     'email' => $request->email,
                     'contact_no' => $request->contact_no,
-                    // 'profile_picture' => $profile_picture_path,
+                    'profile_picture' => $profile_picture_path,
                     'payment_qr_code' => $payment_qr_code_path,
                     'updated_at' => now(),
                 ]
