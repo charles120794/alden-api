@@ -52,7 +52,7 @@ Route::post('/alden/api', function () {
 
 Route::post('/reservation/notif', [ResortController::class, 'notifiReservation']);//changed create to notifiReservation
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
     Route::get('/user', function (Request $request) {
         return $request->user();
