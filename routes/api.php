@@ -29,7 +29,9 @@ use Illuminate\Http\Response;
 
 Route::get('/image', function (Request $request) {
     // Serve your image here
-    $imagePath = storage_path('app/public/'.$request->image_url); // Adjust the path
+    // $imagePath = storage_path('app/public/'.$request->image_url); // Adjust the path
+    $imagePath = $request->image_path;
+    
     $image = file_get_contents($imagePath);
 
     return (new Response($image, 200))
