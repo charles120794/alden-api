@@ -25,6 +25,18 @@ use App\Http\Controllers\ReservationController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+use Illuminate\Http\Response;
+
+Route::get('/image', function (Request $request) {
+    // Serve your image here
+    $imagePath = storage_path('app/public/'.$request->image_url); // Adjust the path
+    $image = file_get_contents($imagePath);
+
+    return (new Response($image, 200))
+        ->header('Content-Type', 'image/jpeg')
+        ->header('Access-Control-Allow-Origin', '*'); // Adjust to your needs
+});
+
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 Route::post('/login', [LoginController::class, 'create']);
@@ -52,7 +64,7 @@ Route::post('/alden/api', function () {
 
 Route::post('/reservation/notif', [ResortController::class, 'notifiReservation']);//changed create to notifiReservation
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
     Route::get('/user', function (Request $request) {
         return $request->user();
