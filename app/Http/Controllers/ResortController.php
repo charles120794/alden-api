@@ -193,12 +193,12 @@ class ResortController extends Controller
         foreach ($reservation as $reserve) {
 
             if($reserve->reserve_date < now()) {
-                
+                //check first if notification already exists
                 $count = Notification::query()
                     ->where('user_id',  $reserve->created_by)
                     ->where('message', "Please rate your experince")
                     ->where('type',  'TO_REVIEW')
-                    ->where('source',  'SYSTEM_GENERATED')
+                    ->where('source',  19)
                     ->count();
 
                 if($count == 0) {
@@ -206,7 +206,6 @@ class ResortController extends Controller
                         'user_id' => $reserve->created_by,
                         'message' => "Please rate your experience",
                         'type' => 'TO_REVIEW',
-                        'source' => 'SYSTEM_GENERATED',
                         'created_at' => now(),
                     ]);
                 }
@@ -244,6 +243,7 @@ class ResortController extends Controller
             ]);
         });
     }
+
     //list of owner's resorts that are yet to be captured
     public function getCaptureResortList()
     {
@@ -261,6 +261,7 @@ class ResortController extends Controller
         });
     }
 
+    //admin to upload resort's thumbnails and 360 images
     public function uploadResortImages(Request $request){
         try{
 

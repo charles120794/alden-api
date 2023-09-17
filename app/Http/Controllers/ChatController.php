@@ -74,7 +74,8 @@ class ChatController extends Controller
                     'channel_id' => $chats->id,
                     'user_id' => $request->chats_messages['user_id'],
                     'message_body' => $request->chats_messages['message_body'],
-                    'status' => 0
+                    'status' => 0,
+                    'created_at' => now()
                 ]);
 
             } else {
@@ -91,7 +92,8 @@ class ChatController extends Controller
                 $createMessage->insert([
                     'channel_id' => $id,
                     'user_id' => $request->chats_messages['user_id'],
-                    'message_body' => $request->chats_messages['message_body']
+                    'message_body' => $request->chats_messages['message_body'],
+                    'created_at' => now()
                 ]);
             }
          
