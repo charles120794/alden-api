@@ -80,6 +80,7 @@ class LoginController extends Controller
                 'contact_no' => $request->contact_no,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'status' => 1,
             ]);
      
             return response()->json([
