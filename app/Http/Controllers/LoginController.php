@@ -39,8 +39,7 @@ class LoginController extends Controller
 
             $request->user()->save();
 
-            $stats = new AdminController;
-            $stats->index();
+            new AdminController->index();
      
             return response()->json([
                 'authenticated' => true,
