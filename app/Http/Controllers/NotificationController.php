@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use App\Models\Notification;
+use App\Events\MyEvent;
 
 class NotificationController extends Controller
 {
@@ -64,8 +65,22 @@ class NotificationController extends Controller
 
 		} catch (\Exception $e) {
 			return response()->json([
-                'response' => $e->getMessage(),
-            ]);
+          'response' => $e->getMessage(),
+      ]);
+		}
+	}
+
+	public function submit(Request $request)
+	{
+		try {
+
+			return event(new MyEvent($request->message));
+
+		} catch (\Exception $e) {
+
+			return response()->json([
+          'response' => $e->getMessage(),
+      ]);
 		}
 	}
 

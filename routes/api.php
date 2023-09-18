@@ -100,6 +100,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::get('/notification', [NotificationController::class, 'index']);
     Route::get('/notification/show', [NotificationController::class, 'show']);
     Route::post('/notification/create', [NotificationController::class, 'create']);
+    Route::post('/notification/submit', [NotificationController::class, 'submit']);
     Route::post('/notification/update', [NotificationController::class, 'update']);
     // Route::post('/notification/review', [ResortController::class, 'notifiReservation']);
 
