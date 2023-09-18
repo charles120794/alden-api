@@ -41,7 +41,7 @@ class LoginController extends Controller
 
             // $stats = new AdminController;
             // $stats->index();
-            $this->sample();
+            // $this->sample();
      
             return response()->json([
                 'authenticated' => true,
