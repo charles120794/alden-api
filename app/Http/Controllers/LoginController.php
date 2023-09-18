@@ -84,7 +84,7 @@ class LoginController extends Controller
                 'status' => 1,
             ]);
 
-            controller(new AdminController)->index();
+            // controller(new AdminController)->index();
      
             return response()->json([
                 'authenticated' => false,
