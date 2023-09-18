@@ -48,6 +48,7 @@ Route::post('/register', [LoginController::class, 'store']);
 Route::get('/units', [PublicUnitController::class, 'index']);
 
 Route::get('/resorts', [ResortController::class, 'index']);
+
 Route::get('/resorts/show', [ResortController::class, 'indexShow']);
 
 Route::post('/alden/api', function () {
@@ -63,6 +64,8 @@ Route::post('/alden/api', function () {
         $getFileName = Storage::disk('public')->url($filename);
     }
 });
+
+Route::post('/pusher/test', [ChatController::class, 'testingPusher']);
 
 Route::post('/reservation/notif', [ResortController::class, 'notifiReservation']);//changed create to notifiReservation
 

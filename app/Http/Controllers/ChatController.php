@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Chats;
 use App\Models\ChatsMessages;
+use App\Events\ChatEvent;
 
 class ChatController extends Controller
 {
@@ -143,5 +144,14 @@ class ChatController extends Controller
                 'response' => $e->getMessage()
             ]);
         }
+    }
+
+    public function testingPusher(Request $request)
+    {
+        $message = $request->input('message');
+
+        event(new ChatEvent($message));
+
+        return response()->json(['message' => 'Message sent successfully.']);
     }
 }
