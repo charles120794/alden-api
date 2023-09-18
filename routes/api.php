@@ -14,6 +14,7 @@ use App\Http\Controllers\ResortController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +75,8 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    //ADMIN
+    Route::get('/reports', [AdminController::class, 'index']);
 
     // USERS
     Route::get('/users', [UserController::class, 'getAllUser']);

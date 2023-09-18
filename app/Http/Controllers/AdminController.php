@@ -7,9 +7,9 @@ use App\Models\User;
 use App\Models\Resorts;
 use App\Events\AdminEvent;
 
-class AdminController
+class AdminController extends Controller
 {
-    public static function index()
+    public function index()
     {
 
         try {
@@ -20,15 +20,26 @@ class AdminController
             $allResortCount = Resorts::count();
             $allActiveResortCount = Resorts::where('is_for_rent', 1)->count();
             $allInactiveResortCount = Resorts::where('is_for_rent', 0)->count();
+            $capturedResortCount = Resorts::where('capture_status', 1)->count();
 
-            event(new AdminEvent([
+            // event(new AdminEvent([
+            //     'allUserCount' => $allUserCount,
+            //     'userCount' => $userCount,
+            //     'ownerCount' => $ownerCount,
+            //     'allResortCount' => $allResortCount,
+            //     'allActiveResortCount' => $allActiveResortCount,
+            //     'allInactiveResortCount' => $allInactiveResortCount,
+            // ]))
+
+            return response()->json([
                 'allUserCount' => $allUserCount,
                 'userCount' => $userCount,
                 'ownerCount' => $ownerCount,
                 'allResortCount' => $allResortCount,
                 'allActiveResortCount' => $allActiveResortCount,
                 'allInactiveResortCount' => $allInactiveResortCount,
-            ]))
+                'capturedResortCount' => $capturedResortCount,
+            ]);
 
         } catch (\Exception $e) {
 
