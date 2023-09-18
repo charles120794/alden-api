@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Resorts;
 use App\Events\AdminEvent;
 
-class AdminController extends Controller
+class AdminController
 {
     public function index()
     {
