@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Chats;
 use App\Models\ChatsMessages;
 use App\Events\ChatEvent;
+use App\Events\MyEvent;
 
 class ChatController extends Controller
 {
@@ -56,7 +57,6 @@ class ChatController extends Controller
 
     public function create(Request $request)
     {
-
         try {
 
             $chats = Chats::where('user1_id', $request->chats['user1_id'])
@@ -90,12 +90,16 @@ class ChatController extends Controller
                     'created_by' => auth()->id()
                 ]);
 
-                $createMessage->insert([
+                $msg_id = $createMessage->insertGetId([
                     'channel_id' => $id,
                     'user_id' => $request->chats_messages['user_id'],
                     'message_body' => $request->chats_messages['message_body'],
                     'created_at' => now()
                 ]);
+
+                $newMessage = ChatsMessages::where('id', $msg_id)->first();
+
+                event(new MyEvent($newMessage));
             }
          
             return response()->json([
