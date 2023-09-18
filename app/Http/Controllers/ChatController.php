@@ -38,7 +38,7 @@ class ChatController extends Controller
     public function indexShow(Request $request)
     {
         try {
-            $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'desc')->get();
+            $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'asc')->get();
          
             return response()->json([
                 'response' => 'success',
