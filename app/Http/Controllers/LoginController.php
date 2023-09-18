@@ -39,8 +39,9 @@ class LoginController extends Controller
 
             $request->user()->save();
 
-            $stats = new AdminController;
-            $stats->index();
+            // $stats = new AdminController;
+            // $stats->index();
+            $this->sample();
      
             return response()->json([
                 'authenticated' => true,
@@ -159,5 +160,24 @@ class LoginController extends Controller
             'token' => '',
             'user' => []
         ]);
+    }
+
+    public function sample()
+    {
+            $allUserCount = User::count();
+            $userCount = User::where('type', 0)->count();
+            $ownerCount = User::where('type', 1)->count();
+            $allResortCount = Resorts::count();
+            $allActiveResortCount = Resorts::where('is_for_rent', 1)->count();
+            $allInactiveResortCount = Resorts::where('is_for_rent', 0)->count();
+
+            event(new AdminEvent([
+                'allUserCount' => $allUserCount,
+                'userCount' => $userCount,
+                'ownerCount' => $ownerCount,
+                'allResortCount' => $allResortCount,
+                'allActiveResortCount' => $allActiveResortCount,
+                'allInactiveResortCount' => $allInactiveResortCount,
+            ]))
     }
 }
