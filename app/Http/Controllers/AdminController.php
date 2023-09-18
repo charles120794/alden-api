@@ -9,7 +9,7 @@ use App\Events\AdminEvent;
 
 class AdminController
 {
-    public function index()
+    static public function index()
     {
 
         try {
