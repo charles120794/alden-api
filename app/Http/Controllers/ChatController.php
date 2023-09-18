@@ -12,8 +12,8 @@ use App\Events\MyEvent;
 
 class ChatController extends Controller
 {
-	public function index(Request $request)
-	{
+    public function index(Request $request)
+    {
 
         try {
 
@@ -33,7 +33,7 @@ class ChatController extends Controller
                 'token' => ''
             ]);
         }
-	}
+    }
 
     public function indexShow(Request $request)
     {
@@ -71,13 +71,17 @@ class ChatController extends Controller
 
                 $chats->save();
 
-                ChatsMessages::insert([
+                $msg_id = ChatsMessages::insertGetId([
                     'channel_id' => $chats->id,
                     'user_id' => $request->chats_messages['user_id'],
                     'message_body' => $request->chats_messages['message_body'],
                     'status' => 0,
                     'created_at' => now()
                 ]);
+                
+                $newMessage = ChatsMessages::where('id', $msg_id)->with('userInfo')->first();
+                
+                event(new ChatEvent($newMessage));
 
             } else {
 
@@ -97,9 +101,9 @@ class ChatController extends Controller
                     'created_at' => now()
                 ]);
 
-                $newMessage = ChatsMessages::where('id', $msg_id)->first();
+                $newMessage = ChatsMessages::where('id', $msg_id)->with('userInfo')->first();
 
-                event(new MyEvent($newMessage));
+                event(new ChatEvent($newMessage));
             }
          
             return response()->json([

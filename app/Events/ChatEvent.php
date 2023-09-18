@@ -21,17 +21,12 @@ class ChatEvent implements ShouldBroadcast
     }
 
     public function broadcastOn()
-    {
-        return new PrivateChannel('chat');
-    }
+      {
+          return ['chat-channel'];
+      }
 
-    public function broadcastAs()
-    {
-        return 'message';
-    }
-
-    public function broadcastWith()
-    {
-        return ['message' => $this->message];
-    }
+      public function broadcastAs()
+      {
+          return 'chat-event';
+      }
 }
