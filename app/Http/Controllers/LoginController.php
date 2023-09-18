@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use App\Http\Controllers\AdminController;
 
 class LoginController extends Controller
 {
@@ -82,6 +83,8 @@ class LoginController extends Controller
                 'password' => Hash::make($request->password),
                 'status' => 1,
             ]);
+
+            (new AdminController)->index();
      
             return response()->json([
                 'authenticated' => false,
