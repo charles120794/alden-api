@@ -103,8 +103,10 @@ class ChatController extends Controller
 
                 $newMessage = ChatsMessages::where('id', $msg_id)->with('userInfo')->first();
 
+                $isNew = true;
+
                 // event(new ChatEvent($newMessage));
-                event(new ChatEvent(ChatsMessages::where('channel_id', $id)->get()));
+                event(new ChatEvent($newMessage, $isNew));
             }
          
             return response()->json([

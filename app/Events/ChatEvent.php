@@ -15,18 +15,28 @@ class ChatEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
-    public function __construct($message)
+    public $isNew;
+
+    public function __construct($message, $isNew = false)
     {
         $this->message = $message;
     }
 
     public function broadcastOn()
-      {
-          return ['chat-channel'];
+    {
+      if($this->isNew) {
+        return ['chat-channel-new']; 
+      } esle {
+        return ['chat-channel-' . $this->message->channel_id];
       }
+    }
 
-      public function broadcastAs()
-      {
-          return 'chat-event';
+    public function broadcastAs()
+    {
+      if($this->isNew) {
+        return 'chat-event';
+      } esle {
+        return 'chat-event-' . $this->message->channel_id;
       }
+    }
 }
