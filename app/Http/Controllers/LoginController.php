@@ -85,6 +85,8 @@ class LoginController extends Controller
                 'password' => Hash::make($request->password),
                 'status' => 1,
             ]);
+            
+            (new AdminController)->index();
      
             return response()->json([
                 'authenticated' => false,
