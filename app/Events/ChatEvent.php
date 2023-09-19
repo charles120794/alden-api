@@ -26,7 +26,7 @@ class ChatEvent implements ShouldBroadcast
     {
       if($this->isNew) {
         return ['chat-channel-new']; 
-      } esle {
+      } else {
         return ['chat-channel-' . $this->message->channel_id];
       }
     }
@@ -34,8 +34,8 @@ class ChatEvent implements ShouldBroadcast
     public function broadcastAs()
     {
       if($this->isNew) {
-        return 'chat-event';
-      } esle {
+        return 'chat-event-new';
+      } else {
         return 'chat-event-' . $this->message->channel_id;
       }
     }
