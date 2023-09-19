@@ -29,6 +29,7 @@ class AdminController extends Controller
                 'allResortCount' => $allResortCount,
                 'allActiveResortCount' => $allActiveResortCount,
                 'allInactiveResortCount' => $allInactiveResortCount,
+                'capturedResortCount' => $capturedResortCount,
             ]));
 
             // return response()->json([
