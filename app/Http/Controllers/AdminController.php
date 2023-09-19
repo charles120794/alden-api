@@ -22,24 +22,24 @@ class AdminController extends Controller
             $allInactiveResortCount = Resorts::where('is_for_rent', 0)->count();
             $capturedResortCount = Resorts::where('capture_status', 1)->count();
 
-            // event(new AdminEvent([
-            //     'allUserCount' => $allUserCount,
-            //     'userCount' => $userCount,
-            //     'ownerCount' => $ownerCount,
-            //     'allResortCount' => $allResortCount,
-            //     'allActiveResortCount' => $allActiveResortCount,
-            //     'allInactiveResortCount' => $allInactiveResortCount,
-            // ]))
-
-            return response()->json([
+            event(new AdminEvent([
                 'allUserCount' => $allUserCount,
                 'userCount' => $userCount,
                 'ownerCount' => $ownerCount,
                 'allResortCount' => $allResortCount,
                 'allActiveResortCount' => $allActiveResortCount,
                 'allInactiveResortCount' => $allInactiveResortCount,
-                'capturedResortCount' => $capturedResortCount,
-            ]);
+            ]))
+
+            // return response()->json([
+            //     'allUserCount' => $allUserCount,
+            //     'userCount' => $userCount,
+            //     'ownerCount' => $ownerCount,
+            //     'allResortCount' => $allResortCount,
+            //     'allActiveResortCount' => $allActiveResortCount,
+            //     'allInactiveResortCount' => $allInactiveResortCount,
+            //     'capturedResortCount' => $capturedResortCount,
+            // ]);
 
         } catch (\Exception $e) {
 
