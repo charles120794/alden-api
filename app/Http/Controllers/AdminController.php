@@ -44,9 +44,7 @@ class AdminController extends Controller
         } catch (\Exception $e) {
 
             return response()->json([
-                'authenticated' => true,
                 'response' => $e->getMessage(),
-                'token' => ''
             ]);
         }
     }
