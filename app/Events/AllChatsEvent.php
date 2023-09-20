@@ -15,14 +15,10 @@ class AllChatsEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $allchats;
-    public $allchats_user1info;
-    public $allchats_user2info;
 
     public function __construct($allchats)
     {
         $this->allchats = $allchats;
-        $this->allchats_user1info = $allchats->user_info1;
-        $this->allchats_user2info = $allchats->user_info2;
     }
 
     public function broadcastOn()
