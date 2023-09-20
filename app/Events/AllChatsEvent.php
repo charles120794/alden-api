@@ -14,7 +14,7 @@ class AllChatsEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    $allchats
+    $allchats;
     public function __construct()
     {
         $this->allchats = $allchats;
