@@ -41,7 +41,7 @@ class ChatController extends Controller
             //update chat messages status to seen / read when user opens a chat
             ChatsMessages::where('channel_id', $request->channel_id)->update(['status' => 1]); 
 
-            $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'desc')->get();
+            $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'asc')->get();
          
             return response()->json([
                 'response' => 'success',
