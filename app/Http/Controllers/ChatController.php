@@ -89,6 +89,7 @@ class ChatController extends Controller
                 $newMessage = ChatsMessages::where('id', $msg_id)->with('userInfo')->first();
                 
                 event(new ChatEvent($newMessage));
+                $this->index();
 
             } else {
 
