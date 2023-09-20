@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Chats;
 use App\Models\ChatsMessages;
 use App\Events\ChatEvent;
+use App\Events\AllChatsEvent;
 use App\Events\MyEvent;
 
 class ChatController extends Controller
@@ -19,6 +20,8 @@ class ChatController extends Controller
 
             $chats = Chats::where('user1_id', auth()->id())->orWhere('user2_id', auth()->id())
             ->with('userInfo1', 'userInfo2', 'userInfoCreated')->orderBy('updated_at', 'asc')->get();
+
+            event(new AllChatsEvent($chats))
          
             return response()->json([
                 'response' => 'success',
