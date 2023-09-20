@@ -13,7 +13,7 @@ use App\Events\MyEvent;
 
 class ChatController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
 
         try {
