@@ -38,6 +38,11 @@ class ChatController extends Controller
     public function indexShow(Request $request)
     {
         try {
+
+            Chats::where('id', $request->channel_id)->update([
+                'status' => 1,
+            ])
+
             $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'asc')->get();
          
             return response()->json([
@@ -69,6 +74,7 @@ class ChatController extends Controller
                 $chats->user2_id = $request->chats['user2_id'];
                 $chats->last_message = $request->chats_messages['message_body'];
                 $chats->updated_at = now();
+                $chats->status = 0;
 
                 $chats->save();
 
