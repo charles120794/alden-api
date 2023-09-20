@@ -21,7 +21,7 @@ class ChatController extends Controller
             $chats = Chats::where('user1_id', auth()->id())->orWhere('user2_id', auth()->id())
             ->with('userInfo1', 'userInfo2', 'userInfoCreated')->orderBy('updated_at', 'asc')->get();
 
-            // event(new AllChatsEvent($chats));
+            event(new AllChatsEvent($chats));
          
             return response()->json([
                 'response' => 'success',
