@@ -94,7 +94,6 @@ class ChatController extends Controller
                     'user1_id' => $request->chats['user1_id'],
                     'user2_id' => $request->chats['user2_id'],
                     'created_by' => auth()->id(),
-                    'created_at' => now(),
                     'updated_at' => now(),
                 ]);
 
