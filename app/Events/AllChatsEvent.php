@@ -15,16 +15,12 @@ class AllChatsEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     $allchats;
-    public function __construct()
+    
+    public function __construct($allchats)
     {
         $this->allchats = $allchats;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
     {
         return ['all-chat-channel'];
