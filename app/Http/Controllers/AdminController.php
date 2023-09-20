@@ -47,17 +47,17 @@ class AdminController extends Controller
                 'allResortByDateCount' => $allResortByDateCount,
             ]));
 
-            return response()->json([
-                'allUserCount' => $allUserCount,
-                'userCount' => $userCount,
-                'ownerCount' => $ownerCount,
-                'allUserByDateCount' => $allUserByDateCount,
-                'allResortCount' => $allResortCount,
-                'allActiveResortCount' => $allActiveResortCount,
-                'allInactiveResortCount' => $allInactiveResortCount,
-                'capturedResortCount' => $capturedResortCount,
-                'allResortByDateCount' => $allResortByDateCount,
-            ]);
+            // return response()->json([
+            //     'allUserCount' => $allUserCount,
+            //     'userCount' => $userCount,
+            //     'ownerCount' => $ownerCount,
+            //     'allUserByDateCount' => $allUserByDateCount,
+            //     'allResortCount' => $allResortCount,
+            //     'allActiveResortCount' => $allActiveResortCount,
+            //     'allInactiveResortCount' => $allInactiveResortCount,
+            //     'capturedResortCount' => $capturedResortCount,
+            //     'allResortByDateCount' => $allResortByDateCount,
+            // ]);
 
         } catch (\Exception $e) {
 
