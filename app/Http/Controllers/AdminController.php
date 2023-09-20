@@ -25,15 +25,17 @@ class AdminController extends Controller
             $capturedResortCount = Resorts::where('capture_status', 1)->count();
             $allResortByDateCount = Resorts::select(DB::raw('DATE_FORMAT(`created_at`, "%Y-%m-%d") as created_date'), DB::raw('count(*) as total'))->groupBy('created_at')->get();
 
-            // event(new AdminEvent([
-            //     'allUserCount' => $allUserCount,
-            //     'userCount' => $userCount,
-            //     'ownerCount' => $ownerCount,
-            //     'allResortCount' => $allResortCount,
-            //     'allActiveResortCount' => $allActiveResortCount,
-            //     'allInactiveResortCount' => $allInactiveResortCount,
-            //     'capturedResortCount' => $capturedResortCount,
-            // ]));
+            event(new AdminEvent([
+                'allUserCount' => $allUserCount,
+                'userCount' => $userCount,
+                'ownerCount' => $ownerCount,
+                'allUserByDateCount' => $allUserByDateCount,
+                'allResortCount' => $allResortCount,    
+                'allActiveResortCount' => $allActiveResortCount,
+                'allInactiveResortCount' => $allInactiveResortCount,
+                'capturedResortCount' => $capturedResortCount,
+                'allResortByDateCount' => $allResortByDateCount,
+            ]));
 
             return response()->json([
                 'allUserCount' => $allUserCount,

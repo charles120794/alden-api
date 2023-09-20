@@ -52,7 +52,7 @@ class UserController extends Controller
                 'data' => [
                 	'valid_doc' => $valid_doc_path,
                     'payment_qr_code' => $payment_qr_code_path,
-                	'approve_status' => 1
+                	'approve_status' => 0
                 ]
             ]);
 
@@ -203,11 +203,13 @@ class UserController extends Controller
                     'authenticated' => true,
                     'response' => 'Successfully updated',
                     'data' => [
-                        'type' => 1,
+                        'type' => 0,
                         'approve_status' => 2
                     ]
                 ]);
             }
+            
+            (new AdminController)->index();
 
             
 

@@ -133,6 +133,8 @@ class ResortController extends Controller
 
             DB::commit();
 
+            (new AdminController)->index();
+
             return response()->json([
                 'response' => 'Successfully created',
             ]);
