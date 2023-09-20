@@ -45,6 +45,8 @@ class UserController extends Controller
                 'payment_qr_code' => $payment_qr_code_path,
                 'approve_status' => 0
             ]);
+
+            (new AdminController)->index();
          
             return response()->json([
                 'authenticated' => true,
@@ -208,7 +210,7 @@ class UserController extends Controller
                     ]
                 ]);
             }
-            
+
             (new AdminController)->index();
 
             
