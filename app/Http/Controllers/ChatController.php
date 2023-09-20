@@ -38,9 +38,10 @@ class ChatController extends Controller
     public function indexShow(Request $request)
     {
         try {
-            ChatsMessages::where('channel_id', $request->channel_id)->update(['status' => 1]);
-            
-            $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'asc')->get();
+            //update chat messages status to seen / read when user opens a chat
+            ChatsMessages::where('channel_id', $request->channel_id)->update(['status' => 1]); 
+
+            $chatsMessages = ChatsMessages::where('channel_id', $request->channel_id)->with('userInfo')->orderBy('created_at', 'desc')->get();
          
             return response()->json([
                 'response' => 'success',
