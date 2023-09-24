@@ -115,6 +115,7 @@ class NotificationController extends Controller
                     ->count();
 
                 if($count == 0) {
+										//add to db if notification does not exist
                     Notification::insert([
                         'resort_id' => $reserve->resort_id,
                         'reservation_id' => $reserve->id,
@@ -126,7 +127,12 @@ class NotificationController extends Controller
                         'created_by' => 20,
                         'source' => 20,
                     ]);
-                }
+
+										return response()->json([
+												'response' => 'Reservation added to notifications',
+												'reservation_id' =>$reserve->id,
+										]);
+									}
             }
         }
     }
