@@ -21,7 +21,7 @@ class Reservation extends Model
         return $this->hasOne(User::class, 'id', 'created_by');
     }
 
-    public function reservationPriceDesc()
+    public function priceInfo()
     {
         return $this->hasOne(ResortPricings::class, 'id', 'pricing_id');
     }
