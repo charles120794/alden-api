@@ -24,4 +24,9 @@ class Notification extends Model
     {
         return $this->hasOne(Resorts::class, 'id', 'resort_id');
     }
+
+    public function reservationInfo()
+    {
+        return $this->hasOne(Reservation::class, 'id', 'reservation_id');
+    }
 }
