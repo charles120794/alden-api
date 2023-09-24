@@ -267,6 +267,7 @@ class ResortController extends Controller
     public function reviewResort(Request $request){
         ResortRatings::insert([
             'resort_id' => $request->resort_id,
+            'reservation_id' => $request->reservation_id,
             'rating' => $request->currentValue,
             'feedback' => $request->comment,
             'created_by' => auth()->id(),
