@@ -19,7 +19,7 @@ class NotificationController extends Controller
 	{
 		try {
 
-			return Notification::where('user_id', auth()->id())->with('userCreated')->get();
+			return Notification::where('user_id', auth()->id())->with('userCreated', 'resortInfo')->get();
 
 		} catch (\Exception $e) {
 			return response()->json([

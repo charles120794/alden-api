@@ -190,20 +190,6 @@ class ResortController extends Controller
     }
 
 
-    private function getLatLngFromGoogleMapsURL($url) {
-        // Extract the latitude and longitude values from the URL using regular expressions
-        $pattern = '/@(-?\d+\.\d+),(-?\d+\.\d+)/';
-        preg_match($pattern, $url, $matches);
-
-        if (count($matches) >= 3) {
-            $latitude = $matches[1];
-            $longitude = $matches[2];
-            return array('latitude' => $latitude, 'longitude' => $longitude);
-        } else {
-            return null; // Return null if coordinates are not found
-        }
-    }
-
     //list of owner's resorts
     public function getResortList()
     {
@@ -276,6 +262,16 @@ class ResortController extends Controller
             return response()->json(['response' => $e->getMessage(),]);
         }
         
+    }
+
+    public function reviewResort(Request $request){
+        DB::table('resort_rate')->insert([
+            'resort_id' => $request->resort_id,
+            'rating' => $request->currentValue,
+            'feedback' => $request->comment,
+            'created_by' => auth()->id(),
+            'created_at' => now(),
+        ]);
     }
 
 }
