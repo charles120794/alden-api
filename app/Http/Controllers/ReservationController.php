@@ -17,7 +17,7 @@ class ReservationController extends Controller
     {
         try {
 
-            return Reservation::with('userCreated', 'resortInfo')->get();
+            return Reservation::with('userCreated', 'resortInfo')->where('created_by', auth()->id())->get();
 
         } catch (\Exception $e) {
             return response()->json([
@@ -36,7 +36,6 @@ class ReservationController extends Controller
             $resort->policies = DB::table('resort_policy')->where('resort_id', $request->resort_id)->get();
             $resort->ratings = ResortRatings::with('createdUser')->where('resort_id', $request->resort_id)->get();
             $resort->ratings_avarage = DB::table('resort_rate')->where('resort_id', $request->resort_id)->avg('rating') ?? 0;
-            // $resort->feedback = DB::table('resort_feedback')->where('resort_id', $request->resort_id)->get();
             $resort->images = DB::table('resort_images')->where('resort_id', $request->resort_id)->get();
             $resort->pricing = DB::table('resort_pricing')->where('resort_id', $request->resort_id)->get();
             $resort->reservation = DB::table('resort_reservation')->where('resort_id', $request->resort_id)->get();

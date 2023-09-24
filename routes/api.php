@@ -117,6 +117,10 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::post('/chats/read', [ChatController::class, 'updateReadStatus']);
     Route::post('/chats/unread', [ChatController::class, 'unreadStatus']);
 
+    //
+    // RESERVATIONS
+    //
+    Route::get('/reservations', [ReservationController::class, 'index']);
 
 
 
