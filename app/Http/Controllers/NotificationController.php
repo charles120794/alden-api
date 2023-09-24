@@ -127,11 +127,6 @@ class NotificationController extends Controller
                         'created_by' => 20,
                         'source' => 20,
                     ]);
-
-										return response()->json([
-												'response' => 'Reservation added to notifications',
-												'reservation_id' =>$reserve->id,
-										]);
 									}
             }
         }
