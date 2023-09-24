@@ -156,9 +156,10 @@ class ResortController extends Controller
                 'resort_id' => $request->resort_id,
                 'pricing_id' => $request->pricing_id,
                 'reserve_date' => date('Y-m-d', strtotime($request->reserve_date)),
-                // 'reserve_desc' => $request->reserve_desc,
                 'ref_no' => $request->ref_no,
                 'confirm_status' => 0, //pending reservation, owner need to confirm 
+                'status' => 0, 
+                'rate_status' => 0, 
                 'created_at' => now(),
                 'created_by' => Auth()->User()->id
             ]);
@@ -188,32 +189,6 @@ class ResortController extends Controller
         }
     }
 
-    public function notifiReservation()
-    {
-        $reservation = Reservation::get();
-
-        foreach ($reservation as $reserve) {
-
-            if($reserve->reserve_date < now()) {
-                //check first if notification already exists
-                $count = Notification::query()
-                    ->where('user_id',  $reserve->created_by)
-                    ->where('message', "Please rate your experince")
-                    ->where('type',  'TO_REVIEW')
-                    ->where('source',  20)
-                    ->count();
-
-                if($count == 0) {
-                    Notification::insert([
-                        'user_id' => $reserve->created_by,
-                        'message' => "Please rate your experience",
-                        'type' => 'TO_REVIEW',
-                        'created_at' => now(),
-                    ]);
-                }
-            }
-        }
-    }
 
     private function getLatLngFromGoogleMapsURL($url) {
         // Extract the latitude and longitude values from the URL using regular expressions

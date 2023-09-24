@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
+use App\Models\Reservation;
 use App\Models\Notification;
 use App\Events\MyEvent;
 
@@ -96,4 +97,37 @@ class NotificationController extends Controller
             ]);
 		}
 	}
+
+	public function notifiReservation()
+    {
+        $reservation = Reservation::where('created_by', auth()->id())->where('rate_status', 0)->get();
+
+        foreach ($reservation as $reserve) {
+
+            if($reserve->reserve_date < now()) {
+                //check first if notification already exists
+                $count = Notification::query()
+                    ->where('resort_id',  $reserve->resort_id)
+                    ->where('reservation_id',  $reserve->id)
+                    ->where('user_id',  $reserve->created_by)
+                    ->where('type',  'TO_REVIEW')
+                    ->where('source',  20)
+                    ->count();
+
+                if($count == 0) {
+                    Notification::insert([
+                        'resort_id' => $reserve->resort_id,
+                        'reservation_id' => $reserve->id,
+                        'user_id' => $reserve->created_by,
+                        'message' => "Please rate your experience",
+                        'type' => 'TO_REVIEW',
+                        'status' => 0,
+                        'created_at' => now(),
+                        'created_by' => 20,
+                        'source' => 20,
+                    ]);
+                }
+            }
+        }
+    }
 }

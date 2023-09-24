@@ -68,8 +68,6 @@ Route::post('/alden/api', function () {
 
 Route::post('/pusher/test', [ChatController::class, 'testingPusher']);
 
-Route::post('/reservation/notif', [ResortController::class, 'notifiReservation']);//changed create to notifiReservation
-
 Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
     Route::get('/user', function (Request $request) {
@@ -100,12 +98,13 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     //
     // NOTIFICATION
     //
-    Route::get('/notification', [NotificationController::class, 'index']);
+    Route::get('/notifications', [NotificationController::class, 'index']);
     Route::get('/notification/show', [NotificationController::class, 'show']);
     Route::post('/notification/create', [NotificationController::class, 'create']);
     Route::post('/notification/submit', [NotificationController::class, 'submit']);
     Route::post('/notification/update', [NotificationController::class, 'update']);
-    // Route::post('/notification/review', [ResortController::class, 'notifiReservation']);
+    Route::post('/reservations/notify', [NotificationController::class, 'notifiReservation']);
+    // Route::post('/notification/review', [NotificationController::class, 'rateReservation']);
 
 
     //
