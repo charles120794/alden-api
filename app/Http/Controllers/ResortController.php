@@ -273,7 +273,12 @@ class ResortController extends Controller
             'created_at' => now(),
         ]);
 
-        return response()->json(['message'=>"Resort reviewed successfully."])
+        Reservation::where('id', $request->reservation_id)->update([
+            'rate_status' => 1,
+        ]);
+
+        return response()->json(['message'=>"Resort reviewed successfully."]);
+        
     }
 
 }
