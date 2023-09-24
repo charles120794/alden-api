@@ -17,7 +17,7 @@ class ReservationController extends Controller
     {
         try {
 
-            return Reservation::with('userCreated', 'resortInfo', 'priceInfo')->where('created_by', auth()->id())->get();
+            return Reservation::with('userCreated', 'resortInfo.createdUser', 'priceInfo')->where('created_by', auth()->id())->get();
 
         } catch (\Exception $e) {
             return response()->json([
