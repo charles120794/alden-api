@@ -265,13 +265,15 @@ class ResortController extends Controller
     }
 
     public function reviewResort(Request $request){
-        DB::table('resort_rate')->insert([
+        ResortRatings::insert([
             'resort_id' => $request->resort_id,
             'rating' => $request->currentValue,
             'feedback' => $request->comment,
             'created_by' => auth()->id(),
             'created_at' => now(),
         ]);
+
+        return response()->json(['message'=>"Resort reviewed successfully."])
     }
 
 }
