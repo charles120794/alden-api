@@ -122,6 +122,10 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     //
     Route::get('/reservations', [ReservationController::class, 'index']);
 
+    //
+    // REVIEWS
+    //
+    Route::get('/review/show', [ResortController::class, 'showResortReview']);
 
 
 
