@@ -19,4 +19,9 @@ class ResortRatings extends Model
     {
         return $this->hasOne(User::class, 'id', 'created_by');
     }
+
+    public function resortInfo()
+    {
+        return $this->hasOne(Resorts::class, 'id', 'resort_id');
+    }
 }
