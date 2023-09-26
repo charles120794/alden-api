@@ -265,6 +265,7 @@ class ResortController extends Controller
     public function reviewResort(Request $request){
         ResortRatings::insert([
             'resort_id' => $request->resort_id,
+            'resort_owner_id' => $request->resort_owner_id,
             'reservation_id' => $request->reservation_id,
             'rating' => $request->currentValue,
             'feedback' => $request->comment,
@@ -289,4 +290,9 @@ class ResortController extends Controller
         return $review;
     }
 
+    public function getLatestReview(){
+
+        return ResortRatings::where('resort_owner_id', auth()->id())->latest()->first();
+
+    }
 }
