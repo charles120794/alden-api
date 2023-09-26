@@ -13,11 +13,11 @@ use App\Models\Notification;
 
 class ReservationController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
 
-            return Reservation::with('userCreated', 'resortInfo.createdUser', 'priceInfo')->where('created_by', auth()->id())->get();
+            return Reservation::with('userCreated', 'resortInfo.createdUser', 'priceInfo')->where($request->column, auth()->id())->get();
 
         } catch (\Exception $e) {
             return response()->json([
