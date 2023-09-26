@@ -251,7 +251,6 @@ class ResortController extends Controller
             Resorts::where('id', $request->resort_id)->update([
                 'is_for_rent' => 1,
                 'capture_status' => 1,
-                'vr_url' => $request->vr_url,
             ]);
 
             return response()->json(['response' => "Image uploaded Successfully!",]);
