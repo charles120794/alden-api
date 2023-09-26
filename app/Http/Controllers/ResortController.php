@@ -152,8 +152,9 @@ class ResortController extends Controller
     public function createReservation(Request $request)
     {
         try {
-            DB::table('resort_reservation')->insert([
+            Reservation::insert([
                 'resort_id' => $request->resort_id,
+                'resort_owner_id' => $request->resort_owner_id,
                 'pricing_id' => $request->pricing_id,
                 'reserve_date' => date('Y-m-d', strtotime($request->reserve_date)),
                 'ref_no' => $request->ref_no,
