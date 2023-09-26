@@ -193,16 +193,15 @@ class ResortController extends Controller
     //list of owner's resorts
     public function getResortList()
     {
-        return DB::table('resort')->where('created_by', auth()->id())->get()->map(function($value) {
+        return Resorts::where('created_by', auth()->id())->get()->map(function($value) {
             return collect($value)->merge([
                 'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
                 'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
                 'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
                 'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
-                // 'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
                 'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
                 'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
-                'reservation' => Reservation::with('userCreated', 'reservationPriceDesc')->where('resort_id', $value->id)->get(),
+                'reservation' => Reservation::with('userCreated', 'priceInfo')->where('resort_id', $value->id)->get(),
             ]);
         });
     }
@@ -216,7 +215,6 @@ class ResortController extends Controller
                 'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
                 'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
                 'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
-                // 'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
                 'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
                 'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
                 'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
