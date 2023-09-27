@@ -68,7 +68,7 @@ class NotificationController extends Controller
 
 			return response()->json([
 				'response' => 'Successfully Created!',
-		]);
+			]);
 
 		} catch (\Exception $e) {
 			return response()->json([

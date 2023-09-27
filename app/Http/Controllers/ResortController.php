@@ -163,6 +163,11 @@ class ResortController extends Controller
                 'created_at' => now(),
                 'created_by' => Auth()->User()->id
             ]);
+
+            return response()->json([
+				'response' => 'Successfully Created!',
+			]);
+            
         } catch (\Exception $e) {
             return response()->json([
                 'response' => $e->getMessage(),
