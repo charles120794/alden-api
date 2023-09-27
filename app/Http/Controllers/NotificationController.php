@@ -51,12 +51,13 @@ class NotificationController extends Controller
 	public function create(Request $request)
 	{
 		try {
-			$reservation_id = $request->reservation_info;
+			$reservation_id;
+			
 			if( $request->from == "create-reserve"){
 				$reservation_id = Reservation::where('resort_id', $request->resort_id)->where('created_at', now())->first();
+			}else{
+				$reservation_id = $request->reservation_info;
 			}
-
-			
 
 			Notification::insert([
 				'resort_id' => $request->resort_id,
