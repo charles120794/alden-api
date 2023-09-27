@@ -65,6 +65,8 @@ class NotificationController extends Controller
 				'created_by' => auth()->id(),
 			]);
 
+			return Reservation::where('resort_id', $request->resort_id)->where('created_at', now())->get('id');
+
 		} catch (\Exception $e) {
 			return response()->json([
           'response' => $e->getMessage(),
