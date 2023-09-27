@@ -56,7 +56,7 @@ class NotificationController extends Controller
 
 			Notification::insert([
 				'resort_id' => $request->resort_id,
-				// 'reservation_id' => $reservation_id->id,
+				'reservation_id' => $reservation_id->id,
 				'user_id' => $request->user_id,
 				'message' => $request->message,
 				'type' => $request->type,
@@ -68,7 +68,6 @@ class NotificationController extends Controller
 
 			return response()->json([
 				'response' => 'Successfully Created!',
-				'sample'=> Reservation::where('resort_id', $request->resort_id)->where('created_at', now())->first()
 			]);
 
 		} catch (\Exception $e) {
