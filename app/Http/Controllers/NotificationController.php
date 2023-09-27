@@ -66,6 +66,10 @@ class NotificationController extends Controller
 				'created_by' => auth()->id(),
 			]);
 
+			return response()->json([
+				'response' => 'Successfully Created!',
+		]);
+
 		} catch (\Exception $e) {
 			return response()->json([
           'response' => $e->getMessage(),
