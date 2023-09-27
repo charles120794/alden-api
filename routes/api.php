@@ -83,14 +83,10 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::post('/user/update/owner', [UserController::class, 'updateToOwner']);
     Route::post('/users/approve', [UserController::class, 'approveUserToOwner']);
 
-    //RESERVATION
-    Route::post('/resort/reservation/confirm', [ResortController::class, 'confirmReservation']);
-
 
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::get('/resort/list/capture', [ResortController::class, 'getCaptureResortList']);
     Route::post('/resort/create', [ResortController::class, 'create']);
-    Route::post('/resort/create/reservation', [ResortController::class, 'createReservation']);
     Route::post('/resort/create/images', [ResortController::class, 'uploadResortImages']);
     Route::get('/resort/list/reservations', [ReservationController::class, 'index']);
     Route::post('/resort/review', [ResortController::class, 'reviewResort']);
@@ -105,7 +101,6 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::post('/notification/create', [NotificationController::class, 'create']);
     Route::post('/notification/submit', [NotificationController::class, 'submit']);
     Route::post('/notification/update', [NotificationController::class, 'update']);
-    Route::post('/reservations/notify', [NotificationController::class, 'notifiReservation']);
     // Route::post('/notification/review', [NotificationController::class, 'rateReservation']);
 
 
@@ -122,6 +117,9 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     // RESERVATIONS
     //
     Route::get('/reservations', [ReservationController::class, 'index']);
+    Route::post('/resort/create/reservation', [ResortController::class, 'createReservation']);
+    Route::post('/reservations/notify', [NotificationController::class, 'notifiReservation']);
+    Route::post('/resort/reservation/confirm', [ResortController::class, 'confirmReservation']);
 
     //
     // REVIEWS

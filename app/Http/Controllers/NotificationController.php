@@ -52,10 +52,11 @@ class NotificationController extends Controller
 	{
 		try {
 
-			$notif = new Notification;
+			$resort_owner_id = Reservation::where('resort_id', $request->resort_id)->where('created_at', now())->get('id');
 
-			$notif->insert([
+			Notification::insert([
 				'resort_id' => $request->resort_id,
+				'resort_owner_id' => $resort_owner_id,
 				'user_id' => $request->user_id,
 				'message' => $request->message,
 				'type' => $request->type,
@@ -64,8 +65,6 @@ class NotificationController extends Controller
 				'created_at' => now(),
 				'created_by' => auth()->id(),
 			]);
-
-			return Reservation::where('resort_id', $request->resort_id)->where('created_at', now())->get('id');
 
 		} catch (\Exception $e) {
 			return response()->json([
