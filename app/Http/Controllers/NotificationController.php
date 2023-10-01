@@ -51,11 +51,15 @@ class NotificationController extends Controller
 	public function create(Request $request)
 	{
 		try {
-			$reservation_id = $request->reservation_id;
+			$reservation_id = null;
 			
 			if(isset($request->fromReserve)){
 
 				$reservation_id = Reservation::select('id')->where('resort_id', $request->resort_id)->where('created_at', now())->first();
+
+			}else if (isset($request->reserve_date)){
+
+				$reservation_id = Reservation::select('id')->where('resort_id', $request->resort_id)->where('created_at', $request->reserve_date)->first();
 
 			}
 
