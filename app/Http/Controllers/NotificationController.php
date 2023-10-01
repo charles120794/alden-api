@@ -55,17 +55,17 @@ class NotificationController extends Controller
 			
 			if(isset($request->fromReserve)){
 
-				$reservation_id = Reservation::where('resort_id', $request->resort_id)->where('created_at', now())->first();
+				$reservation_id = Reservation::select('id')->where('resort_id', $request->resort_id)->where('created_at', now())->first();
 
-			}else if(isset($request->reservation_info)){
+			}else if(isset($request->reservation_id)){
 
-				$reservation_id = $request->reservation_info;
-				
+				$reservation_id = $request->reservation_id;
+
 			}
 
 			Notification::insert([
 				'resort_id' => $request->resort_id,
-				'reservation_id' => $reservation_id->id ?? null,
+				'reservation_id' => $reservation_id ?? null,
 				'user_id' => $request->user_id,
 				'message' => $request->message,
 				'type' => $request->type,
