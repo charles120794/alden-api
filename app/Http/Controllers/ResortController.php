@@ -81,8 +81,6 @@ class ResortController extends Controller
                 'resort_name' => $request->resort_name,
                 'resort_desc' => $request->resort_desc,
                 'resort_address' => $request->resort_address,
-                'resort_address_lon' => $this->getLatLngFromGoogleMapsURL($request->resort_address_url)['longitude'] ?? "",
-                'resort_address_lat' => $this->getLatLngFromGoogleMapsURL($request->resort_address_url)['latitude'] ?? "",
                 'resort_region' => $request->resort_region,
                 'resort_province' => $request->resort_province,
                 'resort_city' => $request->resort_city,
