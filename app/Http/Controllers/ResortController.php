@@ -97,6 +97,19 @@ class ResortController extends Controller
                 'created_by' => Auth()->User()->id
             ]);
 
+            // $business_permit_path = "";
+            if ($request->hasFile('business_permit')) {
+
+                $file = $request->file('business_permit');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
+
+                // $business_permit_path = Storage::disk('public')->url($filename);
+                Resorts::insert(['business_permit' => Storage::disk('public')->url($filename)]);
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
+
             foreach($request->amenities as $row) {
                 // CREATE AMENITIES
                 DB::table('resort_amenities')->insert([
