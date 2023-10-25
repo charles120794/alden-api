@@ -144,14 +144,20 @@ class ResortController extends Controller
 
             foreach($request->pricing as $row) {
                 // CREATE PRICING
-                DB::table('resort_pricing')->insert([
-                    'resort_id' => $resort,
-                    'price_desc' => $row['description'],
-                    'price' => $row['price'],
-                    'downpayment_percent' => $row['downpayment_percent'],
-                    'created_at' => now(),
-                    'created_by' => Auth()->User()->id
-                ]);
+                if(isset($row['description'])){
+                    $ans = json_decode($answer['description'],true);
+                    if(is_array($ans)){
+                        DB::table('resort_pricing')->insert([
+                            'resort_id' => $resort,
+                            'price_desc' => $row['description'],
+                            'price' => $row['price'],
+                            'downpayment_percent' => $row['downpayment_percent'],
+                            'created_at' => now(),
+                            'created_by' => Auth()->User()->id
+                        ]);
+                    }
+                }
+                
             }
 
             DB::commit();
