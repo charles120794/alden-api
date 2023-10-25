@@ -33,7 +33,7 @@ class UserController extends Controller
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename); 
 
-                $valid_doc_path = Storage::disk('public')->url($filename);
+                $business_permit_path = Storage::disk('public')->url($filename);
             } else {
                 throw new \Exception("Image is required", 1);
             }
