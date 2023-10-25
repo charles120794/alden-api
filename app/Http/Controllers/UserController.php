@@ -27,7 +27,6 @@ class UserController extends Controller
             }
 
             $payment_qr_code_path = "";
-
             if ($request->hasFile('payment_qr_code')) {
 
                 $file = $request->file('payment_qr_code');
@@ -50,7 +49,7 @@ class UserController extends Controller
          
             return response()->json([
                 'authenticated' => true,
-                'response' => 'Successfully updated',
+                'response' => 'Application sent to the admin. Waiting for approval',
                 'data' => [
                 	'valid_doc' => $valid_doc_path,
                     'payment_qr_code' => $payment_qr_code_path,
