@@ -184,6 +184,8 @@ class ResortController extends Controller
     public function createReservation(Request $request)
     {
         try {
+            DB::beginTransaction();
+
             $owner = Resorts::where('id', $request->resort_id)->first();
 
             $reserve = Reservation::insertGetId([
@@ -210,6 +212,10 @@ class ResortController extends Controller
                     'source' => auth()->id()
                     ]
                 ));
+
+            
+            DB::commit();
+            
 
             return response()->json([
 				'response' => 'Resort has been reserved successfully',
