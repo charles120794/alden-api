@@ -77,6 +77,18 @@ class ResortController extends Controller
 
             DB::beginTransaction();
 
+            $business_permit_path = "";
+            if ($request->hasFile('business_permit')) {
+
+                $file = $request->file('business_permit');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
+
+                $business_permit_path = Storage::disk('public')->url($filename);
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
+
             $resort = DB::table('resort')->insertGetId([
                 'resort_name' => $request->resort_name,
                 'resort_desc' => $request->resort_desc,
@@ -89,6 +101,7 @@ class ResortController extends Controller
                 'province' => $request->resort_province_name,
                 'city' => $request->resort_city_name,
                 'barangay' => $request->resort_barangay_name,
+                'business_permit' => $business_permit_path,
                 'capture_status' => 0,
                 'is_for_rent' => 0,
                 'capture_date_from' => date('Y-m-d', strtotime($request->capture_date_from)),
@@ -97,18 +110,7 @@ class ResortController extends Controller
                 'created_by' => Auth()->User()->id
             ]);
 
-            // $business_permit_path = "";
-            if ($request->hasFile('business_permit')) {
-
-                $file = $request->file('business_permit');
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public', $filename); 
-
-                // $business_permit_path = Storage::disk('public')->url($filename);
-                Resorts::where('resort_id', $resort)->insert(['business_permit' => Storage::disk('public')->url($filename)]);
-            } else {
-                throw new \Exception("Image is required", 1);
-            }
+            
 
             foreach($request->amenities as $row) {
                 // CREATE AMENITIES
