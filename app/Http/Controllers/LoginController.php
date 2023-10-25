@@ -43,7 +43,7 @@ class LoginController extends Controller
             
             return response()->json([
                 'authenticated' => true,
-                'response' => 'Login Success',
+                'response' => 'User logged in successfully',
                 'token' => array_reverse(explode('|', $token->plainTextToken))[0],
                 'user' => $request->user()
             ]);
