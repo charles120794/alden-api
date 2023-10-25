@@ -10,6 +10,7 @@ use App\Models\Resorts;
 use App\Models\ResortRatings;
 use App\Models\Reservation;
 use App\Models\Notification;
+use App\Http\Controllers\NotificationController;
 
 class ResortController extends Controller
 {
@@ -183,7 +184,9 @@ class ResortController extends Controller
     public function createReservation(Request $request)
     {
         try {
-            Reservation::insert([
+            $owner = Resorts::where('resort_id', $request->resort_id)->get();
+
+            $reserve = Reservation::insertGetId([
                 'resort_id' => $request->resort_id,
                 'resort_owner_id' => $request->resort_owner_id,
                 'pricing_id' => $request->pricing_id,
@@ -194,6 +197,13 @@ class ResortController extends Controller
                 'created_at' => now(),
                 'created_by' => Auth()->User()->id
             ]);
+
+            (new NotificationController)->create(
+                ['resort_id'=>$request->resort_id, 
+                    'reservation_id'=>$reserve,
+                    'user_id' => $owner->id,
+                    'message'=>'Your resort has been reserved',
+                    'type'=>'RESORT_RESERVED']);
 
             return response()->json([
 				'response' => 'Successfully Created!',
