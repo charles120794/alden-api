@@ -184,7 +184,7 @@ class ResortController extends Controller
     public function createReservation(Request $request)
     {
         try {
-            $owner = Resorts::where('id', $request->resort_id)->firstOrFail();
+            $owner = Resorts::where('id', $request->resort_id)->first();
 
             $reserve = Reservation::insertGetId([
                 'resort_id' => $request->resort_id,
