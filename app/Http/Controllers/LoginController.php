@@ -154,7 +154,7 @@ class LoginController extends Controller
 
         return response()->json([
             'authenticated' => false,
-            'response' => 'Logout Success',
+            'response' => 'Logout Successful',
             'token' => '',
             'user' => []
         ]);
