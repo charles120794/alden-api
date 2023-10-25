@@ -65,7 +65,7 @@ class NotificationController extends Controller
 
 			Notification::insert([
 				'resort_id' => $request->resort_id,
-				'reservation_id' => $reservation_id,
+				'reservation_id' => $request->reservation_id,
 				'user_id' => $request->user_id,
 				'message' => $request->message,
 				'type' => $request->type,
