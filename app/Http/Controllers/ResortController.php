@@ -184,7 +184,6 @@ class ResortController extends Controller
     public function createReservation(Request $request)
     {
         try {
-            DB::beginTransaction();
 
             $owner = Resorts::where('id', $request->resort_id)->first();
 
@@ -212,9 +211,6 @@ class ResortController extends Controller
                     'source' => auth()->id()
                     ]
                 ));
-
-            
-            DB::commit();
             
 
             return response()->json([
