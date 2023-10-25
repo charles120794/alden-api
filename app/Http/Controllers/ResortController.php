@@ -209,6 +209,7 @@ class ResortController extends Controller
 
             return response()->json([
 				'response' => 'Resort has been reserved successfully',
+                'x'=>$owner,
 			]);
             
         } catch (\Exception $e) {
