@@ -91,8 +91,8 @@ class ResortController extends Controller
                 'barangay' => $request->resort_barangay_name,
                 'capture_status' => 0,
                 'is_for_rent' => 0,
-                'capture_date_from' => date('Y-m-d', $request->capture_date_from),
-                'capture_date_to' => date('Y-m-d', $request->capture_date_to),
+                'capture_date_from' => date('Y-m-d', strtotime($request->capture_date_from)),
+                'capture_date_to' => date('Y-m-d', strtotime($request->capture_date_to)),
                 'created_at' => now(),
                 'created_by' => Auth()->User()->id
             ]);
