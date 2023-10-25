@@ -105,7 +105,7 @@ class ResortController extends Controller
                 $file->storeAs('public', $filename); 
 
                 // $business_permit_path = Storage::disk('public')->url($filename);
-                Resorts::insert(['business_permit' => Storage::disk('public')->url($filename)]);
+                Resorts::where('resort_id', $resort)->insert(['business_permit' => Storage::disk('public')->url($filename)]);
             } else {
                 throw new \Exception("Image is required", 1);
             }
