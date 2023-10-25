@@ -110,11 +110,11 @@ class ResortController extends Controller
                 throw new \Exception("Image is required", 1);
             }
 
-            foreach($request->array('amenities') as $row) {
+            foreach($request->amenities as $row=>$amenities) {
                 // CREATE AMENITIES
                 DB::table('resort_amenities')->insert([
                     'resort_id' => $resort,
-                    'description' => $row['amenitiesTitle'],
+                    'description' => $amenities['amenitiesTitle'],
                     'created_at' => now(),
                     'created_by' => Auth()->User()->id
                 ]);
