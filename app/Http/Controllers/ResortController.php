@@ -92,7 +92,7 @@ class ResortController extends Controller
                 'capture_status' => 0,
                 'is_for_rent' => 0,
                 'capture_date_from' => date('Y-m-d', strtotime($request->capture_date[0][0])),
-                'capture_date_to' => date('Y-m-d', strtotime($request->capture_date[0]['endDate'])),
+                'capture_date_to' => date('Y-m-d', strtotime($request->capture_date[0][1])),
                 'created_at' => now(),
                 'created_by' => Auth()->User()->id
             ]);
