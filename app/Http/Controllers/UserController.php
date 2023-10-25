@@ -26,13 +26,24 @@ class UserController extends Controller
                 throw new \Exception("Image is required", 1);
             }
 
+            $business_permit_path = "";
+            if ($request->hasFile('business_permit')) {
+
+                $file = $request->file('business_permit');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
+
+                $valid_doc_path = Storage::disk('public')->url($filename);
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
+
             $payment_qr_code_path = "";
             if ($request->hasFile('payment_qr_code')) {
 
                 $file = $request->file('payment_qr_code');
                 $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public', $filename); // You can choose a storage disk here
-                // You can also save the filename to a database if needed
+                $file->storeAs('public', $filename); 
 
                 $payment_qr_code_path = Storage::disk('public')->url($filename);
             } else {
@@ -41,6 +52,7 @@ class UserController extends Controller
 
             Auth()->User()->update([
                 'valid_doc' => $valid_doc_path,
+                'business_permit' => $business_permit_path,
                 'payment_qr_code' => $payment_qr_code_path,
                 'approve_status' => 0
             ]);
@@ -49,9 +61,10 @@ class UserController extends Controller
          
             return response()->json([
                 'authenticated' => true,
-                'response' => 'Application sent to the admin. Waiting for approval',
+                'response' => 'Application sent to the admin. Please wait for approval',
                 'data' => [
                 	'valid_doc' => $valid_doc_path,
+                	'business_permit' => $business_permit_path,
                     'payment_qr_code' => $payment_qr_code_path,
                 	'approve_status' => 0
                 ]
