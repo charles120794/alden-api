@@ -128,12 +128,18 @@ class ResortController extends Controller
 
             foreach($request->policies as $row) {
                 // CREATE POLICIES
-                DB::table('resort_policy')->insert([
-                    'resort_id' => $resort,
-                    'description' => $row['policiesTitle'],
-                    'created_at' => now(),
-                    'created_by' => Auth()->User()->id
-                ]);
+                if(isset($row['policiesTitle'])){
+                    $ans = json_decode($answer['policiesTitle'],true);
+                    if(is_array($ans)){
+                        DB::table('resort_policy')->insert([
+                            'resort_id' => $resort,
+                            'description' => $row['policiesTitle'],
+                            'created_at' => now(),
+                            'created_by' => Auth()->User()->id
+                        ]);
+                    }
+                }
+                
             }
 
             foreach($request->pricing as $row) {
