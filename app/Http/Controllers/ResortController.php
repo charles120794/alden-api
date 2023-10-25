@@ -114,7 +114,7 @@ class ResortController extends Controller
                 // CREATE AMENITIES
                 DB::table('resort_amenities')->insert([
                     'resort_id' => $resort,
-                    'description' => $amenitiesTitle->amenitiesTitle,
+                    'description' => $amenitiesTitle['amenitiesTitle'],
                     'created_at' => now(),
                     'created_by' => Auth()->User()->id
                 ]);
