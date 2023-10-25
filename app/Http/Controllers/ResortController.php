@@ -199,14 +199,16 @@ class ResortController extends Controller
             ]);
 
             (new NotificationController)->create(
-                ['resort_id'=>$request->resort_id, 
-                    'reservation_id'=>$reserve,
+                ['resort_id' => $request->resort_id, 
+                    'reservation_id' => $reserve,
                     'user_id' => $owner->id,
-                    'message'=>'Your resort has been reserved',
-                    'type'=>'RESORT_RESERVED']);
+                    'message' => 'Your resort has been reserved',
+                    'type' => 'RESORT_RESERVED',
+                    'source' => auth()->id()
+                ]);
 
             return response()->json([
-				'response' => 'Successfully Created!',
+				'response' => 'Resort has been reserved successfully',
 			]);
             
         } catch (\Exception $e) {
