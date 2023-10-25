@@ -279,7 +279,7 @@ class ResortController extends Controller
             'rate_status' => 1,
         ]);
 
-        return response()->json(['message'=>"Resort reviewed successfully."]);
+        return response()->json(['response'=>"Resort reviewed successfully."]);
         
     }
 
