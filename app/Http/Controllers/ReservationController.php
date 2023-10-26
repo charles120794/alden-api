@@ -21,7 +21,7 @@ class ReservationController extends Controller
             $reservations_chart = DB::table('resort_reservation')
                                         ->join('resort', 'resort.id', '=', 'resort_reservation.resort_id')
                                         ->select('resort_name', DB::raw('count(*) as total'))
-                                        ->groupBy('resort_id')
+                                        ->groupBy('resort_name')
                                         ->get();
 
             return response()->json([
