@@ -20,7 +20,7 @@ class ReservationController extends Controller
             $latest_review = ResortRatings::with('createdUser', 'resortInfo')->where('resort_owner_id', auth()->id())->latest()->first();
             $reservations_chart = DB::table('resort_reservation')
                                         ->join('resort', 'resort.id', '=', 'resort_reservation.resort_id')
-                                        ->select('resort_name', DB::raw('count(*) as total'))
+                                        ->select('resort_name as name', DB::raw('count(*) as value'))
                                         ->groupBy('resort_name')
                                         ->get();
 
