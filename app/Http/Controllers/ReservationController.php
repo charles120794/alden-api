@@ -16,26 +16,18 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         try {
-            // $latest_review = null;
-            // $reservations_chart = null;
-
             $reservation_list = Reservation::with('userCreated', 'resortInfo.createdUser', 'priceInfo')->get();
-            
-
-            // if($request->column == 'resort_owner_id'){
-                $latest_review = ResortRatings::with('createdUser', 'resortInfo')->where('resort_owner_id', auth()->id())->latest()->first();
-                $reservations_chart = DB::table('resort_reservation')
-                                            ->join('resort', 'resort.id', '=', 'resort_reservation.resort_id')
-                                            ->select('resort_name', DB::raw('count(*) as total'))
-                                            ->groupBy('resort_id')
-                                            ->get();
-            // }
+            $latest_review = ResortRatings::with('createdUser', 'resortInfo')->where('resort_owner_id', auth()->id())->latest()->first();
+            $reservations_chart = DB::table('resort_reservation')
+                                        ->join('resort', 'resort.id', '=', 'resort_reservation.resort_id')
+                                        ->select('resort_name', DB::raw('count(*) as total'))
+                                        ->groupBy('resort_id')
+                                        ->get();
 
             return response()->json([
                 'reservation_list' => $reservation_list,
                 'latest_review' => $latest_review,
                 'reservations_chart' => $reservations_chart,
-
             ]);
 
         } catch (\Exception $e) {
