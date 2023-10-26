@@ -343,10 +343,4 @@ class ResortController extends Controller
 
         return $review;
     }
-
-    public function getLatestReview(){
-
-        return ResortRatings::with('createdUser', 'resortInfo')->where('resort_owner_id', auth()->id())->latest()->first();
-
-    }
 }
