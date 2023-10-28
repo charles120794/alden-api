@@ -31,7 +31,6 @@ class ResortController extends Controller
                     'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
                     'ratings' => ResortRatings::with('createdUser')->where('resort_id', $value->id)->get(),
                     'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
-                    // 'feedback' => DB::table('resort_feedback')->where('resort_id', $value->id)->get(),
                     'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
                     'images_vr' => DB::table('resort_vr_images')->where('resort_id', $value->id)->get(),
                     'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
@@ -55,7 +54,6 @@ class ResortController extends Controller
             $resort->policies = DB::table('resort_policy')->where('resort_id', $request->resort_id)->get();
             $resort->ratings = ResortRatings::with('createdUser')->where('resort_id', $request->resort_id)->get();
             $resort->ratings_avarage = DB::table('resort_rate')->where('resort_id', $request->resort_id)->avg('rating') ?? 0;
-            // $resort->feedback = DB::table('resort_feedback')->where('resort_id', $request->resort_id)->get();
             $resort->images = DB::table('resort_images')->where('resort_id', $request->resort_id)->get();
             $resort->images_vr = DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->get();
             $resort->pricing = DB::table('resort_pricing')->where('resort_id', $request->resort_id)->get();
@@ -180,6 +178,27 @@ class ResortController extends Controller
             ]);
         }
 	}
+
+    public function update(Request $request)
+    {
+        try{
+
+            Resorts::where('id', $request->id)->update([
+                'resort_name' => $request->resort_name,
+                'resort_desc' => $request->resort_desc,
+                'resort_address' => $request->resort_address,
+            ]);
+
+            return response()->json([
+                'response' => 'Update saved',
+            ]);
+
+        }catch(\Excetion $e){
+            return response()->json([
+                'response' => $e->getMessage(),
+            ]);
+        }
+    }
 
     public function createReservation(Request $request)
     {
