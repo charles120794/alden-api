@@ -187,6 +187,7 @@ class ResortController extends Controller
                 'resort_name' => $request->resort_name,
                 'resort_desc' => $request->resort_desc,
                 'resort_address' => $request->resort_address,
+                'is_for_rent' => $request->is_for_rent,
             ]);
 
             return response()->json([
