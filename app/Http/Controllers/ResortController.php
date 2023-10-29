@@ -336,7 +336,7 @@ class ResortController extends Controller
                 $notif->create(
                     new Request(
                         [
-                        'resort_id' => $getData>resort_id, 
+                        'resort_id' => $getData->resort_id, 
                         'reservation_id' => $getData->reservation_id,
                         'user_id' => $getData->created_by,
                         'message' => 'Reservation is confirmed by the owner.',
