@@ -328,7 +328,7 @@ class ResortController extends Controller
 
 
             if($request->action == 'confirm'){
-                Reservation::where('id', $request->data->reservation_id)->update([
+                Reservation::where('id', $request->data['reservation_id'])->update([
                     'confirm_status' => 1, //owner confirmed 
                 ]);
                 
@@ -349,7 +349,7 @@ class ResortController extends Controller
                     'response' => 'Reservation confirmed',
                 ]);
             }else{
-                Reservation::where('id', $request->reservation_id)->update([
+                Reservation::where('id', $request->data['reservation_id'])->update([
                     'confirm_status' => 2, //owner reject reservation 
                 ]);
 
