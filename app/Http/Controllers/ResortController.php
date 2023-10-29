@@ -237,9 +237,9 @@ class ResortController extends Controller
             // UPDATE PRICING
             foreach($request->pricing as $row) {
 
-                // $check = DB::table('resort_pricing')->where('id', $row['id'])->first();
+                $check = DB::table('resort_pricing')->where('id', $row['id'])->first();
 
-                if(!isset($row['id']))
+                if(empty($check))
                 {
                     DB::table('resort_pricing')->insert([
                         'resort_id' => $request->id,
