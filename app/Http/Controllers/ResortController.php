@@ -324,21 +324,20 @@ class ResortController extends Controller
     public function confirmReservation(Request $request)
     {
         try {
-            $getData = $request->data;
             $notif = new NotificationController;
 
 
             if($request->action == 'confirm'){
-                Reservation::where('id', $getData->reservation_id)->update([
+                Reservation::where('id', $request->data->reservation_id)->update([
                     'confirm_status' => 1, //owner confirmed 
                 ]);
                 
                 $notif->create(
                     new Request(
                         [
-                        'resort_id' => $getData->resort_id, 
-                        'reservation_id' => $getData->reservation_id,
-                        'user_id' => $getData->created_by,
+                        'resort_id' => $request->data['resort_id'], 
+                        'reservation_id' => $request->data['reservation_id'],
+                        'user_id' => $request->data['created_by'],
                         'message' => 'Reservation is confirmed by the owner.',
                         'type' => 'CONFIRM_RESERVATION',
                         'source' => auth()->id(),
@@ -357,9 +356,9 @@ class ResortController extends Controller
                 $notif->create(
                     new Request(
                         [
-                        'resort_id' => $getData>resort_id, 
-                        'reservation_id' => $getData->reservation_id,
-                        'user_id' => $getData->created_by,
+                        'resort_id' => $request->data['resort_id'], 
+                        'reservation_id' => $request->data['reservation_id'],
+                        'user_id' => $request->data['created_by'],
                         'message' => 'Reservation is rejected by the owner.',
                         'type' => 'REJECT_RESERVATION',
                         'source' => auth()->id(),
