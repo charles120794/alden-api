@@ -332,9 +332,6 @@ class ResortController extends Controller
                     'confirm_status' => 1, //owner confirmed 
                 ]);
 
-                Notification::where('id', $request->data['id'])->update([
-                    'message' => 'You confirmed this reservation'
-                ]);
                 
                 $notif->create(
                     new Request(
@@ -349,16 +346,16 @@ class ResortController extends Controller
                         ]
                     ));
 
+                Notification::where('id', $request->data['id'])->update([
+                    'message' => 'You confirmed this reservation'
+                ]);
+
                 return response()->json([
                     'response' => 'Reservation confirmed',
                 ]);
             }else{
                 Reservation::where('id', $request->data['reservation_id'])->update([
                     'confirm_status' => 2, //owner reject reservation 
-                ]);
-
-                Notification::where('id', $request->data['id'])->update([
-                    'message' => 'You rejected this reservation'
                 ]);
 
                 $notif->create(
@@ -373,6 +370,10 @@ class ResortController extends Controller
                         'created_by' => auth()->id(),
                         ]
                     ));
+
+                Notification::where('id', $request->data['id'])->update([
+                    'message' => 'You rejected this reservation'
+                ]);
                 
                 return response()->json([
                     'response' => 'Reservation rejected',
