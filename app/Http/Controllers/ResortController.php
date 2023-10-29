@@ -191,15 +191,32 @@ class ResortController extends Controller
                 'updated_at' => now(),
             ]);
 
-            foreach($request->amenities as $row) {
 
-                // UPDATE AMENITIES
+            // UPDATE AMENITIES
+            foreach($request->amenities as $row) {
 
                 $check = DB::table('resort_amenities')->where('id', $row['id'])->first();
 
                 if(empty($check))
                 {
                     DB::table('resort_amenities')->insert([
+                        'resort_id' => $request->id,
+                        'description' => $row["description"],
+                        'created_at' => now(),
+                        'created_by' => Auth()->User()->id
+                    ]);
+                }
+                
+            }
+
+            // UPDATE POLICIES
+            foreach($request->policies as $row) {
+
+                $check = DB::table('resort_policy')->where('id', $row['id'])->first();
+
+                if(empty($check))
+                {
+                    DB::table('resort_policy')->insert([
                         'resort_id' => $request->id,
                         'description' => $row["description"],
                         'created_at' => now(),
