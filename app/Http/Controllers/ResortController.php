@@ -190,7 +190,7 @@ class ResortController extends Controller
                 'resort_region' => $request->resort_region,
                 'resort_province' => $request->resort_province,
                 'resort_city' => $request->resort_city,
-                'resort_barangay' => $request->barangay,
+                'resort_barangay' => $request->resort_barangay,
                 'region' => $request->region,
                 'province' => $request->province,
                 'city' => $request->city,
