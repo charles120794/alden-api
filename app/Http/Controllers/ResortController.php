@@ -234,6 +234,29 @@ class ResortController extends Controller
                 
             }
 
+            // UPDATE PRICING
+            foreach($request->pricing as $row) {
+
+                $check = DB::table('resort_pricing')->where('id', $row['id'])->first();
+
+                if(empty($check))
+                {
+                    DB::table('resort_pricing')->insert([
+                        'resort_id' => $request->id,
+                        'price_desc' => $row["price_desc"],
+                        'price' => $row["price"],
+                        'downpayment_percent' => $row["downpayment_percent"],
+                        'created_at' => now(),
+                        'created_by' => Auth()->User()->id
+                    ]);
+                }
+                else if(isset($row['delete']))
+                {
+                    DB::table('resort_pricing')->where('id', $row['id'])->delete();
+                }
+                
+            }
+
             return response()->json([
                 'response' => 'Update saved',
             ]);
