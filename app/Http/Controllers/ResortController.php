@@ -332,7 +332,7 @@ class ResortController extends Controller
                     'confirm_status' => 1, //owner confirmed 
                 ]);
 
-                Notifications::where('id', $request->data['id'])->update([
+                Notification::where('id', $request->data['id'])->update([
                     'message' => 'You confirmed this reservation'
                 ]);
                 
@@ -357,7 +357,7 @@ class ResortController extends Controller
                     'confirm_status' => 2, //owner reject reservation 
                 ]);
 
-                Notifications::where('id', $request->data['id'])->update([
+                Notification::where('id', $request->data['id'])->update([
                     'message' => 'You rejected this reservation'
                 ]);
 
