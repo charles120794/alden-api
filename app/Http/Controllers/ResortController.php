@@ -199,7 +199,7 @@ class ResortController extends Controller
                     {
                         DB::table('resort_amenities')->insert([
                             'resort_id' => $request->id,
-                            'description' => json_decode($row["amenitiesTitle"]),
+                            'description' => json_decode($row["description"]),
                             'created_at' => now(),
                             'created_by' => Auth()->User()->id
                         ]);
