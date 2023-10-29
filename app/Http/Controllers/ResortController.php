@@ -227,6 +227,10 @@ class ResortController extends Controller
                         'created_by' => Auth()->User()->id
                     ]);
                 }
+                else if(isset($row['delete']))
+                {
+                    DB::table('resort_policy')->where('id', $row['id'])->delete();
+                }
                 
             }
 
