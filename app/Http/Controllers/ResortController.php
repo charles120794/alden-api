@@ -192,24 +192,26 @@ class ResortController extends Controller
             ]);
 
             foreach($request->amenities as $row) {
-                // CREATE AMENITIES
-                // if(isset($row['description'])){
-                    $check = DB::table('resort_amenities')->where('id', $row['id'])->get();
-                    if(empty($check))
-                    {
-                        DB::table('resort_amenities')->insert([
-                            'resort_id' => $request->id,
-                            'description' => json_decode($row["description"]),
-                            'created_at' => now(),
-                            'created_by' => Auth()->User()->id
-                        ]);
-                    }
-                // }
+
+                // UPDATE AMENITIES
+
+                $check = DB::table('resort_amenities')->where('id', $row['id'])->first();
+
+                if(empty($check))
+                {
+                    DB::table('resort_amenities')->insert([
+                        'resort_id' => $request->id,
+                        'description' => $row["description"],
+                        'created_at' => now(),
+                        'created_by' => Auth()->User()->id
+                    ]);
+                }
                 
             }
 
             return response()->json([
                 'response' => 'Update saved',
+                'CHECK' => $check,
             ]);
 
         }catch(\Excetion $e){
