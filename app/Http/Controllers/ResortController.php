@@ -206,6 +206,10 @@ class ResortController extends Controller
                         'created_by' => Auth()->User()->id
                     ]);
                 }
+                else if(isset($row['delete']))
+                {
+                    DB::table('resort_amenities')->where('id', $row['id'])->delete();
+                }
                 
             }
 
@@ -228,7 +232,6 @@ class ResortController extends Controller
 
             return response()->json([
                 'response' => 'Update saved',
-                'CHECK' => $check,
             ]);
 
         }catch(\Excetion $e){
