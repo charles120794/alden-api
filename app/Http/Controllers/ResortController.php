@@ -303,7 +303,8 @@ class ResortController extends Controller
                     'user_id' => $owner->created_by,
                     'message' => 'Your resort has been reserved',
                     'type' => 'RESORT_RESERVED',
-                    'source' => auth()->id()
+                    'source' => auth()->id(),
+                    'created_by' => auth()->id()
                     ]
                 ));
             
@@ -323,15 +324,55 @@ class ResortController extends Controller
     public function confirmReservation(Request $request)
     {
         try {
+            $getData = $request->data;
+            $notif = new NotificationController;
+
+
             if($request->action == 'confirm'){
-                Reservation::where('id', $request->reservation_id)->update([
+                Reservation::where('id', $getData->reservation_id)->update([
                     'confirm_status' => 1, //owner confirmed 
+                ]);
+                
+                $notif->create(
+                    new Request(
+                        [
+                        'resort_id' => $getData>resort_id, 
+                        'reservation_id' => $getData->reservation_id,
+                        'user_id' => $getData->created_by,
+                        'message' => 'Reservation is confirmed by the owner.',
+                        'type' => 'CONFIRM_RESERVATION',
+                        'source' => auth()->id(),
+                        'created_by' => auth()->id(),
+                        ]
+                    ));
+
+                return response()->json([
+                    'response' => 'Reservation confirmed',
                 ]);
             }else{
                 Reservation::where('id', $request->reservation_id)->update([
                     'confirm_status' => 2, //owner reject reservation 
                 ]);
+
+                $notif->create(
+                    new Request(
+                        [
+                        'resort_id' => $getData>resort_id, 
+                        'reservation_id' => $getData->reservation_id,
+                        'user_id' => $getData->created_by,
+                        'message' => 'Reservation is rejected by the owner.',
+                        'type' => 'REJECT_RESERVATION',
+                        'source' => auth()->id(),
+                        'created_by' => auth()->id(),
+                        ]
+                    ));
+                
+                return response()->json([
+                    'response' => 'Reservation rejected',
+                ]);
             }
+
+            
         } catch (\Exception $e) {
             return response()->json([
                 'response' => $e->getMessage(),
