@@ -87,7 +87,7 @@ class CaptureRequestController extends Controller
                     
                     
                 }
-                $x+=1;
+                $y+=1;
             }
             return response()->json(['response'=>$x, 'y'=>$y]);
 
