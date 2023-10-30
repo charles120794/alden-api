@@ -69,6 +69,7 @@ class CaptureRequestController extends Controller
 
         try {
             $x=0;
+            $y=0;
 
             foreach($request->images as $row) {
                 // DELETE SPECIFIC IMAGES
@@ -84,9 +85,11 @@ class CaptureRequestController extends Controller
                         
                     // }
                     
+                    
                 }
+                $x+=1;
             }
-            return response()->json(['response'=>$x]);
+            return response()->json(['response'=>$x, 'y'=>$y]);
 
             // foreach($request->images_vr as $row) {
             //     // DELETE SPECIFIC IMAGES_VR
