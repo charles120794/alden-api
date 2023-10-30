@@ -77,10 +77,11 @@ class CaptureRequestController extends Controller
                         // $ans = json_decode($answer['id'],true);
                         // if(is_array($ans)){
                             // DB::table('resort_images')->where('id', $row['id'])->delete();
-                            $x+=1;
+                            
                         // }
                         
                     }
+                    $x+=1;
                 // }
             }
             return response()->json(['response'=>$x]);
