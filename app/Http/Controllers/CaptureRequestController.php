@@ -77,7 +77,7 @@ class CaptureRequestController extends Controller
                         // if(is_array($ans)){
                             // DB::table('resort_images')->where('id', $row['id'])->delete();
                         // }
-                        return response()->json(['e'=>'ds']);
+                        return response()->json(['e'=>'ddsads']);
                     }
                 // }
             }
@@ -128,7 +128,7 @@ class CaptureRequestController extends Controller
             // return response()->json([
             //     'response' => 'Image uploaded Successfully!',
             // ]);
-
+            return response()->json(['e'=>'ds']);
         } catch (\Exception $e) {
 
             return response()->json([
