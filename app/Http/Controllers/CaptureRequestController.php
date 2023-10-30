@@ -68,7 +68,7 @@ class CaptureRequestController extends Controller
 	{
 
         try {
-            $x=1;
+            $x=0;
 
             foreach($request->images as $row) {
                 // DELETE SPECIFIC IMAGES
