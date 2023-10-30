@@ -68,6 +68,7 @@ class CaptureRequestController extends Controller
 	{
 
         try {
+            $x=1;
 
             foreach($request->images as $row) {
                 // DELETE SPECIFIC IMAGES
@@ -77,10 +78,11 @@ class CaptureRequestController extends Controller
                         // if(is_array($ans)){
                             // DB::table('resort_images')->where('id', $row['id'])->delete();
                         // }
-                        return response()->json(['response'=>'ddsads']);
+                        $x+=1;
                     }
                 // }
             }
+            return response()->json(['response'=>$x]);
 
             // foreach($request->images_vr as $row) {
             //     // DELETE SPECIFIC IMAGES_VR
