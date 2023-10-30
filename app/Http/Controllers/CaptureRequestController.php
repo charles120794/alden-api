@@ -69,6 +69,26 @@ class CaptureRequestController extends Controller
 
         try {
 
+            foreach($request->images as $row) {
+                // DELETE SPECIFIC IMAGES
+                if(isset($row['delete'])){
+                    $ans = json_decode($answer['resort_image'],true);
+                    if(is_array($ans)){
+                        DB::table('resort_images')->where('id', json_decode($row["id"]))->delete();
+                    }
+                }
+            }
+
+            foreach($request->images_vr as $row) {
+                // DELETE SPECIFIC IMAGES_VR
+                if(isset($row['delete'])){
+                    $ans = json_decode($answer['resort_vr_image'],true);
+                    if(is_array($ans)){
+                        DB::table('resort_vr_images')->where('id', json_decode($row["id"]))->delete();
+                    }
+                }
+            }
+
             foreach(request()->file('resort_image') as $key => $file) {
                 $filename = time() . '_' . $file->getClientOriginalName();
                 $file->storeAs('public', $filename);
@@ -97,6 +117,7 @@ class CaptureRequestController extends Controller
             ]);
 
             CaptureRequest::where('id', $request->request_id)->update([
+                'capture_status' => 1,
                 'captured_at' => now(),
             ]);
             
