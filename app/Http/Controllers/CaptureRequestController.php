@@ -71,15 +71,14 @@ class CaptureRequestController extends Controller
 
             foreach($request->images as $row) {
                 // DELETE SPECIFIC IMAGES
-                // if(isset($row['resort_image'])){
-                //     if(isset($row['delete'])){
-                //         $ans = json_decode($answer['resort_image'],true);
-                //         if(is_array($ans)){
-                //             DB::table('resort_images')->where('id', json_decode($row["id"]))->delete();
-                //         }
-                //     }
-                // }
-                return response()->json(['dsa'=>'d']);
+                if(isset($row['resort_image'])){
+                    if(isset($row['delete'])){
+                        $ans = json_decode($answer['resort_image'],true);
+                        if(is_array($ans)){
+                            DB::table('resort_images')->where('id', json_decode($row["id"]))->delete();
+                        }
+                    }
+                }
             }
 
             // foreach($request->images_vr as $row) {
@@ -125,9 +124,9 @@ class CaptureRequestController extends Controller
             // ]);
             
 
-            // return response()->json([
-            //     'response' => 'Image uploaded Successfully!',
-            // ]);
+            return response()->json([
+                'response' => 'Image uploaded Successfully!',
+            ]);
 
         } catch (\Exception $e) {
 
