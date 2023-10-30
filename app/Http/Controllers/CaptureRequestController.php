@@ -73,7 +73,7 @@ class CaptureRequestController extends Controller
                 // DELETE SPECIFIC IMAGES
                 if(isset($row['resort_image'])){
                     if(isset($row['delete'])){
-                        $ans = json_decode($answer['resort_image'],true);
+                        $ans = json_decode($answer['id'],true);
                         if(is_array($ans)){
                             DB::table('resort_images')->where('id', json_decode($row["id"]))->delete();
                         }
