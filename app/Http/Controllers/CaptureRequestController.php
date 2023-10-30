@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Models\CaptureRequest;
+use App\Models\ResortRatings;
 
 class CaptureRequestController extends Controller
 {
