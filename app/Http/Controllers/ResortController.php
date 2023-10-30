@@ -164,8 +164,7 @@ class ResortController extends Controller
 
             DB::commit();
 
-            $captureRequest = new CaptureRequestController;
-            $captureRequest->create(new Request(['resort_id' => $resort]));
+            (new CaptureRequestController)->create(new Request(['resort_id' => $resort]));
 
             (new AdminController)->index();
 
