@@ -11,6 +11,7 @@ use App\Models\ResortRatings;
 use App\Models\Reservation;
 use App\Models\Notification;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CaptureRequestController;
 
 class ResortController extends Controller
 {
@@ -162,6 +163,9 @@ class ResortController extends Controller
             }
 
             DB::commit();
+
+            $captureRequest = new CaptureRequestController;
+            $captureRequest->create(new Request(['resort_id' => $resort]));
 
             (new AdminController)->index();
 
