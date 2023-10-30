@@ -87,7 +87,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::get('/resort/list/capture', [CaptureRequestController::class, 'index']);
-    Route::get('/resort/request/capture', [CaptureRequestController::class, 'create']);
+    Route::post('/resort/request/capture', [CaptureRequestController::class, 'create']);
     Route::post('/resort/create', [ResortController::class, 'create']);
     Route::post('/resort/update', [ResortController::class, 'update']);
     Route::post('/resort/create/images', [ResortController::class, 'uploadResortImages']);

@@ -71,4 +71,20 @@ class CaptureRequestController extends Controller
             
         }
 	}
+
+    //list of owner's resorts that are yet to be captured
+    // public function getCaptureResortList()
+    // {
+    //     return Resorts::with('createdUser')->where('capture_status', 0)->get()->map(function($value) {
+    //         return collect($value)->merge([
+    //             'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
+    //             'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
+    //             'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
+    //             'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
+    //             'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
+    //             'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
+    //             'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
+    //         ]);
+    //     });
+    // }
 }
