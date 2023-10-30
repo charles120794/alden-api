@@ -12,7 +12,7 @@ class CaptureRequestController extends Controller
 
         try {
 
-            return CaptureRequest::with('resortInfo')->orderBy('created_at', 'desc')->get();
+            return CaptureRequest::with('resortInfo', 'userCreated')->orderBy('created_at', 'desc')->get();
 
         } catch (\Exception $e) {
 
