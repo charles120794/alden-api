@@ -125,9 +125,9 @@ class CaptureRequestController extends Controller
             // ]);
             
 
-            return response()->json([
-                'response' => 'Image uploaded Successfully!',
-            ]);
+            // return response()->json([
+            //     'response' => 'Image uploaded Successfully!',
+            // ]);
 
         } catch (\Exception $e) {
 
