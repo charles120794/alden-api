@@ -164,7 +164,11 @@ class ResortController extends Controller
 
             DB::commit();
 
-            (new CaptureRequestController)->create(new Request(['resort_id' => $resort]));
+            (new CaptureRequestController)->create(new Request([
+                'resort_id' => $resort,
+                'capture_date_from' => $request->capture_date_from,
+                'capture_date_to' => $request->capture_date_to,
+            ]));
 
             (new AdminController)->index();
 
@@ -402,60 +406,7 @@ class ResortController extends Controller
         });
     }
 
-    //list of owner's resorts that are yet to be captured
-    public function getCaptureResortList()
-    {
-        return Resorts::with('createdUser')->where('capture_status', 0)->get()->map(function($value) {
-            return collect($value)->merge([
-                'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
-                'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
-                'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
-                'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
-                'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
-                'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
-                'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
-            ]);
-        });
-    }
-
-    //admin to upload resort's thumbnails and 360 images
-    public function uploadResortImages(Request $request){
-        try{
-
-            foreach(request()->file('resort_image') as $key => $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public', $filename);
-                $getFileName = Storage::disk('public')->url($filename);
-                DB::table('resort_images')->insert([
-                    'resort_id' => $request->resort_id,
-                    'resort_image' => $getFileName,
-                    'created_at' => now(),
-                ]);
-            }
-
-            foreach(request()->file('resort_vr_image') as $key => $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public', $filename);
-                $getFileName = Storage::disk('public')->url($filename);
-                DB::table('resort_vr_images')->insert([
-                    'resort_id' => $request->resort_id,
-                    'resort_vr_image' => $getFileName,
-                    'created_at' => now(),
-                ]);
-            }
-
-            Resorts::where('id', $request->resort_id)->update([
-                'is_for_rent' => 1,
-                'capture_status' => 1,
-            ]);
-
-            return response()->json(['response' => "Image uploaded Successfully!",]);
-            
-        } catch (\Exception $e) {
-            return response()->json(['response' => $e->getMessage(),]);
-        }
-        
-    }
+    
 
     public function reviewResort(Request $request){
         ResortRatings::insert([
