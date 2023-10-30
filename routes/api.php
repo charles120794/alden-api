@@ -15,6 +15,7 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CaptureRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +87,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
     Route::get('/resort/list/capture', [ResortController::class, 'getCaptureResortList']);
+    Route::get('/resort/request/capture', [CaptureRequestController::class, 'create']);
     Route::post('/resort/create', [ResortController::class, 'create']);
     Route::post('/resort/update', [ResortController::class, 'update']);
     Route::post('/resort/create/images', [ResortController::class, 'uploadResortImages']);
