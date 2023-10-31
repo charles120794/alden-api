@@ -17,7 +17,7 @@ class ReservationController extends Controller
     {
         try {
             $reservation_list = Reservation::with('userCreated', 'resortInfo.createdUser', 'priceInfo')->get();
-            $latest_review = ResortRatings::with('createdUser', 'resortInfo')->where('resort_owner_id', auth()->id())->orderBy('created_at', 'asc')->get();
+            $review_list = ResortRatings::with('createdUser', 'resortInfo')->where('resort_owner_id', auth()->id())->orderBy('created_at', 'asc')->get();
             $reservations_chart = DB::table('resort_reservation')
                                         ->join('resort', 'resort.id', '=', 'resort_reservation.resort_id')
                                         ->select('resort_name as name', DB::raw('count(*) as value'))
@@ -26,7 +26,7 @@ class ReservationController extends Controller
 
             return response()->json([
                 'reservation_list' => $reservation_list,
-                'latest_review' => $latest_review,
+                'review_list' => $review_list,
                 'reservations_chart' => $reservations_chart,
             ]);
 
