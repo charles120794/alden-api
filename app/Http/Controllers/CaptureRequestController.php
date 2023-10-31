@@ -83,16 +83,26 @@ class CaptureRequestController extends Controller
             //         }
             //     }
             // }
+            
+            if ($request->hasFile('resort_image')) {
+                if (count(request()->file('resort_image'))>2) {
 
-            foreach(request()->file('resort_image') as $key => $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public', $filename);
-                $getFileName = Storage::disk('public')->url($filename);
-                DB::table('resort_images')->insert([
-                    'resort_id' => $request->resort_id,
-                    'resort_image' => $getFileName,
-                    'created_at' => now(),
-                ]);
+                    foreach(request()->file('resort_image') as $key => $file) {
+                        $filename = time() . '_' . $file->getClientOriginalName();
+                        $file->storeAs('public', $filename);
+                        $getFileName = Storage::disk('public')->url($filename);
+                        DB::table('resort_images')->insert([
+                            'resort_id' => $request->resort_id,
+                            'resort_image' => $getFileName,
+                            'created_at' => now(),
+                        ]);
+                    }
+
+                } else {
+                    throw new \Exception("Please pick at least 3 thumbnail images", 1);
+                }
+            } else {
+                throw new \Exception("Thumbnail images is required", 1);
             }
 
             foreach(request()->file('resort_vr_image') as $key => $file) {
