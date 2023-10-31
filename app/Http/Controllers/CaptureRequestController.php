@@ -68,25 +68,10 @@ class CaptureRequestController extends Controller
 	{
 
         try {
-            $x=0;
-            $y=0;
-            if (is_array($request->images)) {
-                foreach($request->images as $row) {
-                    // DELETE SPECIFIC IMAGES
-                    if(isset($row["delete"])==true){
-                        $x+=1;
                                 
-                                // DB::table('resort_images')->where('id', $row['id'])->delete();
-                        
-                        
-                    }
+            DB::table('resort_images')->where('resort_id', $request->resort_id)->delete();
 
-
-                    $y+=1;
-                }
-            }
-
-            return response()->json(['response'=>$x, 'y'=>$y]);
+            return response()->json(['response'=>'Successfully deleted all images']);
 
             // foreach($request->images_vr as $row) {
             //     // DELETE SPECIFIC IMAGES_VR
