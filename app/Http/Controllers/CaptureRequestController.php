@@ -80,9 +80,9 @@ class CaptureRequestController extends Controller
             //     }
             // }
             
-            if ($request->hasFile('resort_image')) {
+            if ($request->hasFile('resort_image') && $request->hasFile('resort_vr_image')) {
                 
-                if (count(request()->file('resort_image'))>2) {
+                if (count(request()->file('resort_image'))>2 && count(request()->file('resort_vr_image'))>2) {
 
                     DB::table('resort_images')->where('resort_id', $request->resort_id)->delete();
 
@@ -97,19 +97,6 @@ class CaptureRequestController extends Controller
                         ]);
                     }
 
-                } else {
-                    throw new \Exception("Please pick at least 3 thumbnail images", 1);
-                }
-
-            } else {
-                throw new \Exception("Thumbnail images is required", 1);
-            }
-
-
-            if ($request->hasFile('resort_vr_image')) {
-
-                if (count(request()->file('resort_vr_image'))>2) {
-
                     DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->delete();
                     
                     foreach(request()->file('resort_vr_image') as $key => $file) {
@@ -123,30 +110,32 @@ class CaptureRequestController extends Controller
                         ]);
                     }
 
+                    Resorts::where('id', $request->resort_id)->update([
+                        'is_for_rent' => 1,
+                        'capture_status' => 1,
+                    ]);
+        
+                    CaptureRequest::where('id', $request->request_id)->update([
+                        'capture_status' => 1,
+                        'captured_at' => now(),
+                    ]);
+                    
+        
+                    return response()->json([
+                        'response' => 'Image uploaded Successfully!',
+                    ]);
+
                 } else {
-                    throw new \Exception("Please pick at least 3 360 images", 1);
+                    throw new \Exception("Please pick at least 3 thumbnail and 360 images", 1);
                 }
-                
+
             } else {
-                throw new \Exception("360 images is required", 1);
+                throw new \Exception("Thumbnail and 360 images is required", 1);
             }
 
             
 
-            Resorts::where('id', $request->resort_id)->update([
-                'is_for_rent' => 1,
-                'capture_status' => 1,
-            ]);
-
-            CaptureRequest::where('id', $request->request_id)->update([
-                'capture_status' => 1,
-                'captured_at' => now(),
-            ]);
             
-
-            return response()->json([
-                'response' => 'Image uploaded Successfully!',
-            ]);
         } catch (\Exception $e) {
 
             return response()->json([
