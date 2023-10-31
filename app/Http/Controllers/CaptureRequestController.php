@@ -7,6 +7,7 @@ use Storage;
 use Illuminate\Http\Request;
 use App\Models\CaptureRequest;
 use App\Models\ResortRatings;
+use App\Models\Resorts;
 
 class CaptureRequestController extends Controller
 {
