@@ -70,6 +70,7 @@ class CaptureRequestController extends Controller
         try {
                                 
             DB::table('resort_images')->where('resort_id', $request->resort_id)->delete();
+            DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->delete();
 
             // foreach($request->images_vr as $row) {
             //     // DELETE SPECIFIC IMAGES_VR
