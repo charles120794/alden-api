@@ -70,7 +70,7 @@ class CaptureRequestController extends Controller
         try {
             $x=0;
             $y=0;
-            // if (is_array($request->images)) {
+            if (is_array($request->images)) {
                 foreach($request->images as $row) {
                     // DELETE SPECIFIC IMAGES
                     if(isset($row["delete"])){
@@ -88,10 +88,10 @@ class CaptureRequestController extends Controller
                         
                     }
 
-                    
+
                     $y+=1;
                 }
-            // }
+            }
 
             return response()->json(['response'=>$x, 'y'=>$y]);
 
