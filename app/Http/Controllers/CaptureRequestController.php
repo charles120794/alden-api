@@ -71,7 +71,7 @@ class CaptureRequestController extends Controller
             $x=0;
             $y=0;
 
-            foreach($request->images as $row) {
+            foreach($request['images'] as $row) {
                 // DELETE SPECIFIC IMAGES
                 if(isset($row['resort_image'])){
                     $x+=1;
