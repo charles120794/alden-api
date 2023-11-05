@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use Storage;
 use Illuminate\Http\Request;
+use App\Http\Controllers\NotificationController;
 use App\Models\CaptureRequest;
 use App\Models\ResortRatings;
 use App\Models\Resorts;
@@ -70,15 +71,6 @@ class CaptureRequestController extends Controller
 	{
 
         try {
-            // foreach($request->images_vr as $row) {
-            //     // DELETE SPECIFIC IMAGES_VR
-            //     if(isset($row['delete'])){
-            //         $ans = json_decode($answer['resort_vr_image'],true);
-            //         if(is_array($ans)){
-            //             DB::table('resort_vr_images')->where('id', json_decode($row["id"]))->delete();
-            //         }
-            //     }
-            // }
             
             if ($request->hasFile('resort_image') && $request->hasFile('resort_vr_image')) {
                 
@@ -119,6 +111,15 @@ class CaptureRequestController extends Controller
                         'capture_status' => 1,
                         'captured_at' => now(),
                     ]);
+
+                    //notify owner
+                    (new NotificationController)->create(new Request([
+                        'resort_id' => $request->resort_id,
+                        'user_id' => $request->resort_owner,
+                        'message' => "Your resort is finally posted with a brilliant 360 images that serves as a virtual tour of the resort",
+                        'type' => 'RESORT_CAPTURED',
+                        'source' => auth()->id(),
+                    ]));
                     
         
                     return response()->json([
@@ -145,58 +146,35 @@ class CaptureRequestController extends Controller
         }
 	}
 
-    //list of owner's resorts that are yet to be captured
-    // public function getCaptureResortList()
-    // {
-    //     return Resorts::with('createdUser')->where('capture_status', 0)->get()->map(function($value) {
-    //         return collect($value)->merge([
-    //             'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
-    //             'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
-    //             'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
-    //             'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
-    //             'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
-    //             'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
-    //             'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
-    //         ]);
-    //     });
-    // }
+    public function deleteImage(Request $request)
+	{
 
-    //admin to upload resort's thumbnails and 360 images
-    // public function uploadResortImages(Request $request){
-    //     try{
+        try {
 
-    //         foreach(request()->file('resort_image') as $key => $file) {
-    //             $filename = time() . '_' . $file->getClientOriginalName();
-    //             $file->storeAs('public', $filename);
-    //             $getFileName = Storage::disk('public')->url($filename);
-    //             DB::table('resort_images')->insert([
-    //                 'resort_id' => $request->resort_id,
-    //                 'resort_image' => $getFileName,
-    //                 'created_at' => now(),
-    //             ]);
-    //         }
+            foreach($request->images as $row) {
+                // DELETE SPECIFIC IMAGES
+                if(isset($row['delete'])){
+                    DB::table('resort_images')->where('id', $row["id"])->delete();
+                }
+            }
 
-    //         foreach(request()->file('resort_vr_image') as $key => $file) {
-    //             $filename = time() . '_' . $file->getClientOriginalName();
-    //             $file->storeAs('public', $filename);
-    //             $getFileName = Storage::disk('public')->url($filename);
-    //             DB::table('resort_vr_images')->insert([
-    //                 'resort_id' => $request->resort_id,
-    //                 'resort_vr_image' => $getFileName,
-    //                 'created_at' => now(),
-    //             ]);
-    //         }
-
-    //         Resorts::where('id', $request->resort_id)->update([
-    //             'is_for_rent' => 1,
-    //             'capture_status' => 1,
-    //         ]);
-
-    //         return response()->json(['response' => "Image uploaded Successfully!",]);
+            foreach($request->images_vr as $row) {
+                // DELETE SPECIFIC IMAGES_VR
+                if(isset($row['delete'])){
+                    DB::table('resort_vr_images')->where('id', $row["id"])->delete();
+                }
+            }
             
-    //     } catch (\Exception $e) {
-    //         return response()->json(['response' => $e->getMessage(),]);
-    //     }
-        
-    // }
+            return response()->json([
+                'response' => 'Successfully deleted',
+            ]);
+            
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'response' => $e->getMessage(),
+            ]);
+            
+        }
+	}
 }
