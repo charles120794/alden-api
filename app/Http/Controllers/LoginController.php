@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
 
 class LoginController extends Controller
@@ -38,6 +39,8 @@ class LoginController extends Controller
             $request->user()->status = 1;
 
             $request->user()->save();
+
+            (new NotificationController)->notifiReservation();
      
             (new AdminController)->index();
             

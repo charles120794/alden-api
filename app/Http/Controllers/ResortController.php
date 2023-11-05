@@ -170,6 +170,15 @@ class ResortController extends Controller
                 'capture_date_to' => $request->capture_date_to,
             ]));
 
+            //notify admin
+            (new NotificationController)->create(new Request([
+                'resort_id' => $resort,
+                'user_id' => '20',
+                'message' => "A new resort has been posted. Check resort's available schedule for 360 image capturing.",
+                'type' => 'RESORT_POSTED',
+                'source' => auth()->id(),
+            ]));
+
             (new AdminController)->index();
 
             return response()->json([
@@ -422,6 +431,15 @@ class ResortController extends Controller
         Reservation::where('id', $request->reservation_id)->update([
             'rate_status' => 1,
         ]);
+
+        //notify owner
+        (new NotificationController)->create(new Request([
+            'resort_id' => $request->resort_id,
+            'user_id' => $request->resort_owner_id,
+            'message' => "A previous customer has rated and commented on your resort.",
+            'type' => 'RESORT_REVIEWED',
+            'source' => auth()->id(),
+        ]));
 
         return response()->json(['response'=>"Resort reviewed successfully."]);
         
