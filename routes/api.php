@@ -122,6 +122,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     // RESERVATIONS
     //
     Route::get('/reservations', [ReservationController::class, 'index']);
+    Route::get('/resort/owner/dashboard', [ReservationController::class, 'ownderDashboard']);
     Route::post('/resort/create/reservation', [ResortController::class, 'createReservation']);
     Route::post('/reservations/notify', [NotificationController::class, 'notifiReservation']);
     Route::post('/resort/reservation/confirm', [ResortController::class, 'confirmReservation']);
