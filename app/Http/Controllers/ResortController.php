@@ -18,14 +18,14 @@ class ResortController extends Controller
     public function index()
     {
         try {
-            return Resorts::with('createdUser')->where('is_for_rent', 1)->when(!empty(request()->search), function($query) {
+            return Resorts::with('createdUser')->when(!empty(request()->search), function($query) {
                 return $query->where('resort_name', 'like', '%' . request()->search. '%')
-                    ->orWhere('resort_desc', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
-                    ->orWhere('resort_address', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
-                    ->orWhere('region', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
-                    ->orWhere('province', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
-                    ->orWhere('city', 'like', '%' . request()->search. '%')->where('is_for_rent', 1)
-                    ->orWhere('barangay', 'like', '%' . request()->search. '%')->where('is_for_rent', 1);
+                    ->orWhere('resort_desc', 'like', '%' . request()->search. '%')
+                    ->orWhere('resort_address', 'like', '%' . request()->search. '%')
+                    ->orWhere('region', 'like', '%' . request()->search. '%')
+                    ->orWhere('province', 'like', '%' . request()->search. '%')
+                    ->orWhere('city', 'like', '%' . request()->search. '%')
+                    ->orWhere('barangay', 'like', '%' . request()->search. '%');
             })->get()->map(function($value) {
                 return collect($value)->merge([
                     'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
