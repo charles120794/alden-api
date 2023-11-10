@@ -51,7 +51,6 @@ class UserController extends Controller
                 'response' => 'Application sent to the admin. Please wait for approval',
                 'data' => [
                 	'valid_doc' => $valid_doc_path,
-                	'business_permit' => $business_permit_path,
                     'payment_qr_code' => $payment_qr_code_path,
                 	'approve_status' => 0
                 ]
