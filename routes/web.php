@@ -50,3 +50,6 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
+Auth::routes([
+    'verify' => true
+]);
