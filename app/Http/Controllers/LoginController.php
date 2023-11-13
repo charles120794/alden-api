@@ -10,6 +10,9 @@ use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
+use Illuminate\Auth\Events\Registered;
+
+
 
 class LoginController extends Controller
 {
@@ -90,6 +93,7 @@ class LoginController extends Controller
             ]);
             
             (new AdminController)->index();
+            event(new Registered($user));
      
             return response()->json([
                 'authenticated' => false,

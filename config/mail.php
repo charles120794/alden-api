@@ -40,7 +40,7 @@ return [
             'port' => env('MAIL_PORT', 465),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME', 'admin'),
-            'password' => env('MAIL_PASSWORD', '@Adminquickrent2023'),
+            'password' => env('@Adminquickrent2023'),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -70,6 +70,14 @@ return [
         'array' => [
             'transport' => 'array',
         ],
+
+        'stream' => [
+            'ssl' => [
+               'allow_self_signed' => true,
+               'verify_peer' => false,
+               'verify_peer_name' => false,
+            ],
+         ],
     ],
 
     /*
