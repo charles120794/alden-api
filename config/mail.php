@@ -37,10 +37,11 @@ return [
         'smtp' => [
             'transport' => 'smtp',
             'host' => env('MAIL_HOST', 'smtp.hostinger.com'),
-            'port' => env('MAIL_PORT', 465),
+            'port' => env('MAIL_PORT', '465'),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'address' => env('MAIL_FROM_ADDRESS', 'admin@quickrent.online'),
             'username' => env('MAIL_USERNAME', 'admin'),
-            'password' => env('@Adminquickrent2023'),
+            'password' => env('fE4%tQwywAFCv+g'),
             'timeout' => null,
             'auth_mode' => null,
         ],
@@ -70,14 +71,6 @@ return [
         'array' => [
             'transport' => 'array',
         ],
-
-        'stream' => [
-            'ssl' => [
-               'allow_self_signed' => true,
-               'verify_peer' => false,
-               'verify_peer_name' => false,
-            ],
-         ],
     ],
 
     /*
@@ -92,7 +85,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@quickrent.online'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
