@@ -93,8 +93,11 @@ class LoginController extends Controller
             ]);
             
             (new AdminController)->index();
+
+
             event(new Registered($user));
      
+            
             return response()->json([
                 'authenticated' => false,
                 'response' => 'Registration Success',

@@ -37,8 +37,8 @@ return [
         'smtp' => [
             'transport' => 'smtp', 
             'host' => 'smtp.hostinger.com',
-            'port' => '465',
-            'encryption' => 'tls',
+            'port' => '587',
+            'encryption' => 'ssl',
             // 'address' => env('MAIL_FROM_ADDRESS', 'admin@quickrent.online'),
             'username' => env('MAIL_USERNAME', 'admin'),
             'password' => env('fE4%tQwywAFCv+g'),
