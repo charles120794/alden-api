@@ -296,6 +296,18 @@ class ResortController extends Controller
     {
         try {
 
+            $screenshot_path = "";
+            if ($request->hasFile('screenshot')) {
+
+                $file = $request->file('screenshot');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
+
+                $screenshot_path = Storage::disk('public')->url($filename);
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
+
             $owner = Resorts::where('id', $request->resort_id)->first();
 
             $reserve = Reservation::insertGetId([
@@ -304,6 +316,7 @@ class ResortController extends Controller
                 'pricing_id' => $request->pricing_id,
                 'reserve_date' => date('Y-m-d', strtotime($request->reserve_date)),
                 'ref_no' => $request->ref_no,
+                'screenshot' => $screenshot_path,
                 'confirm_status' => 0, //pending reservation, owner need to confirm 
                 'rate_status' => 0, 
                 'created_at' => now(),

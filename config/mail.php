@@ -36,12 +36,11 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp', 
-            'host' => 'smtp.hostinger.com',
-            'port' => '587',
-            'encryption' => 'ssl',
-            // 'address' => env('MAIL_FROM_ADDRESS', 'admin@quickrent.online'),
-            'username' => env('MAIL_USERNAME', 'admin'),
-            'password' => env('fE4%tQwywAFCv+g'),
+            'host' => env('MAIL_HOST', 'smtp.hostinger.com'),
+            'port' => env('MAIL_PORT', '2525'),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'username' => env('MAIL_USERNAME', 'f9166f80a7f5af'),
+            'password' => env('MAIL_PASSWORD', '4b5e2bdec4e87b'),
             'timeout' => null,
             'auth_mode' => null,
         ],
