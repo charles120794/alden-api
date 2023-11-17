@@ -12,7 +12,6 @@ use App\Models\Reservation;
 use App\Models\Notification;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CaptureRequestController;
-use Illuminate\Http\Response;
 
 class ResortController extends Controller
 {
@@ -57,13 +56,12 @@ class ResortController extends Controller
             $resort->ratings = ResortRatings::with('createdUser')->where('resort_id', $request->resort_id)->get();
             $resort->ratings_avarage = DB::table('resort_rate')->where('resort_id', $request->resort_id)->avg('rating') ?? 0;
             $resort->images = DB::table('resort_images')->where('resort_id', $request->resort_id)->get();
-            $resort->images_vr = DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->get();
+            $resort->images_vr = DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->get()->header('Content-Type', 'image/jpeg')
+            ->header('Access-Control-Allow-Origin', '*');
             $resort->pricing = DB::table('resort_pricing')->where('resort_id', $request->resort_id)->get();
             $resort->reservation = DB::table('resort_reservation')->where('resort_id', $request->resort_id)->get();
 
-            return (new Response($resort, 200))
-            ->header('Content-Type', 'image/jpeg')
-            ->header('Access-Control-Allow-Origin', '*');
+            return $resort;
 
         } catch (\Exception $e) {
             return response()->json([
