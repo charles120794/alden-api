@@ -61,7 +61,7 @@ class ResortController extends Controller
             $resort->reservation = DB::table('resort_reservation')->where('resort_id', $request->resort_id)->get();
 
             return $resort->header('Content-Type', 'image/jpeg')
-            ->header('Access-Control-Allow-Origin', '*'); ;
+            ->header('Access-Control-Allow-Origin', '*');
 
         } catch (\Exception $e) {
             return response()->json([
