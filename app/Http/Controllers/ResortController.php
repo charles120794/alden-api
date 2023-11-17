@@ -12,6 +12,7 @@ use App\Models\Reservation;
 use App\Models\Notification;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CaptureRequestController;
+use Illuminate\Http\Response;
 
 class ResortController extends Controller
 {
@@ -60,7 +61,9 @@ class ResortController extends Controller
             $resort->pricing = DB::table('resort_pricing')->where('resort_id', $request->resort_id)->get();
             $resort->reservation = DB::table('resort_reservation')->where('resort_id', $request->resort_id)->get();
 
-            return $resort;
+            return (new Response($resort, 200))
+            ->header('Content-Type', 'image/jpeg')
+            ->header('Access-Control-Allow-Origin', '*');
 
         } catch (\Exception $e) {
             return response()->json([
