@@ -95,7 +95,7 @@ class LoginController extends Controller
             (new AdminController)->index();
 
 
-            event(new Registered($user));
+            // event(new Registered($user));
      
             
             return response()->json([
