@@ -474,4 +474,35 @@ class ResortController extends Controller
 
         return $review;
     }
+
+    public function allBookmarks(){
+
+        return DB::table('bookmarks')->where('created_by', auth()->id())->get();
+        
+    }
+
+
+    public function addToBookmarks(Request $request){
+
+        $check = DB::table('bookmarks')->where('resort_id', $request->resort_id)->where('created_by', auth()->id())->first();
+
+        if(empty($check)){
+            DB::table('bookmarks')->insert([
+                'resort_id' => $request->resort_id,
+                'created_by' => auth()->id(),
+                'created_at' => now(),
+            ]);
+        }
+
+        return response()->json(['response'=>"Added to bookmarks successfully."]);
+        
+    }
+
+    public function removeToBookmarks(Request $request){
+
+        DB::table('bookmarks')->where('id', $request->bookmark_id)->delete();
+
+        return response()->json(['response'=>"Removed to bookmarks successfully."]);
+        
+    }
 }
