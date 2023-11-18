@@ -10,6 +10,7 @@ use App\Models\Resorts;
 use App\Models\ResortRatings;
 use App\Models\Reservation;
 use App\Models\Notification;
+use App\Models\PaymentMethod;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\CaptureRequestController;
 

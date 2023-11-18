@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
+use App\Models\PaymentMethod;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Auth\Events\Registered;
@@ -42,6 +43,8 @@ class LoginController extends Controller
             $request->user()->status = 1;
 
             $request->user()->save();
+
+            $request->user()->payment_method = PaymentMethod::where('created_by', $request->user()->id)->get();
 
             (new NotificationController)->notifiReservation();
      
