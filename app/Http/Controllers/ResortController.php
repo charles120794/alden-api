@@ -424,12 +424,12 @@ class ResortController extends Controller
     {
         return Resorts::where('created_by', auth()->id())->get()->map(function($value) {
             return collect($value)->merge([
-                'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->get(),
-                'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->get(),
+                'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->where('archive', 0)->get(),
+                'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->where('archive', 0)->get(),
                 'ratings' => DB::table('resort_rate')->where('resort_id', $value->id)->get(),
                 'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->id)->avg('rating') ?? 0,
-                'images' => DB::table('resort_images')->where('resort_id', $value->id)->get(),
-                'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->get(),
+                'images' => DB::table('resort_images')->where('resort_id', $value->id)->where('archive', 0)->get(),
+                'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->where('archive', 0)->get(),
                 'reservation' => Reservation::with('userCreated', 'priceInfo')->where('resort_id', $value->id)->get(),
             ]);
         });
