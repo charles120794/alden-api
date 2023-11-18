@@ -19,7 +19,7 @@ class ResortController extends Controller
     public function index()
     {
         try {
-            return Resorts::with('createdUser')->when(!empty(request()->search), function($query) {
+            return Resorts::with('createdUser.paymentMethods')->when(!empty(request()->search), function($query) {
                 return $query->where('resort_name', 'like', '%' . request()->search. '%')
                     ->orWhere('resort_desc', 'like', '%' . request()->search. '%')
                     ->orWhere('resort_address', 'like', '%' . request()->search. '%')
@@ -50,7 +50,7 @@ class ResortController extends Controller
     {
         try {
 
-            $resort = Resorts::with('createdUser')->where('is_for_rent', 1)->where('id', $request->resort_id)->firstOrFail();
+            $resort = Resorts::with('createdUser.paymentMethods')->where('is_for_rent', 1)->where('id', $request->resort_id)->firstOrFail();
 
             $resort->amenities = DB::table('resort_amenities')->where('resort_id', $request->resort_id)->where('archive', 0)->get();
             $resort->policies = DB::table('resort_policy')->where('resort_id', $request->resort_id)->where('archive', 0)->get();

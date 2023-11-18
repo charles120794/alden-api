@@ -128,7 +128,10 @@ class UserController extends Controller
             ]);
 
             return response()->json([
-                'response' => 'New payment method successfully added'
+                'response' => 'New payment method successfully added',
+                'data' => [
+                    'payment_methods' => PaymentMethod::where('created_by', auth()->id())->get(),
+                ]
             ]);
 
         } catch (\Exception $e) {
