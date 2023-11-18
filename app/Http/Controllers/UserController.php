@@ -128,6 +128,7 @@ class UserController extends Controller
             ]);
 
             return response()->json([
+                'authenticated' => true,
                 'response' => 'New payment method successfully added',
                 'data' => PaymentMethod::where('created_by', auth()->id())->where('archive', 0)->get(),
             ]);
@@ -148,6 +149,7 @@ class UserController extends Controller
             ]);
 
             return response()->json([
+                'authenticated' => true,
                 'response' => 'Payment method successfully deleted',
                 'data' => PaymentMethod::where('created_by', auth()->id())->where('archive', 0)->get(),
             ]);
