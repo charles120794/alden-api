@@ -44,7 +44,7 @@ class LoginController extends Controller
 
             $request->user()->save();
 
-            $request->user()->payment_method = PaymentMethod::where('created_by', $request->user()->id)->get();
+            $request->user()->payment_methods = PaymentMethod::where('created_by', $request->user()->id)->get();
 
             (new NotificationController)->notifiReservation();
      
