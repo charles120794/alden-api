@@ -84,6 +84,8 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::post('/user/update', [UserController::class, 'updateProfile']);
     Route::post('/user/update/owner', [UserController::class, 'updateToOwner']);
     Route::post('/users/approve', [UserController::class, 'approveUserToOwner']);
+    Route::post('/user/paymethod/create', [UserController::class, 'addPaymentMethod']);
+    Route::post('/user/paymethod/delete', [UserController::class, 'deletePaymentMethod']);
 
 
     Route::get('/resort/list', [ResortController::class, 'getResortList']);

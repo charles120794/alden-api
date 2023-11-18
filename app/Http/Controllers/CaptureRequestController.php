@@ -76,7 +76,9 @@ class CaptureRequestController extends Controller
                 
                 if (count(request()->file('resort_image'))>2 && count(request()->file('resort_vr_image'))>2) {
 
-                    DB::table('resort_images')->where('resort_id', $request->resort_id)->delete();
+                    DB::table('resort_images')->where('resort_id', $request->resort_id)->update([
+                        'archive' => 1,
+                    ]);
 
                     foreach(request()->file('resort_image') as $key => $file) {
                         $filename = time() . '_' . $file->getClientOriginalName();
@@ -89,7 +91,9 @@ class CaptureRequestController extends Controller
                         ]);
                     }
 
-                    DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->delete();
+                    DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->update([
+                        'archive' => 1,
+                    ]);
                     
                     foreach(request()->file('resort_vr_image') as $key => $file) {
                         $filename = time() . '_' . $file->getClientOriginalName();

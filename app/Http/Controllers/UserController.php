@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Storage;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\PaymentMethod;
 
 class UserController extends Controller
 {
@@ -128,6 +129,60 @@ class UserController extends Controller
                 'authenticated' => true,
                 'response' => $e->getMessage(),
                 'token' => ''
+            ]);
+        }
+    }
+
+    public function addPaymentMethod(Request $request)
+    {
+        try {
+
+            $qr_code_path = "";
+            if ($request->hasFile('qr_code')) {
+
+                $file = $request->file('qr_code');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
+                $qr_code_path = Storage::disk('public')->url($filename);
+
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
+
+            PaymentMethod::insert([
+                'payment_desc' => $request->payment_desc,
+                'qr_code' => $qr_code_path,
+                'note' => $request->note,
+                'created_by' => auth()->id(),
+                'created_at' => now()
+            ]);
+
+            return response()->json([
+                'response' => 'New payment method successfully added'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'response' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    public function deletePaymentMethod(Request $request)
+    {
+        try {
+
+            PaymentMethod::where('id', $request->payment_method_id)->update([
+                'archive' => 1,
+            ]);
+
+            return response()->json([
+                'response' => 'Payment method successfully deleted'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'response' => $e->getMessage(),
             ]);
         }
     }

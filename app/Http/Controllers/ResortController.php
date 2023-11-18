@@ -51,7 +51,7 @@ class ResortController extends Controller
 
             $resort = Resorts::with('createdUser')->where('is_for_rent', 1)->where('id', $request->resort_id)->firstOrFail();
 
-            $resort->amenities = DB::table('resort_amenities')->where('resort_id', $request->resort_id)->get();
+            $resort->amenities = DB::table('resort_amenities')->where('resort_id', $request->resort_id)->where('archive', 0)->get();
             $resort->policies = DB::table('resort_policy')->where('resort_id', $request->resort_id)->get();
             $resort->ratings = ResortRatings::with('createdUser')->where('resort_id', $request->resort_id)->get();
             $resort->ratings_avarage = DB::table('resort_rate')->where('resort_id', $request->resort_id)->avg('rating') ?? 0;
@@ -232,7 +232,9 @@ class ResortController extends Controller
                 }
                 else if(isset($row['delete']))
                 {
-                    DB::table('resort_amenities')->where('id', $row['id'])->delete();
+                    DB::table('resort_amenities')->where('id', $row['id'])->update([
+                        'archive' => 1,
+                    ]);
                 }
                 
             }
@@ -253,7 +255,9 @@ class ResortController extends Controller
                 }
                 else if(isset($row['delete']))
                 {
-                    DB::table('resort_policy')->where('id', $row['id'])->delete();
+                    DB::table('resort_policy')->where('id', $row['id'])->update([
+                        'archive' => 1,
+                    ]);
                 }
                 
             }
@@ -276,7 +280,9 @@ class ResortController extends Controller
                 }
                 else if(isset($row['delete']))
                 {
-                    DB::table('resort_pricing')->where('id', $row['id'])->delete();
+                    DB::table('resort_pricing')->where('id', $row['id'])->update([
+                        'archive' => 1,
+                    ]);
                 }
                 
             }
