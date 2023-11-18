@@ -152,7 +152,6 @@ class UserController extends Controller
             PaymentMethod::insert([
                 'payment_desc' => $request->payment_desc,
                 'qr_code' => $qr_code_path,
-                'note' => $request->note,
                 'created_by' => auth()->id(),
                 'created_at' => now()
             ]);
