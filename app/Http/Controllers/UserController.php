@@ -254,7 +254,7 @@ class UserController extends Controller
 
     public function allBookmarks(){
 
-        return Bookmarks::with('resortInfo.resortImages')->where('created_by', auth()->id())->get();
+        return Bookmarks::with('resortInfo.images')->where('created_by', auth()->id())->get();
         
     }
 
@@ -282,7 +282,7 @@ class UserController extends Controller
         return response()->json([
             'authenticated' => true,
             'response'=>"Bookmarks updated successfully.",
-            'data'=>Bookmarks::with('resortInfo.resortImages')->where('created_by', auth()->id())->get(),
+            'data'=>Bookmarks::with('resortInfo.images')->where('created_by', auth()->id())->get(),
         ]);
     }
 }
