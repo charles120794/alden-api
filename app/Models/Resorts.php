@@ -19,4 +19,9 @@ class Resorts extends Model
     {
         return $this->hasOne(User::class, 'id', 'created_by');
     }
+
+    public function resortImages()
+    {
+        return $this->hasOne(Images::class, 'resort_id', 'id');
+    }
 }
