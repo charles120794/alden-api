@@ -282,7 +282,7 @@ class UserController extends Controller
         return response()->json([
             'authenticated' => true,
             'response'=>"Bookmarks updated successfully.",
-            'data'=>Bookmarks::where('created_by', auth()->id())->get(),
+            'data'=>Bookmarks::with('resortInfo.resortImages')->where('created_by', auth()->id())->get(),
         ]);
     }
 }
