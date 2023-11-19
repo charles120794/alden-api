@@ -264,7 +264,7 @@ class UserController extends Controller
         $check = Bookmarks::where('resort_id', $request->resort_id)->where('created_by', auth()->id())->first();
 
         if(empty($check)){
-            DB::table('bookmarks')->insert([
+            Bookmarks::insert([
                 'resort_id' => $request->resort_id,
                 'created_by' => auth()->id(),
                 'created_at' => now(),
