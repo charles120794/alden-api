@@ -259,35 +259,30 @@ class UserController extends Controller
     }
 
 
-    public function addToBookmarks(Request $request){
+    public function updateBookmarks(Request $request){
 
-        $check = Bookmarks::where('resort_id', $request->resort_id)->where('created_by', auth()->id())->first();
+        if($request->action=='add'){
+            
+             $check = Bookmarks::where('resort_id', $request->resort_id)->where('created_by', auth()->id())->first();
 
-        if(empty($check)){
-            Bookmarks::insert([
-                'resort_id' => $request->resort_id,
-                'created_by' => auth()->id(),
-                'created_at' => now(),
-            ]);
+            if(empty($check)){
+                Bookmarks::insert([
+                    'resort_id' => $request->resort_id,
+                    'created_by' => auth()->id(),
+                    'created_at' => now(),
+                ]);
+            }
+
+        }else{
+
+            Bookmarks::where('id', $request->bookmark_id)->delete();
+
         }
 
         return response()->json([
             'authenticated' => true,
-            'response'=>"Added to bookmarks successfully.",
+            'response'=>"Bookmarks updated successfully.",
             'data'=>Bookmarks::where('created_by', auth()->id())->get(),
         ]);
-        
-    }
-
-    public function removeToBookmarks(Request $request){
-
-        Bookmarks::where('id', $request->bookmark_id)->delete();
-
-        return response()->json([
-            'authenticated' => true,
-            'response'=>"Bookmark deleted successfully.",
-            'data'=>Bookmarks::where('created_by', auth()->id())->get(),
-        ]);
-        
     }
 }

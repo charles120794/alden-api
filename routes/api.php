@@ -87,8 +87,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::post('/user/paymethod/create', [UserController::class, 'addPaymentMethod']);
     Route::post('/user/paymethod/delete', [UserController::class, 'deletePaymentMethod']);
     Route::post('/user/bookmarks', [UserController::class, 'allBookmarks']);
-    Route::post('/user/bookmarks/create', [UserController::class, 'addToBookmarks']);
-    Route::post('/user/bookmarks/delete', [UserController::class, 'removeToBookmarks']);
+    Route::post('/user/bookmarks/update', [UserController::class, 'addToBookmarks']);
 
 
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
