@@ -275,7 +275,7 @@ class UserController extends Controller
 
         }else{
 
-            Bookmarks::where('id', $request->bookmark_id)->delete();
+            Bookmarks::where('resort_id', $request->resort_id)->where('created_by', auth()->id())->delete();
 
         }
 
