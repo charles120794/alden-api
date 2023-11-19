@@ -22,6 +22,6 @@ class Resorts extends Model
 
     public function images()
     {
-        return $this->hasOne(Images::class, 'resort_id', 'id');
+        return $this->hasMany(Images::class, 'resort_id', 'id');
     }
 }
