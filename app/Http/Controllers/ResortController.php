@@ -456,6 +456,7 @@ class ResortController extends Controller
         //notify owner
         (new NotificationController)->create(new Request([
             'resort_id' => $request->resort_id,
+            'reservation_id' => $request->reservation_id,
             'user_id' => $request->resort_owner_id,
             'message' => "A previous customer has rated and commented on your resort.",
             'type' => 'RESORT_REVIEWED',
@@ -473,36 +474,5 @@ class ResortController extends Controller
                     ->get();
 
         return $review;
-    }
-
-    public function allBookmarks(){
-
-        return DB::table('bookmarks')->where('created_by', auth()->id())->get();
-        
-    }
-
-
-    public function addToBookmarks(Request $request){
-
-        $check = DB::table('bookmarks')->where('resort_id', $request->resort_id)->where('created_by', auth()->id())->first();
-
-        if(empty($check)){
-            DB::table('bookmarks')->insert([
-                'resort_id' => $request->resort_id,
-                'created_by' => auth()->id(),
-                'created_at' => now(),
-            ]);
-        }
-
-        return response()->json(['response'=>"Added to bookmarks successfully."]);
-        
-    }
-
-    public function removeToBookmarks(Request $request){
-
-        DB::table('bookmarks')->where('id', $request->bookmark_id)->delete();
-
-        return response()->json(['response'=>"Removed to bookmarks successfully."]);
-        
     }
 }

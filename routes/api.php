@@ -86,9 +86,9 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::post('/users/approve', [UserController::class, 'approveUserToOwner']);
     Route::post('/user/paymethod/create', [UserController::class, 'addPaymentMethod']);
     Route::post('/user/paymethod/delete', [UserController::class, 'deletePaymentMethod']);
-    Route::post('/user/bookmarks', [ResortController::class, 'allBookmarks']);
-    Route::post('/user/bookmarks/create', [ResortController::class, 'addToBookmarks']);
-    Route::post('/user/bookmarks/delete', [ResortController::class, 'removeToBookmarks']);
+    Route::post('/user/bookmarks', [UserController::class, 'allBookmarks']);
+    Route::post('/user/bookmarks/create', [UserController::class, 'addToBookmarks']);
+    Route::post('/user/bookmarks/delete', [UserController::class, 'removeToBookmarks']);
 
 
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
@@ -101,7 +101,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::post('/resort/update', [ResortController::class, 'update']);
 
     Route::get('/resort/list/reservations', [ReservationController::class, 'index']);
-    Route::post('/resort/review', [ResortController::class, 'reviewResort']);
+    Route::post('/resort/review/create', [ResortController::class, 'reviewResort']);
 
 
     //
