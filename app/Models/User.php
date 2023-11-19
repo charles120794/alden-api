@@ -53,6 +53,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function paymentMethods()
     {
-        return $this->hasOne(PaymentMethod::class, 'created_by', 'id');
+        return $this->hasMany(PaymentMethod::class, 'created_by', 'id');
     }
 }
