@@ -20,7 +20,7 @@ class Resorts extends Model
         return $this->hasOne(User::class, 'id', 'created_by');
     }
 
-    public function resortImages()
+    public function images()
     {
         return $this->hasOne(Images::class, 'resort_id', 'id');
     }
