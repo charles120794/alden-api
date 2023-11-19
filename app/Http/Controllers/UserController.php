@@ -254,7 +254,7 @@ class UserController extends Controller
 
     public function allBookmarks(){
 
-        return DB::table('bookmarks')->where('created_by', auth()->id())->get();
+        return Bookmarks::where('created_by', auth()->id())->get();
         
     }
 
