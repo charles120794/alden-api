@@ -262,7 +262,7 @@ class UserController extends Controller
     public function updateBookmarks(Request $request){
 
         if($request->action=='add'){
-            
+
              $check = Bookmarks::where('resort_id', $request->resort_id)->where('created_by', auth()->id())->first();
 
             if(empty($check)){
