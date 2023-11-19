@@ -9,6 +9,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use App\Models\User;
 use App\Models\PaymentMethod;
+use App\Models\Bookmarks;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Auth\Events\Registered;
@@ -45,7 +46,7 @@ class LoginController extends Controller
             $request->user()->save();
 
             $request->user()->payment_methods = PaymentMethod::where('created_by', $request->user()->id)->where('archive', 0)->get();
-            $request->user()->bookmarks = PaymentMethod::where('created_by', $request->user()->id)->where('archive', 0)->get();
+            $request->user()->bookmarks = Bookmarks::where('created_by', $request->user()->id)->get();
 
             (new NotificationController)->notifiReservation();
      

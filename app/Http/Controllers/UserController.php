@@ -271,7 +271,11 @@ class UserController extends Controller
             ]);
         }
 
-        return response()->json(['response'=>"Added to bookmarks successfully."]);
+        return response()->json([
+            'authenticated' => true,
+            'response'=>"Added to bookmarks successfully.",
+            'data'=>Bookmarks::where('created_by', auth()->id())->get(),
+        ]);
         
     }
 
@@ -279,7 +283,11 @@ class UserController extends Controller
 
         Bookmarks::where('id', $request->bookmark_id)->delete();
 
-        return response()->json(['response'=>"Removed to bookmarks successfully."]);
+        return response()->json([
+            'authenticated' => true,
+            'response'=>"Bookmark deleted successfully.",
+            'data'=>Bookmarks::where('created_by', auth()->id())->get(),
+        ]);
         
     }
 }
