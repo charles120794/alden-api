@@ -39,8 +39,8 @@ return [
             'host' => env('MAIL_HOST', 'smtp.hostinger.com'),
             'port' => env('MAIL_PORT', '465'),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME','admin@api.quickrent.online'),
-            'password' => env('MAIL_PASSWORD','@Adminquickrent2023_2'),
+            'username' => env('MAIL_USERNAME','quickrent.online@gmail.com'),
+            'password' => env('MAIL_PASSWORD','tpqp cvha ghxv thbb'),
             'timeout' => null,
             'auth_mode' => null,
             'stream' => [
@@ -91,7 +91,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@api.quickrent.online'),
+        'address' => env('MAIL_FROM_ADDRESS', 'quickrent.online@gmail.com'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
