@@ -38,11 +38,18 @@ return [
             'transport' => 'smtp', 
             'host' => env('MAIL_HOST', 'smtp.hostinger.com'),
             'port' => env('MAIL_PORT', '465'),
-            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
-            'username' => env('MAIL_USERNAME','admin'),
-            'password' => env('MAIL_PASSWORD','@Adminquickrent2023'),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'username' => env('MAIL_USERNAME','admin@api.quickrent.online'),
+            'password' => env('MAIL_PASSWORD','@Adminquickrent2023_2'),
             'timeout' => null,
             'auth_mode' => null,
+            'stream' => [
+                'ssl' => [
+                    'allow_self_signed' => true,
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ],
         ],
 
         'ses' => [
