@@ -3,32 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\RedirectsUsers;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
 {
-    public function verify($user_id, Request $request){
-        if(!$request->hasValidSignature()){
-            return response()->json([
-                'response' => 'Invalid/expired link.'
-            ], 401);
-        }
+    use VerifiesEmails, RedirectsUsers;
 
-        $user = User::findOrFail($user_id);
+    /**
+     * Where to redirect users after verification.
+     *
+     * @var string
+     */
+    protected $redirectTo = 'https://quickrent.online/signin';
 
-        if(!$user->hasVerifiedEmail()){
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('signed')->only('verify');
+        $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
 
-            $user->markEmailAsVerified();
-
-        }else{
-            return response()->json([
-                'status' => 400,
-                'response' => 'Email already verified'
-            ], 400);
-        }
-
-        return response()->json([
-            'status' => 200,
-            'response' => 'Email successfully verified'
-        ], 200);
+    /**
+     * Show the email verification notice.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function show(Request $request)
+    {
+        return $request->user()->hasVerifiedEmail()
+                        ? redirect($this->redirectPath())
+                        : view('verification.notice', [
+                            'pageTitle' => __('Account Verification')
+                        ]);
     }
 }
