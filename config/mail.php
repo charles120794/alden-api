@@ -91,7 +91,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@quickrent.online'),
+        'address' => env('MAIL_FROM_ADDRESS', 'admin@api.quickrent.online'),
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
