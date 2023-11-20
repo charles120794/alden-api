@@ -25,7 +25,7 @@ class LoginController extends Controller
      */
     public function index()
     {
-        return response()->json(['authenticated' => true]);
+        return response()->json(['authenticated' => false]);
     }
 
     /**
