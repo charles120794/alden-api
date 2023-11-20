@@ -48,8 +48,6 @@ Route::post('/login', [LoginController::class, 'create']);
 
 Route::post('/register', [LoginController::class, 'store']);
 
-Route::get('/units', [PublicUnitController::class, 'index']);
-
 Route::get('/resorts', [ResortController::class, 'index']);
 
 Route::get('/resorts/show', [ResortController::class, 'indexShow']);
