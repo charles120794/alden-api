@@ -54,21 +54,21 @@ Route::get('/dashboard', function () {
 
 
 
-// // The Email Verification Notice
+// The Email Verification Notice
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
 
 
-// // // The Email Verification Handler
+// The Email Verification Handler
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
  
     return response()->json(['response'=>'completed']);
-})->middleware(['signed'])->name('verification.verify');
+})->middleware(['guest'])->name('verification.verify');
 
 
-// // // Resending The Verification Email
+// Resending The Verification Email
 Route::post('/email/verification-notification', function (Request $request) {
     $request->user()->sendEmailVerificationNotification();
  
