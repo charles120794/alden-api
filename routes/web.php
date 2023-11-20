@@ -65,7 +65,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     $request->fulfill();
  
     return response()->json(['response'=>'completed']);
-})->middleware(['guest'])->name('verification.verify');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 
 // Resending The Verification Email
