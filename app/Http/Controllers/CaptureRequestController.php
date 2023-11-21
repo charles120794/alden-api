@@ -52,6 +52,11 @@ class CaptureRequestController extends Controller
                 'created_by' => auth()->id(),
                 'created_at' => now(),
             ]);
+
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("User $userName requested to 360 image capture a resort")
+            ]));
             
 
             return response()->json([

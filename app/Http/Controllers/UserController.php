@@ -33,6 +33,12 @@ class UserController extends Controller
                 'approve_status' => 0
             ]);
 
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("User $userName registered to be an owner")
+            ]));
+
+
             (new AdminController)->index();
          
             return response()->json([
@@ -128,6 +134,11 @@ class UserController extends Controller
                 'created_at' => now()
             ]);
 
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("Owner $userName added a new payment method")
+            ]));
+
             return response()->json([
                 'authenticated' => true,
                 'response' => 'New payment method successfully added',
@@ -148,6 +159,11 @@ class UserController extends Controller
             PaymentMethod::where('id', $request->payment_method_id)->update([
                 'archive' => 1,
             ]);
+
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("Owner $userName deleted a payment method")
+            ]));
 
             return response()->json([
                 'authenticated' => true,
@@ -210,11 +226,18 @@ class UserController extends Controller
     public function approveUserToOwner(Request $request){
         try {
 
+            $owner = User::where('id', $request->user_id);
+            $ownerName = User::find($request->user_id);
+
             if($request->action == 'approve'){
-                User::where('id', $request->user_id)->update([
+                $owner->update([
                     'type' => 1,
                     'approve_status' => 1
                 ]);
+
+                (new ActivityLogController)->create(new Request([
+                    'activity' => ("User $ownerName->name has been approved to be an owner")
+                ]));
 
                 return response()->json([
                     'authenticated' => true,
@@ -224,10 +247,16 @@ class UserController extends Controller
                         'approve_status' => 1
                     ]
                 ]);
+
+
             }else{
-                User::where('id', $request->user_id)->update([
+                $owner->update([
                     'approve_status' => 2
                 ]);
+
+                (new ActivityLogController)->create(new Request([
+                    'activity' => ("User $ownerName->name has been rejected to be an owner")
+                ]));
 
                 return response()->json([
                     'authenticated' => true,

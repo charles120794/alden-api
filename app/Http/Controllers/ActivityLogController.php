@@ -13,7 +13,7 @@ class ActivityLogController extends Controller
 
         try {
 
-            return ActivityLog::get();
+            return ActivityLog::with('userCreated')->get();
 
         } catch (\Exception $e) {
 
@@ -31,7 +31,7 @@ class ActivityLogController extends Controller
             ActivityLog::insert([
                 'activity' => $request->activity,
                 'created_by' => auth()->id(),
-                'created' => now(),
+                'created_at' => now(),
             ]);
 
         } catch (\Exception $e) {

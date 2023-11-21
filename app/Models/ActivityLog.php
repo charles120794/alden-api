@@ -14,4 +14,9 @@ class ActivityLog extends Model
     protected $primaryKey = "id";
 
     public $timestamps = false;
+
+    public function userCreated()
+    {
+        return $this->hasOne(User::class, 'id', 'created_by');
+    }
 }

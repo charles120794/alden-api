@@ -35,6 +35,8 @@ class AdminController extends Controller
                 ->groupBy(DB::raw('DATE_FORMAT(`created_at`, "%Y-%m-%d")'))
                 ->get();
 
+            $activityLog = (new ActivityLogController)->index();
+
             event(new AdminEvent([
                 'allUserCount' => $allUserCount,
                 'userCount' => $userCount,
@@ -45,6 +47,7 @@ class AdminController extends Controller
                 'allInactiveResortCount' => $allInactiveResortCount,
                 'capturedResortCount' => $capturedResortCount,
                 'allResortByDateCount' => $allResortByDateCount,
+                'activityLog' => $activityLog
             ]));
 
             // return response()->json([
@@ -57,6 +60,7 @@ class AdminController extends Controller
             //     'allInactiveResortCount' => $allInactiveResortCount,
             //     'capturedResortCount' => $capturedResortCount,
             //     'allResortByDateCount' => $allResortByDateCount,
+            //     'activityLog' => $activityLog,
             // ]);
 
         } catch (\Exception $e) {

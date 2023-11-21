@@ -16,6 +16,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CaptureRequestController;
+use App\Http\Controllers\ActivityLogController;
 
 
 /*
@@ -75,6 +76,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     });
     //ADMIN
     Route::get('/reports', [AdminController::class, 'index']);
+    Route::post('/activity/create', [ActivityLogController::class, 'create']);
 
     // USERS
     Route::get('/users', [UserController::class, 'getAllUser']);

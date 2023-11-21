@@ -49,6 +49,11 @@ class LoginController extends Controller
             $request->user()->bookmarks = Bookmarks::with('resortInfo.images')->where('created_by', auth()->id())->get();
 
             (new NotificationController)->notifiReservation();
+
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("User $userName logged in")
+            ]));
      
             (new AdminController)->index();
             
@@ -80,6 +85,10 @@ class LoginController extends Controller
         
         try {
 
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("A new user has registered")
+            ]));
+
             $request->validate([
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
@@ -96,6 +105,8 @@ class LoginController extends Controller
                 'password' => Hash::make($request->password),
                 'status' => 1,
             ]);
+
+            
             
             (new AdminController)->index();
 
@@ -161,6 +172,11 @@ class LoginController extends Controller
      */
     public function destroy(Request $request)
     {
+        $userName = auth()->user()->name;
+        (new ActivityLogController)->create(new Request([
+            'activity' => ("User $userName logged out")
+        ]));
+
         $request->user()->currentAccessToken()->delete();
 
         $request->user()->status = 0;

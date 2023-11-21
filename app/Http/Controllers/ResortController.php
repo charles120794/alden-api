@@ -180,6 +180,11 @@ class ResortController extends Controller
                 'source' => auth()->id(),
             ]));
 
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("Owner $userName has posted a new resort")
+            ]));
+
             (new AdminController)->index();
 
             return response()->json([
@@ -288,6 +293,11 @@ class ResortController extends Controller
                 
             }
 
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("Owner $userName has update a resort")
+            ]));
+
             return response()->json([
                 'response' => 'Update saved',
             ]);
@@ -330,8 +340,7 @@ class ResortController extends Controller
                 'created_by' => Auth()->User()->id
             ]);
 
-            $notif = new NotificationController;
-            $notif->create(
+            (new NotificationController)->create(
                 new Request(
                     [
                     'resort_id' => $request->resort_id, 
@@ -343,6 +352,11 @@ class ResortController extends Controller
                     'created_by' => auth()->id()
                     ]
                 ));
+            
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("User $userName has reserved a resort")
+            ]));
             
 
             return response()->json([
@@ -383,6 +397,11 @@ class ResortController extends Controller
                         ]
                     ));
 
+                $userName = auth()->user()->name;
+                (new ActivityLogController)->create(new Request([
+                    'activity' => ("Owner $userName has confirmed a reservation")
+                ]));
+
                 return response()->json([
                     'response' => 'Reservation confirmed',
                 ]);
@@ -404,6 +423,11 @@ class ResortController extends Controller
                         'created_by' => auth()->id(),
                         ]
                     ));
+
+                $userName = auth()->user()->name;
+                (new ActivityLogController)->create(new Request([
+                    'activity' => ("Owner $userName has reject a reservation")
+                ]));
 
                 return response()->json([
                     'response' => 'Reservation rejected',
@@ -461,6 +485,11 @@ class ResortController extends Controller
             'message' => "A previous customer has rated and commented on your resort.",
             'type' => 'RESORT_REVIEWED',
             'source' => auth()->id(),
+        ]));
+
+        $userName = auth()->user()->name;
+        (new ActivityLogController)->create(new Request([
+            'activity' => ("User $userName has rated and reviewed a resort")
         ]));
 
         return response()->json(['response'=>"Resort reviewed successfully."]);
