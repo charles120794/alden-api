@@ -129,6 +129,10 @@ class CaptureRequestController extends Controller
                         'type' => 'RESORT_CAPTURED',
                         'source' => auth()->id(),
                     ]));
+
+                    (new ActivityLogController)->create(new Request([
+                        'activity' => ("A new resort has been uploaded with 360 images")
+                    ]));
                     
         
                     return response()->json([
