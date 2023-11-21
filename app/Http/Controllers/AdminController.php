@@ -50,23 +50,22 @@ class AdminController extends Controller
                 'activityLog' => $activityLog
             ]));
 
-            // return response()->json([
-            //     'allUserCount' => $allUserCount,
-            //     'userCount' => $userCount,
-            //     'ownerCount' => $ownerCount,
-            //     'allUserByDateCount' => $allUserByDateCount,
-            //     'allResortCount' => $allResortCount,
-            //     'allActiveResortCount' => $allActiveResortCount,
-            //     'allInactiveResortCount' => $allInactiveResortCount,
-            //     'capturedResortCount' => $capturedResortCount,
-            //     'allResortByDateCount' => $allResortByDateCount,
-            //     'activityLog' => $activityLog,
-            // ]);
+            
 
         } catch (\Exception $e) {
 
             return response()->json([
                 'response' => $e->getMessage(),
+                'allUserCount' => $allUserCount,
+                'userCount' => $userCount,
+                'ownerCount' => $ownerCount,
+                'allUserByDateCount' => $allUserByDateCount,
+                'allResortCount' => $allResortCount,
+                'allActiveResortCount' => $allActiveResortCount,
+                'allInactiveResortCount' => $allInactiveResortCount,
+                'capturedResortCount' => $capturedResortCount,
+                'allResortByDateCount' => $allResortByDateCount,
+                'activityLog' => $activityLog,
             ]);
         }
     }
