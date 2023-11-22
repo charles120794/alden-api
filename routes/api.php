@@ -71,7 +71,7 @@ Route::get('/image', function (Request $request) {
         $request->user()->sendEmailVerificationNotification();
     
         return response()->json(['response'=> 'Verification link sent!']);
-    })->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+    })->middleware(['throttle:6,1'])->name('verification.send');
 
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
