@@ -43,7 +43,7 @@ Route::get('/image', function (Request $request) {
         ->header('Access-Control-Allow-Origin', '*'); // Adjust to your needs
 });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+// Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 Route::post('/login', [LoginController::class, 'create']);
 

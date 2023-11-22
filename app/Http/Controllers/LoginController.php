@@ -26,7 +26,7 @@ class LoginController extends Controller
     public function index(Request $request)
     {
 
-        return redirect('https://quickrent.online/signin')->with('reponse', $request);
+        return redirect('https://quickrent.online/signin');
     }
 
     /**
