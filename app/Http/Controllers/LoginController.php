@@ -113,7 +113,7 @@ class LoginController extends Controller
 
             event(new Registered($user));
 
-            $token = $user->createToken($request->token_name);
+            $token = $user->createToken('authToken')->token;
      
             
             return response()->json([
