@@ -55,4 +55,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(PaymentMethod::class, 'created_by', 'id')->where('archive', '=', '0');
     }
+
+    public function hasVerifiedEmail()
+    {
+        return ! is_null($this->emailVerifiedAt);
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     *
+     * @return bool
+     */
+    public function markEmailAsVerified()
+    {
+        return $this->forceFill([
+            'emailVerifiedAt' => $this->freshTimestamp(),
+        ])->save();
+    }
 }
