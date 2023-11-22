@@ -25,10 +25,8 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
-        User::where('id', $request->id)
-        ->update(['email_verified_at' => now()]);
 
-        return redirect('https://quickrent.online/signin');
+        return redirect('https://quickrent.online/signin')->with('reponse', $request);
     }
 
     /**

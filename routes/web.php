@@ -63,6 +63,9 @@ Route::get('/email/verify', function () {
 // The Email Verification Handler
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
+    
+    // Update the email_verified_at column
+    User::where('id', $request->route('id'))->update(['email_verified_at' => now()]);
  
     return response()->json(['id'=>$request->route('id')]);
 })->middleware(['auth', 'signed'])->name('verification.verify');
