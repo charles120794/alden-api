@@ -64,7 +64,7 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
  
-    return response()->json(['response'=>'completed']);
+    return response()->json(['id'=>$request->route('id')]);
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 
