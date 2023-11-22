@@ -23,8 +23,11 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        User::where('id', $request->id)
+        ->update(['email_verified_at' => now()]);
+
         return redirect('https://quickrent.online/signin');
     }
 
