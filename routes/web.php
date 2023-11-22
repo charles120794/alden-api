@@ -61,9 +61,18 @@ Route::get('/email/verify', function () {
 
 
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-->middleware(['auth', 'signed'])
-->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    // $request->fulfill();
+    if ($request->user()->hasVerifiedEmail()) {
+        return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+    }
+
+    if ($request->user()->markEmailAsVerified()) {
+        event(new Verified($request->user()));
+    }
+
+    return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
+})->middleware(['auth', 'signed'])->name('verification.verify');
 
 
 // Resending The Verification Email
