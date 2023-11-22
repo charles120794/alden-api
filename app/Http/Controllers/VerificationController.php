@@ -5,42 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Foundation\Auth\EmailVerificationRequest as BaseEmailVerificationRequest;
 
-class VerificationController extends Controller
+class VerificationController extends BaseEmailVerificationRequest
 {
     use VerifiesEmails, RedirectsUsers;
 
-    /**
-     * Where to redirect users after verification.
-     *
-     * @var string
-     */
     protected $redirectTo = 'https://quickrent.online/signin';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function fulfill()
     {
-        $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
-    }
+        // Add your custom logic here
+        parent::fulfill(); // Make sure to call the parent fulfill method to complete the verification
 
-    /**
-     * Show the email verification notice.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
-     */
-    public function show(Request $request)
-    {
-        return $request->user()->hasVerifiedEmail()
-                        ? redirect($this->redirectPath())
-                        : view('verification.notice', [
-                            'pageTitle' => __('Account Verification')
-                        ]);
+        return redirect()->route($redirectTo)->with('verified', true);
+        // Your custom logic goes here
+        // For example, you can log a message or perform additional actions
     }
 }

@@ -61,10 +61,10 @@ Route::get('/email/verify', function () {
 
 
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+Route::get('/email/verify/{id}/{hash}', function (VerificationController $request) {
     $request->fulfill();
  
-    return redirect('https://quickrent.online/signin')->response()->json(['response'=>'completed']);
+    return response()->json(['response'=>'completed']);
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 
