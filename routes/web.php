@@ -61,11 +61,9 @@ Route::get('/email/verify', function () {
 
 
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (VerificationController $request) {
-    $request->fulfill();
- 
-    return response()->json(['response'=>'completed']);
-})->middleware(['auth', 'signed'])->name('verification.verify');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'fulfill'])
+->middleware(['auth', 'signed'])
+->name('verification.verify');
 
 
 // Resending The Verification Email

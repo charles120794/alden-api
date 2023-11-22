@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\RedirectsUsers;
 use Illuminate\Foundation\Auth\VerifiesEmails;
-use Illuminate\Foundation\Auth\EmailVerificationRequest as BaseEmailVerificationRequest;
+use Illuminate\Http\Request;
+use App\Http\Requests\EmailVerificationRequest; 
 
-class VerificationController extends BaseEmailVerificationRequest
+class VerificationController extends Controller
 {
-    use VerifiesEmails, RedirectsUsers;
+    use VerifiesEmails;
 
     protected $redirectTo = 'https://quickrent.online/signin';
 
-    public function fulfill()
+    public function fulfill(EmailVerificationRequest $request)
     {
-        // Add your custom logic here
-        parent::fulfill(); // Make sure to call the parent fulfill method to complete the verification
+        parent::fulfill();
 
-        return redirect()->route($redirectTo)->with('verified', true);
         // Your custom logic goes here
         // For example, you can log a message or perform additional actions
+
+        return redirect()->route('login')->with('verified', true);
     }
 }
