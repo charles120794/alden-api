@@ -19,6 +19,6 @@ class VerificationController extends Controller
         // Your custom logic goes here
         // For example, you can log a message or perform additional actions
 
-        return redirect()->route('login')->with('verified', true);
+        return redirect($redirectTo)->with('verified', true);
     }
 }
