@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Models\User;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -63,6 +65,9 @@ Route::get('/email/verify', function () {
 // The Email Verification Handler
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
+
+    User::where('id', $request->route('id'))
+        ->update(['email_verified_at' => now()]);
  
     return response()->json(['response'=>'completed']);
 })->middleware(['auth', 'signed'])->name('verification.verify');
