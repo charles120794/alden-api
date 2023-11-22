@@ -63,14 +63,14 @@ Route::get('/email/verify', function () {
 // The Email Verification Handler
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     // $request->fulfill();
-    $request->user()->markEmailAsVerified();
+    
     if ($request->user()->hasVerifiedEmail()) {
         return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
     }
 
-    // if ($request->user()->markEmailAsVerified()) {
-    //     event(new Verified($request->user()));
-    // }
+    if ($request->user()->markEmailAsVerified()) {
+        event(new Verified($request->user()));
+    }
 
     return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
 })->middleware(['auth', 'signed'])->name('verification.verify');
