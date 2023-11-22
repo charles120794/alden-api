@@ -112,12 +112,15 @@ class LoginController extends Controller
 
 
             event(new Registered($user));
+
+            $token = $user->createToken($request->token_name);
      
             
             return response()->json([
-                'authenticated' => false,
+                'authenticated' => true,
                 'response' => 'Registration Success',
-                'token' => ''
+                'token' => array_reverse(explode('|', $token->plainTextToken))[0],
+                'user' => $user,
             ]);
 
         } catch (\Exception $e) {
