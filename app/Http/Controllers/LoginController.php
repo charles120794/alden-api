@@ -85,11 +85,7 @@ class LoginController extends Controller
     {
         
         try {
-
-            (new ActivityLogController)->create(new Request([
-                'activity' => ("A new user has registered")
-            ]));
-
+            
             $request->validate([
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
@@ -107,7 +103,9 @@ class LoginController extends Controller
                 'status' => 1,
             ]);
 
-            
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("A new user has registered")
+            ]));
             
             (new AdminController)->index();
 
