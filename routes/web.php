@@ -22,6 +22,10 @@ use Illuminate\Support\Str;
 |
 */
 
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/optimize', function () {
     try {
         // Use Artisan::call to run the storage:link command
@@ -33,10 +37,6 @@ Route::get('/optimize', function () {
         // Handle any exceptions that may occur
         return 'Error: ' . $e->getMessage();
     }
-});
-
-Route::get('/', function () {
-    return view('welcome');
 });
 
 Route::get('/storage/link', function () {
@@ -62,23 +62,23 @@ Route::get('/dashboard', function () {
 
 
     // The Email Verification Notice
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
+    // Route::get('/email/verify', function () {
+    //     return view('auth.verify-email');
+    // })->middleware('auth')->name('verification.notice');
 
 
-    // The Email Verification Handler
-    Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-        ->middleware(['signed'])
-        ->name('verification.verify');
+    // // The Email Verification Handler
+    // Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+    //     ->middleware(['signed'])
+    //     ->name('verification.verify');
 
 
-    // Resending The Verification Email
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
+    // // Resending The Verification Email
+    // Route::post('/email/verification-notification', function (Request $request) {
+    //     $request->user()->sendEmailVerificationNotification();
 
-        return response()->json(['response'=> 'Verification link sent!']);
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+    //     return response()->json(['response'=> 'Verification link sent!']);
+    // })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 
