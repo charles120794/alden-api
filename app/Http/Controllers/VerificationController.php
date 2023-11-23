@@ -19,18 +19,24 @@ class VerificationController extends Controller
         $this->middleware('throttle:6,1')->only('verify');
     }
 
-    public function verify(Request $request)
+    public function verify(Request $request, $id, $hash)
     {
-        // ... existing code ...
+        $user = User::find($id);
 
-        // Update the user's email_verified_at column
-        $user = User::find($request->route('id'));
+        if (!$user || !hash_equals($hash, sha1($user->getEmailForVerification()))) {
+            // Invalid verification link
+            abort(404);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            // User already verified
+            return redirect('/'); // You can redirect wherever you want
+        }
+
         $user->markEmailAsVerified();
+        event(new Verified($user));
 
-        // Fire the Verified event
-        event(new Verified($request->user()));
-
-        // Redirect the user to the sign-in page
-        return redirect($this->redirectPath())->with('verified', true);
+        // Redirect the user after manual verification
+        return redirect('/')->with('verified', true); 
     }
 }
