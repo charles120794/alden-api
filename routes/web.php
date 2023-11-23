@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Artisan;
+// use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +26,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/optimize', function () {
+Route::get('/optimize-web', function () {
     try {
         // Use Artisan::call to run the storage:link command
-        \Illuminate\Support\Facades\Artisan::call('optimize');
+        Illuminate\Support\Facades\Artisan::call('optimize');
 
         // Provide a success message
         return 'Optimize successfully.';
@@ -43,7 +43,7 @@ Route::get('/storage/link', function () {
     // Artisan::call('storage:link');
     try {
         // Use Artisan::call to run the storage:link command
-        \Illuminate\Support\Facades\Artisan::call('storage:link');
+        Artisan::call('storage:link');
 
         // Provide a success message
         return 'Storage link created successfully.';
