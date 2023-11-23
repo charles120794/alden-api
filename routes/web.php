@@ -27,7 +27,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     // return redirect('https://quickrent.online/signin');
         
     })
-    ->middleware(['auth:sanctum', 'signed'])
+    ->middleware(['signed'])
     ->name('verification.verify');
 
 
