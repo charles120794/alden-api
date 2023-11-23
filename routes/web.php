@@ -4,8 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\VerificationController;
-// use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use App\Http\Requests\EmailVerificationRequest;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+// use App\Http\Requests\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 /*
@@ -19,21 +19,15 @@ use Illuminate\Http\Request;
 |
 */
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    try{
+Route::get('/email/verify/{id}/{hash}', function (Request $request) {
 
-        $request->fulfill();
-        return response()->json(['response'=> 'Verified!']);
-
-    }catch (\Exception $e) {
-
-        return response()->json(['response' => 'error' ]);
-    }
+    $request->fulfill();
+    return response()->json(['response'=> 'Verified!']);
 
     // return redirect('https://quickrent.online/signin');
         
     })
-    ->middleware(['auth', 'signed'])
+    ->middleware(['guest'])
     ->name('verification.verify');
 
 
@@ -43,6 +37,8 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return response()->json(['response'=> 'Verification link sent!']);
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 
 Route::get('/', function () {
     return view('welcome');
