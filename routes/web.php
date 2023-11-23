@@ -2,7 +2,7 @@
 
 // use Artisan;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
+// use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Password;
@@ -27,7 +27,7 @@ Route::get('/', function () {
 Route::get('/optimize', function () {
     try {
         // Use Artisan::call to run the storage:link command
-        Artisan::call('optimize');
+        Illuminate\Support\Facades\Artisan::call('optimize');
 
         // Provide a success message
         return 'Optimize successfully.';
@@ -41,7 +41,7 @@ Route::get('/storage/link', function () {
     // Artisan::call('storage:link');
     try {
         // Use Artisan::call to run the storage:link command
-        Artisan::call('storage:link');
+        Illuminate\Support\Facades\Artisan::call('storage:link');
 
         // Provide a success message
         return 'Storage link created successfully.';
