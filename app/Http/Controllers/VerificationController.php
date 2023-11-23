@@ -32,8 +32,8 @@ class VerificationController extends Controller
             return redirect($redirectToHome);
         }
 
-        if ($user->markEmailAsVerified()) {
-            event(new Verified($user));
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
         }
 
         return redirect($redirectToSignIn);

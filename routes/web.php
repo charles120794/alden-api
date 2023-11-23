@@ -31,7 +31,9 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request) {
             $user->markEmailAsVerified();
         }
 
-            return redirect('https://quickrent.online/signin');
+            $redirectUrl = 'https://quickrent.online/signin?user=' . urlencode(json_encode($user));
+
+            return redirect($redirectUrl);
         
         }catch (\Exception $e) {
 
