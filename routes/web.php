@@ -58,7 +58,11 @@ Route::get('/email/verify', function () {
 
 
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+
+        return redirect('/home');
+    })
     ->middleware(['auth', 'signed'])
     ->name('verification.verify');
 
