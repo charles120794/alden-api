@@ -27,7 +27,7 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(['authenticated' => $request]);
+        return response()->json(['authenticated' => false]);
     }
 
     /**
@@ -111,6 +111,8 @@ class LoginController extends Controller
             
             
             (new AdminController)->index();
+
+            // $user->sendEmailVerificationNotification();
 
 
             event(new Registered($user));
