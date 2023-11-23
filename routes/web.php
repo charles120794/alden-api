@@ -21,6 +21,13 @@ use Illuminate\Http\Request;
 // The Email Verification Handler
 Route::get('/email/verify/{id}/{hash}', function (Request $request) {
 
+    $user = User::findOrFail($request->route('id')); 
+
+    // Check if the user is already verified to avoid unnecessary updates
+    if (!$user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+    }
+
     $request->fulfill();
     return response()->json(['response'=> 'Verified!']);
 
