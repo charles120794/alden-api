@@ -22,11 +22,7 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/optimize-web', function () {
+Route::get('/optimize', function () {
     try {
         // Use Artisan::call to run the storage:link command
         Illuminate\Support\Facades\Artisan::call('optimize');
@@ -37,6 +33,10 @@ Route::get('/optimize-web', function () {
         // Handle any exceptions that may occur
         return 'Error: ' . $e->getMessage();
     }
+});
+
+Route::get('/', function () {
+    return view('welcome');
 });
 
 Route::get('/storage/link', function () {
