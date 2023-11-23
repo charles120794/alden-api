@@ -62,9 +62,16 @@ Route::get('/email/verify', function () {
 
 // The Email Verification Handler
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        // $request->fulfill();
+    try{
 
-    return response()->json(['response'=> 'Verified!']);
+        $request->fulfill();
+        return response()->json(['response'=> 'Verified!']);
+
+    }catch (\Exception $e) {
+
+        return response()->json(['response' => 'error' ]);
+    }
+
     // return redirect('https://quickrent.online/signin');
         
     })
