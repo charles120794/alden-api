@@ -27,7 +27,10 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(['authenticated' => false]);
+        return response()->json([
+            'authenticated' => false,
+            'dsad' => 'dsa',
+        ]);
     }
 
     /**
