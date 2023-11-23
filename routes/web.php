@@ -64,7 +64,8 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (Request $request) {
         $request->fulfill();
 
-        return redirect('https://quickrent.online/signin');
+    return response()->json(['response'=> 'Verified!']);
+    // return redirect('https://quickrent.online/signin');
         
     })
     ->middleware(['auth', 'signed'])
