@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
+
 // use Illuminate\Support\Facades\Artisan;
 
 /*
@@ -70,7 +72,7 @@ Route::get('/dashboard', function () {
     // The Email Verification Handler
     Route::get('/email/verify/{id}/{hash}', function(Request $request)
     {
-        
+
         try{
             $user = User::findOrFail($request->route('id')); 
 
