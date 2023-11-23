@@ -59,7 +59,7 @@ Route::get('/email/verify', function () {
 
 
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (\Illuminate\Http\Request $request) {
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
 
         return redirect('https://quickrent.online/signin');
