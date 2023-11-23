@@ -7,6 +7,8 @@ use App\Http\Controllers\VerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 // use App\Http\Requests\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,15 +35,17 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request) {
     
     }catch (\Exception $e) {
 
-            return response()->json(['response' => $e->getMessage()]);
+        return response()->json(['response' => $e->getMessage()]);
 
     }
 
-    // return redirect('https://quickrent.online/signin');
         
     })
     ->middleware(['signed'])
     ->name('verification.verify');
+
+    // return redirect('https://quickrent.online/signin');
+
 
 
 // Resending The Verification Email
