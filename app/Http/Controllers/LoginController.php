@@ -12,6 +12,8 @@ use App\Models\PaymentMethod;
 use App\Models\Bookmarks;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Auth\Events\Registered;
 
 
@@ -110,17 +112,16 @@ class LoginController extends Controller
             
             (new AdminController)->index();
 
+            $user->sendEmailVerificationNotification();
 
-            event(new Registered($user));
 
-            $token = $user->createToken('authToken')->token;
-     
+            // event(new Registered($user));
+
             
             return response()->json([
-                'authenticated' => true,
+                'authenticated' => false,
                 'response' => 'Registration Success',
-                'token' => array_reverse(explode('|', $token->plainTextToken))[0],
-                'user' => $user,
+                'token' => '',
             ]);
 
         } catch (\Exception $e) {
