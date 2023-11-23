@@ -10,7 +10,8 @@ class VerificationController extends Controller
 {
     use VerifiesEmails;
 
-    protected $redirectTo = 'https://quickrent.online/signin';
+    protected $redirectToHome = 'https://quickrent.online/signin';
+    protected $redirectToSignIn = 'https://quickrent.online/signin';
 
     public function __construct()
     {
@@ -19,24 +20,17 @@ class VerificationController extends Controller
         $this->middleware('throttle:6,1')->only('verify');
     }
 
-    public function verify(Request $request, $id, $hash)
+    public function verify(Request $request)
     {
-        $user = User::find($id);
-
-        if (!$user || !hash_equals($hash, sha1($user->getEmailForVerification()))) {
-            // Invalid verification link
-            abort(404);
-        }
-
+        $user = $request->user();
+        
         if ($user->hasVerifiedEmail()) {
-            // User already verified
-            return redirect('/'); // You can redirect wherever you want
+            return redirect('/home'); // or any other route
         }
 
         $user->markEmailAsVerified();
-        event(new Verified($user));
+        event(new \Illuminate\Auth\Events\Verified($user));
 
-        // Redirect the user after manual verification
-        return redirect('/')->with('verified', true); 
+        return redirect('/signin')->with('verified', true);
     }
 }

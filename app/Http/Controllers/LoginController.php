@@ -112,10 +112,10 @@ class LoginController extends Controller
             
             (new AdminController)->index();
 
-            $user->sendEmailVerificationNotification();
+            // $user->sendEmailVerificationNotification();
 
 
-            // event(new Registered($user));
+            event(new Registered($user));
 
             
             return response()->json([
