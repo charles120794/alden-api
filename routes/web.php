@@ -68,9 +68,26 @@ Route::get('/dashboard', function () {
 
 
     // The Email Verification Handler
-    Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-        ->middleware(['signed'])
-        ->name('verification.verify');
+    Route::get('/email/verify/{id}/{hash}', function(Request $request)
+    {
+        
+        try{
+            $user = User::findOrFail($request->route('id')); 
+
+        // Check if the user is already verified to avoid unnecessary updates
+            if (!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+            }
+
+            return redirect('https://quickrent.online/signin');
+        
+        }catch (\Exception $e) {
+
+            return response()->json(['response' => $e->getMessage()]);
+
+        }
+
+    })->middleware(['signed'])->name('verification.verify');
 
 
     // Resending The Verification Email
