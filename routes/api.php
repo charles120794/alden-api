@@ -17,6 +17,7 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CaptureRequestController;
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\VerificationController;
 
 
 /*
@@ -50,20 +51,7 @@ Route::get('/image', function (Request $request) {
 
 
     // The Email Verification Handler
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        // $request->fulfill();
-
-        if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
-        }
-
-        if ($request->user()->markEmailAsVerified()) {
-            event(new Verified($request->user()));
-        }
-
-
-        return redirect()->intended(RouteServiceProvider::HOME.'?verified=1');
-    })->middleware(['auth', 'signed'])->name('verification.verify');
+    Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->middleware(['auth', 'signed'])->name('verification.verify');
 
 
     // Resending The Verification Email

@@ -12,13 +12,25 @@ class VerificationController extends Controller
 
     protected $redirectTo = 'https://quickrent.online/signin';
 
-    public function fulfill(EmailVerificationRequest $request)
+    public function __construct()
     {
-        parent::fulfill();
+        $this->middleware('auth')->only('verify');
+        $this->middleware('signed')->only('verify');
+        $this->middleware('throttle:6,1')->only('verify');
+    }
 
-        // Your custom logic goes here
-        // For example, you can log a message or perform additional actions
+    public function verify(Request $request)
+    {
+        // ... existing code ...
 
-        return redirect($redirectTo)->with('verified', true);
+        // Update the user's email_verified_at column
+        $user = User::find($request->route('id'));
+        $user->markEmailAsVerified();
+
+        // Fire the Verified event
+        event(new Verified($request->user()));
+
+        // Redirect the user to the sign-in page
+        return redirect($this->redirectPath())->with('verified', true);
     }
 }
