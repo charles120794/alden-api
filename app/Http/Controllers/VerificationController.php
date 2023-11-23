@@ -13,24 +13,29 @@ class VerificationController extends Controller
     protected $redirectToHome = 'https://quickrent.online/signin';
     protected $redirectToSignIn = 'https://quickrent.online/signin';
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    //     $this->middleware('signed')->only('verify');
+    //     $this->middleware('throttle:6,1')->only('verify', 'resend');
+    // }
 
     public function verify(Request $request)
     {
-        $user = $request->user();
-        
-        if ($user->hasVerifiedEmail()) {
-            return redirect('/home'); // or any other route
+        $user = User::findOrFail($request->route('id'));
+
+        if (! hash_equals(sha1($user->getEmailForVerification()), (string) $request->route('hash'))) {
+            throw new AuthorizationException;
         }
 
-        $user->markEmailAsVerified();
-        event(new \Illuminate\Auth\Events\Verified($user));
+        if ($user->hasVerifiedEmail()) {
+            return redirect($redirectToHome);
+        }
 
-        return redirect('/signin')->with('verified', true);
+        if ($user->markEmailAsVerified()) {
+            event(new Verified($user));
+        }
+
+        return redirect($redirectToSignIn);
     }
 }
