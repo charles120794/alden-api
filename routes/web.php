@@ -27,7 +27,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request) {
     // return redirect('https://quickrent.online/signin');
         
     })
-    ->middleware(['signed'])
+    ->middleware(['guest'])
     ->name('verification.verify');
 
 
