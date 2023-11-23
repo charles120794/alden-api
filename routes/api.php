@@ -44,24 +44,7 @@ Route::get('/image', function (Request $request) {
         ->header('Access-Control-Allow-Origin', '*'); // Adjust to your needs
 });
 
-    // The Email Verification Notice
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
 
-
-    // The Email Verification Handler
-    Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
-        ->middleware(['auth', 'signed'])
-        ->name('verification.verify');
-
-
-    // Resending The Verification Email
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-    
-        return response()->json(['response'=> 'Verification link sent!']);
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
