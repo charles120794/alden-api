@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
-use App\Http\Requests\EmailVerificationRequest; 
+use App\Http\Requests\EmailVerificationRequest;
+use App\Models\User;
+
 
 class VerificationController extends Controller
 {
     use VerifiesEmails;
 
-    protected $redirectToHome = 'https://quickrent.online/signin';
+    protected $redirectToHome = 'https://quickrent.online/';
     protected $redirectToSignIn = 'https://quickrent.online/signin';
 
     // public function __construct()
@@ -22,20 +24,20 @@ class VerificationController extends Controller
 
     public function verify(Request $request)
     {
-        $user = User::findOrFail($request->route('id'));
+        try{
+            $user = User::findOrFail($request->route('id')); 
 
-        if (! hash_equals(sha1($user->getEmailForVerification()), (string) $request->route('hash'))) {
-            throw new AuthorizationException;
+        // Check if the user is already verified to avoid unnecessary updates
+            if (!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+            }
+
+            return redirect('https://quickrent.online/signin');
+        
+        }catch (\Exception $e) {
+
+            return response()->json(['response' => $e->getMessage()]);
+
         }
-
-        if ($user->hasVerifiedEmail()) {
-            return redirect($redirectToHome);
-        }
-
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-        }
-
-        return redirect($redirectToSignIn);
     }
 }

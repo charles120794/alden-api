@@ -5,9 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\VerificationController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
-// use App\Http\Requests\EmailVerificationRequest;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
-use App\Models\User;
 
 
 /*
@@ -21,25 +20,7 @@ use App\Models\User;
 |
 */
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (Request $request) {
-
-        try{
-            $user = User::findOrFail($request->route('id')); 
-
-        // Check if the user is already verified to avoid unnecessary updates
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
-        }
-
-            return redirect('https://quickrent.online/signin');
-        
-        }catch (\Exception $e) {
-
-            return response()->json(['response' => $e->getMessage()]);
-
-        }
-
-    })
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])
     ->middleware(['signed'])
     ->name('verification.verify');
 
@@ -52,6 +33,21 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return response()->json(['response'=> 'Verification link sent!']);
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+ 
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+ 
+    return $status === Password::RESET_LINK_SENT
+                ? back()->with(['status' => __($status)])
+                : back()->withErrors(['email' => __($status)]);
+})->middleware('guest')->name('password.email');
+
+
 
 
 
