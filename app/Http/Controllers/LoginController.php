@@ -115,6 +115,8 @@ class LoginController extends Controller
 
             event(new Registered($user));
 
+            $user->authenticate();
+
             auth()->login($user);
 
             
