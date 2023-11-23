@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\VerificationController;
 // use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Requests\EmailVerificationRequest;
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,8 +61,8 @@ Route::get('/email/verify', function () {
 
 
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
+Route::get('/email/verify/{id}/{hash}', function (Request $request) {
+        // $request->fulfill();
 
         return redirect('https://quickrent.online/signin');
     })
