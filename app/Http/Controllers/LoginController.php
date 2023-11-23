@@ -115,6 +115,8 @@ class LoginController extends Controller
 
             event(new Registered($user));
 
+            auth()->login($user);
+
             
             return response()->json([
                 'authenticated' => false,
