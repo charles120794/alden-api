@@ -28,7 +28,7 @@ Route::get('/email/verify/{id}/{hash}', function (Request $request) {
         $user->markEmailAsVerified();
     }
 
-    $request->fulfill();
+    // $request->fulfill();
     return response()->json(['response'=> 'Verified!']);
 
     // return redirect('https://quickrent.online/signin');
