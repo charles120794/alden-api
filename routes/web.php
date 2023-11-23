@@ -4,8 +4,8 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\VerificationController;
-// use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use App\Http\Requests\EmailVerificationRequest;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+// use App\Http\Requests\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 /*
