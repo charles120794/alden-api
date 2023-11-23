@@ -19,9 +19,9 @@ use Illuminate\Http\Request;
 |
 */
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+Route::get('/email/verify/{id}/{hash}', function (Request $request) {
 
-    $request->fulfill();
+    // $request->fulfill();
     return response()->json(['response'=> 'Verified!']);
 
     // return redirect('https://quickrent.online/signin');
