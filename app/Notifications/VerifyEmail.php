@@ -40,15 +40,15 @@ class VerifyEmail extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = route('verification.verify', [
-            'id' => $notifiable->getKey(),
-            'hash' => sha1($notifiable->getEmailForVerification()),
-        ]);
+        // $url = route('verification.verify', [
+        //     'id' => $notifiable->getKey(),
+        //     'hash' => sha1($notifiable->getEmailForVerification()),
+        // ]);
     
-        return (new \Illuminate\Notifications\Messages\MailMessage)
-            ->subject('Verify Email Address')
-            ->line('Click the button below to verify your email address.')
-            ->action('Verify Email Address', $url);
+        // return (new \Illuminate\Notifications\Messages\MailMessage)
+        //     ->subject('Verify Email Address')
+        //     ->line('Click the button below to verify your email address.')
+        //     ->action('Verify Email Address', $url);
     }
 
     /**
