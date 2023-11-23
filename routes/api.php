@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\LoginController;
@@ -30,7 +31,6 @@ use App\Http\Controllers\VerificationController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-use Illuminate\Http\Response;
 
 Route::get('/image', function (Request $request) {
     // Serve your image here
@@ -57,19 +57,7 @@ Route::get('/resorts', [ResortController::class, 'index']);
 
 Route::get('/resorts/show', [ResortController::class, 'indexShow']);
 
-Route::post('/alden/api', function () {
 
-    foreach(request()->file('resort_image') as $key => $file) {
-
-        $filename = time() . '_' . $file->getClientOriginalName();
-
-        // You can choose a storage disk here
-        $file->storeAs('public', $filename);
-        
-        // You can also save the filename to a database if needed
-        $getFileName = Storage::disk('public')->url($filename);
-    }
-});
 
 Route::post('/pusher/test', [ChatController::class, 'testingPusher']);
 

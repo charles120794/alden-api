@@ -30,7 +30,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'payment_qr_code', 
         'status', 
         'approve_status', 
-        // 'email_verified_at'
+        'email_verified_at'
     ];
 
     /**

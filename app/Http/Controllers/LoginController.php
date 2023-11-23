@@ -27,7 +27,7 @@ class LoginController extends Controller
      */
     public function index(Request $request)
     {
-        return response()->json(['authenticated' => false]);
+        return redirect('https://quickrent.online/signin');
     }
 
     /**
@@ -87,10 +87,6 @@ class LoginController extends Controller
         
         try {
 
-            (new ActivityLogController)->create(new Request([
-                'activity' => ("A new user has registered")
-            ]));
-
             $request->validate([
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
@@ -108,11 +104,13 @@ class LoginController extends Controller
                 'status' => 1,
             ]);
 
-            
+
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("A new user has registered")
+            ]));
+
             
             (new AdminController)->index();
-
-            // $user->sendEmailVerificationNotification();
 
 
             event(new Registered($user));
