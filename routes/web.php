@@ -18,6 +18,31 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// The Email Verification Handler
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    try{
+
+        $request->fulfill();
+        return response()->json(['response'=> 'Verified!']);
+
+    }catch (\Exception $e) {
+
+        return response()->json(['response' => 'error' ]);
+    }
+
+    // return redirect('https://quickrent.online/signin');
+        
+    })
+    ->middleware(['auth', 'signed'])
+    ->name('verification.verify');
+
+
+// Resending The Verification Email
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return response()->json(['response'=> 'Verification link sent!']);
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 Route::get('/', function () {
     return view('welcome');
@@ -60,28 +85,3 @@ Route::get('/email/verify', function () {
 })->middleware('auth')->name('verification.notice');
 
 
-// The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    try{
-
-        $request->fulfill();
-        return response()->json(['response'=> 'Verified!']);
-
-    }catch (\Exception $e) {
-
-        return response()->json(['response' => 'error' ]);
-    }
-
-    // return redirect('https://quickrent.online/signin');
-        
-    })
-    ->middleware(['auth', 'signed'])
-    ->name('verification.verify');
-
-
-// Resending The Verification Email
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-
-    return response()->json(['response'=> 'Verification link sent!']);
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
