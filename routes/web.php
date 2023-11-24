@@ -63,86 +63,47 @@ Route::get('/dashboard', function () {
 
 
 
-    // The Email Verification Notice
-    Route::get('/email/verify', function () {
-        return view('auth.verify-email');
-    })->middleware('auth')->name('verification.notice');
+// The Email Verification Notice
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
 
 
-    // The Email Verification Handler
-    Route::get('/email/verify/{id}/{hash}', function(Request $request)
-    {
+// The Email Verification Handler
+Route::get('/email/verify/{id}/{hash}', function(Request $request)
+{
 
-        try{
-            $user = User::findOrFail($request->route('id')); 
+    try{
+        $user = User::findOrFail($request->route('id')); 
 
-        // Check if the user is already verified to avoid unnecessary updates
-            if (!$user->hasVerifiedEmail()) {
-                $user->markEmailAsVerified();
-            }
-
-            return redirect('https://quickrent.online/signin');
-        
-        }catch (\Exception $e) {
-
-            return response()->json(['response' => $e->getMessage()]);
-
+    // Check if the user is already verified to avoid unnecessary updates
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
         }
 
-    })->middleware(['signed'])->name('verification.verify');
+        return redirect('https://quickrent.online/signin');
+    
+    }catch (\Exception $e) {
+
+        return response()->json(['response' => $e->getMessage()]);
+
+    }
+
+})->middleware(['signed'])->name('verification.verify');
 
 
-    // Resending The Verification Email
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
+// Resending The Verification Email
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
 
-        return response()->json(['response'=> 'Verification link sent!']);
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-
+    return response()->json(['response'=> 'Verification link sent!']);
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
 
 
-    Route::post('/forgot-password', function (Request $request) {
-        $request->validate(['email' => 'required|email']);
-     
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-     
-        return $status === Password::RESET_LINK_SENT
-                    ? back()->with(['status' => __($status)])
-                    : back()->withErrors(['email' => __($status)]);
-    })->middleware('guest')->name('password.email');
 
 
-    Route::get('/reset-password/{token}', function ($token) {
-        return view('auth.reset-password', ['token' => $token]);
-    })->middleware('guest')->name('password.reset');
 
 
-    Route::post('/reset-password', function (Request $request) {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:8|confirmed',
-        ]);
-     
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
-     
-                $user->save();
-     
-                event(new PasswordReset($user));
-            }
-        );
-     
-        return $status === Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
-                    : back()->withErrors(['email' => [__($status)]]);
-    })->middleware('guest')->name('password.update');
+
