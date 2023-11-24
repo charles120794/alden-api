@@ -87,6 +87,19 @@ class LoginController extends Controller
         
         try {
 
+            // Check if the email already exists
+            $existingUser = User::where('email', $request->email)->first();
+
+            if ($existingUser) {
+                return response()->json([
+                    'status' => 'error',
+                    'authenticated' => false,
+                    'response' => 'Email is already in use',
+                    'token' => '',
+                ]);
+            }
+
+
             $request->validate([
                 'first_name' => ['required', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
@@ -94,6 +107,7 @@ class LoginController extends Controller
                 'password' => ['required', 'confirmed', Rules\Password::defaults()],
             ]);
 
+            
             $user = User::create([
                 'name' => $request->first_name . ' ' . $request->last_name,
                 'first_name' => $request->first_name,
@@ -117,6 +131,7 @@ class LoginController extends Controller
 
             
             return response()->json([
+                'status' => 'success',
                 'authenticated' => false,
                 'response' => 'Registration Success',
                 'token' => '',
@@ -125,6 +140,7 @@ class LoginController extends Controller
         } catch (\Exception $e) {
 
             return response()->json([
+                'status' => 'error',
                 'authenticated' => false,
                 'response' => $e->getMessage(),
                 'token' => ''

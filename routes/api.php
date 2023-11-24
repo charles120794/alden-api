@@ -58,8 +58,8 @@ Route::post('/forgot-password', function (Request $request) {
     );
  
     return $status === Password::RESET_LINK_SENT
-                ? response()->json(['response' => 'Password reset link sent successfully '])
-                : response()->json(['response' => __($status)], 400);
+                ? response()->json(['status' => 'success', 'response' => 'Password reset link sent successfully '])
+                : response()->json(['status' => 'error', 'response' => __($status)], 400);
 })->middleware('guest')->name('password.email');
 
 
@@ -89,8 +89,8 @@ Route::post('/reset-password', function (Request $request) {
     );
  
     return $status === Password::PASSWORD_RESET
-                ? response()->json(['response' => 'Password successfully reset'])
-                : response()->json(['response' => __($status)], 422);
+                ? response()->json(['status' => 'success', 'response' => 'Password successfully reset'])
+                : response()->json(['status' => 'error','response' => __($status)], 422);
 })->middleware('guest')->name('password.update');
 
 
@@ -116,7 +116,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    
+
     //ADMIN
     Route::get('/reports', [AdminController::class, 'index']);
     Route::post('/activity/create', [ActivityLogController::class, 'create']);
