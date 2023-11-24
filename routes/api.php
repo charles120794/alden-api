@@ -87,7 +87,7 @@ Route::post('/reset-password', function (Request $request) {
     return $status === Password::PASSWORD_RESET
                 // ? redirect('https://quickrent.online/signin')->with('status', __($status))
                 ? response()->json(['response' => 'Password successfully reset'])
-                : back()->withErrors(['email' => [__($status)]]);
+                : response()->json(['error' => __($status)], 422);
 })->middleware('guest')->name('password.update');
 
 
