@@ -70,8 +70,7 @@ Route::get('/email/verify', function () {
 
 
 // The Email Verification Handler
-Route::get('/email/verify/{id}/{hash}', function(Request $request)
-{
+Route::get('/email/verify/{id}/{hash}', function(Request $request){
 
     try{
         $user = User::findOrFail($request->route('id')); 

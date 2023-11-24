@@ -81,9 +81,6 @@ class CaptureRequestController extends Controller
                 
                 if (count(request()->file('resort_image'))>2 && count(request()->file('resort_vr_image'))>2) {
 
-                    DB::table('resort_images')->where('resort_id', $request->resort_id)->update([
-                        'archive' => 1,
-                    ]);
 
                     foreach(request()->file('resort_image') as $key => $file) {
                         $filename = time() . '_' . $file->getClientOriginalName();
@@ -96,9 +93,6 @@ class CaptureRequestController extends Controller
                         ]);
                     }
 
-                    DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->update([
-                        'archive' => 1,
-                    ]);
                     
                     foreach(request()->file('resort_vr_image') as $key => $file) {
                         $filename = time() . '_' . $file->getClientOriginalName();
@@ -164,18 +158,16 @@ class CaptureRequestController extends Controller
 
         try {
 
-            foreach($request->images as $row) {
-                // DELETE SPECIFIC IMAGES
-                if(isset($row['delete'])){
-                    DB::table('resort_images')->where('id', $row["id"])->delete();
-                }
+            if($request->image_type == "image"){
+
+                DB::table('resort_images')->where('id', $request->id)->update(['archive' => 1]);
+
             }
 
-            foreach($request->images_vr as $row) {
-                // DELETE SPECIFIC IMAGES_VR
-                if(isset($row['delete'])){
-                    DB::table('resort_vr_images')->where('id', $row["id"])->delete();
-                }
+            if($request->image_type == "image_vr"){
+
+                DB::table('resort_vr_images')->where('id', $request->id)->update(['archive' => 1]);
+
             }
             
             return response()->json([
