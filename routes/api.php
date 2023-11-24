@@ -50,11 +50,7 @@ Route::post('/forgot-password', function (Request $request) {
  
     $status = Password::sendResetLink(
         $request->only('email'),
-        function (Message $message) {
-            $message->subject('Your Password Reset Link');
-            // Include the custom reset link with your frontend URL
-            $message->line('Click here to reset your password: '.url('/forgotpassword').'/'.$this->token);
-        }
+        
     );
  
     return $status === Password::RESET_LINK_SENT

@@ -37,8 +37,8 @@ class AuthServiceProvider extends ServiceProvider
                 
         });
 
-        // ResetPassword::createUrlUsing(function ($user, string $token) {
-        //     return 'https://quickrent.online/reset-password?token='.$token;
-        // });
+        ResetPassword::createUrlUsing(function ($user, string $token) {
+            return 'https://quickrent.online/forgotpassword?token='.$token;
+        });
     }
 }
