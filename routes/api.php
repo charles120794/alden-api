@@ -19,6 +19,10 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CaptureRequestController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\VerificationController;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 /*
@@ -54,8 +58,8 @@ Route::post('/forgot-password', function (Request $request) {
     );
  
     return $status === Password::RESET_LINK_SENT
-                ? back()->with(['status' => __($status)])
-                : back()->withErrors(['email' => __($status)]);
+                ? response()->json(['response' => 'Password reset link sent successfully '])
+                : response()->json(['response' => __($status)], 400);
 })->middleware('guest')->name('password.email');
 
 
@@ -85,9 +89,8 @@ Route::post('/reset-password', function (Request $request) {
     );
  
     return $status === Password::PASSWORD_RESET
-                // ? redirect('https://quickrent.online/signin')->with('status', __($status))
                 ? response()->json(['response' => 'Password successfully reset'])
-                : response()->json(['error' => __($status)], 422);
+                : response()->json(['response' => __($status)], 422);
 })->middleware('guest')->name('password.update');
 
 
