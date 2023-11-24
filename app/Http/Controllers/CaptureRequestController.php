@@ -19,13 +19,13 @@ class CaptureRequestController extends Controller
 
             return CaptureRequest::with('resortInfo', 'userCreated')->orderBy('created_at', 'desc')->get()->map(function($value) {
                 return collect($value)->merge([
-                    'amenities' => DB::table('resort_amenities')->where('resort_id', $value->resort_id)->get(),
-                    'policies' => DB::table('resort_policy')->where('resort_id', $value->resort_id)->get(),
+                    'amenities' => DB::table('resort_amenities')->where('resort_id', $value->resort_id)->where('archive', 0)->get(),
+                    'policies' => DB::table('resort_policy')->where('resort_id', $value->resort_id)->where('archive', 0)->get(),
                     'ratings' => ResortRatings::with('createdUser')->where('resort_id', $value->resort_id)->get(),
                     'ratings_avarage' => DB::table('resort_rate')->where('resort_id', $value->resort_id)->avg('rating') ?? 0,
-                    'images' => DB::table('resort_images')->where('resort_id', $value->resort_id)->get(),
-                    'images_vr' => DB::table('resort_vr_images')->where('resort_id', $value->resort_id)->get(),
-                    'pricing' => DB::table('resort_pricing')->where('resort_id', $value->resort_id)->get(),
+                    'images' => DB::table('resort_images')->where('resort_id', $value->resort_id)->where('archive', 0)->get(),
+                    'images_vr' => DB::table('resort_vr_images')->where('resort_id', $value->resort_id)->where('archive', 0)->get(),
+                    'pricing' => DB::table('resort_pricing')->where('resort_id', $value->resort_id)->where('archive', 0)->get(),
                     'reservation' => DB::table('resort_reservation')->where('resort_id', $value->resort_id)->get(),
                 ]);
             });;
