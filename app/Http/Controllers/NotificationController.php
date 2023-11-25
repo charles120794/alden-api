@@ -11,6 +11,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Reservation;
 use App\Models\Notification;
 use App\Events\MyEvent;
+use App\Events\ActivityLogEvent;
 
 class NotificationController extends Controller
 {
