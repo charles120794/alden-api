@@ -81,7 +81,6 @@ class UserController extends Controller
                 'name' => $request->first_name . ' ' . $request->last_name,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
-                'email' => $request->email,
                 'contact_no' => $request->contact_no,
                 'profile_picture' => $profile_picture_path,
                 'updated_at' => now(),
@@ -94,7 +93,6 @@ class UserController extends Controller
                     'name' => $request->first_name . ' ' . $request->last_name,
                     'first_name' => $request->first_name,
                     'last_name' => $request->last_name,
-                    'email' => $request->email,
                     'contact_no' => $request->contact_no,
                     'profile_picture' => $profile_picture_path,
                     'updated_at' => now(),
@@ -104,6 +102,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
 
             return response()->json([
+                'status' => "error",
                 'authenticated' => true,
                 'response' => $e->getMessage(),
                 'token' => ''
