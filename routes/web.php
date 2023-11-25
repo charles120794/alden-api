@@ -80,7 +80,8 @@ Route::get('/email/verify/{id}/{hash}', function(Request $request){
             $user->markEmailAsVerified();
         }
 
-        return redirect('https://quickrent.online/signin');
+        // return redirect('https://quickrent.online/signin');
+        return redirect('http://localhost:3000/signin');
     
     }catch (\Exception $e) {
 
