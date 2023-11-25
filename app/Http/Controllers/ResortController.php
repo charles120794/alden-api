@@ -364,6 +364,7 @@ class ResortController extends Controller
             
 
             return response()->json([
+                'status' => 'success',
 				'response' => 'Resort has been reserved successfully',
 				'reserveDate' => date('Y-m-d', strtotime($request->reserve_date)),
 				'reserveDate2' => $request->reserve_date,
@@ -371,6 +372,7 @@ class ResortController extends Controller
             
         } catch (\Exception $e) {
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
         }
