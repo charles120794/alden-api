@@ -15,12 +15,10 @@ class NotificationEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $notifications;
-    public $user_id;
 
-    public function __construct( $user_id, $notifications)
+    public function __construct($notifications)
     {
         $this->notifications = $notifications;
-        $this->user_id = $user_id;
     }
 
     public function broadcastOn()
