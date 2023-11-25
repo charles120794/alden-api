@@ -54,7 +54,7 @@ Route::get('/image', function (Request $request) {
 // Resending The Verification Email
 Route::post('/email/resend-verification', function (Request $request) {
     try{
-        $user = User::find($request->id);
+        $user = User::where('email', $request->email)->first();
 
         if (!$user) {
             return response()->json(['status' => 'error', 'response' => 'User not found']);
@@ -77,9 +77,7 @@ Route::post('/email/resend-verification', function (Request $request) {
         
     }
 
-    // return response()->json(['response'=> 'Verification link sent!']);
-})->middleware(['throttle:6,1'])->name('verification.send');
-
+})->middleware(['throttle:6,1']);
 
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
