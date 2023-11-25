@@ -15,19 +15,21 @@ class NotificationEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $notifications;
+    public $user_id;
 
-    public function __construct( $notifications)
+    public function __construct( $user_id, $notifications)
     {
         $this->notifications = $notifications;
+        $this->user_id = $user_id;
     }
 
     public function broadcastOn()
       {
-          return ['notif-channel-'. auth()->id()];
+          return ['notif-channel-'. $this->user_id];
       }
 
       public function broadcastAs()
       {
-          return 'notif-event-'. auth()->id();
+          return 'notif-event-'. $this->user_id;
       }
 }
