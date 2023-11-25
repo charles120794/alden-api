@@ -22,7 +22,7 @@ class NotificationController extends Controller
 
 			$notifs = Notification::where('user_id', auth()->id())->with('userCreated', 'resortInfo.createdUser', 'reservationInfo.priceInfo')->orderBy('created_at', 'desc')->get();
 
-			event(new ActivityLogEvent($notifs));
+			event(new ActivityLogEvent(auth()->id(), $notifs));
 
 			return $notifs;
 
