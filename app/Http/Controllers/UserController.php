@@ -42,6 +42,7 @@ class UserController extends Controller
             (new AdminController)->index();
          
             return response()->json([
+                'status' => 'success',
                 'authenticated' => true,
                 'response' => 'Application sent to the admin. Please wait for approval',
                 'data' => [
@@ -53,6 +54,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
 
             return response()->json([
+                'status' => 'error',
                 'authenticated' => true,
                 'response' => $e->getMessage(),
                 'token' => ''
