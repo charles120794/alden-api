@@ -51,9 +51,7 @@ class AdminController extends Controller
                 'activityLog' => $activityLog
             ]));
 
-            event(new ActivityLogEvent([
-                'activityLog' => $activityLog
-            ]));
+            event(new ActivityLogEvent($activityLog));
 
             
 
