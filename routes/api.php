@@ -79,6 +79,8 @@ Route::post('/email/resend-verification', function (Request $request) {
 
 })->middleware(['throttle:6,1']);
 
+
+// The Email Password Reset Notice
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
  
@@ -98,6 +100,7 @@ Route::get('/reset-password/{token}', function ($token) {
 })->middleware('guest')->name('password.reset');
 
 
+// The Reset Password Handler
 Route::post('/reset-password', function (Request $request) {
     $request->validate([
         'token' => 'required',
@@ -120,7 +123,7 @@ Route::post('/reset-password', function (Request $request) {
  
     return $status === Password::PASSWORD_RESET
                 ? response()->json(['status' => 'success', 'response' => 'Password successfully reset'])
-                : response()->json(['status' => 'error','response' => __($status)], 422);
+                : response()->json(['status' => 'error', 'response' => __($status)], 422);
 })->middleware('guest')->name('password.update');
 
 

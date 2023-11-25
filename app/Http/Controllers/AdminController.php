@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Resorts;
 use App\Events\AdminEvent;
+use App\Events\ActivityLogEvent;
 
 class AdminController extends Controller
 {
@@ -47,6 +48,10 @@ class AdminController extends Controller
                 'allInactiveResortCount' => $allInactiveResortCount,
                 'capturedResortCount' => $capturedResortCount,
                 'allResortByDateCount' => $allResortByDateCount,
+                'activityLog' => $activityLog
+            ]));
+
+            event(new ActivityLogEvent([
                 'activityLog' => $activityLog
             ]));
 
