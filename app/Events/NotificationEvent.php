@@ -14,11 +14,11 @@ class NotificationEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $notifications;
+    public $notifications = "sample";
 
     public function __construct($notifications)
     {
-        $this->notifications = $notifications;
+        // $this->notifications = $notifications;
     }
 
     public function broadcastOn()
