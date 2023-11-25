@@ -60,12 +60,14 @@ class CaptureRequestController extends Controller
             
 
             return response()->json([
+                'status' => 'success',
                 'response' => 'Successfully added to capture list',
             ]);
 
         } catch (\Exception $e) {
 
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
 

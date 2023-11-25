@@ -188,6 +188,7 @@ class ResortController extends Controller
             (new AdminController)->index();
 
             return response()->json([
+                'status' => 'success',
                 'response' => 'Successfully created',
             ]);
 
@@ -196,6 +197,7 @@ class ResortController extends Controller
             DB::rollback();
 
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
         }
@@ -299,11 +301,13 @@ class ResortController extends Controller
             ]));
 
             return response()->json([
+                'status' => 'success',
                 'response' => 'Update saved',
             ]);
 
         }catch(\Excetion $e){
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
         }
