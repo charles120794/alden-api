@@ -87,6 +87,7 @@ class UserController extends Controller
             ]);
             
             return response()->json([
+                'status' => "success",
                 'authenticated' => true,
                 'response' => 'Successfully updated',
                 'data' => [
