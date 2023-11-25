@@ -25,11 +25,11 @@ class NotificationEvent
 
     public function broadcastOn()
       {
-          return ['notif-channel-'.$this->user_id];
+          return ['notif-channel'];
       }
 
       public function broadcastAs()
       {
-          return 'notif-event-'.$this->user_id;
+          return 'notif-event';
       }
 }
