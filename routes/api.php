@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
+
 
 
 /*
@@ -47,6 +49,36 @@ Route::get('/image', function (Request $request) {
         ->header('Content-Type', 'image/jpeg')
         ->header('Access-Control-Allow-Origin', '*'); // Adjust to your needs
 });
+
+
+// Resending The Verification Email
+Route::post('/email/resend-verification', function (Request $request) {
+    try{
+        $user = User::find($request->id);
+
+        if (!$user) {
+            return response()->json(['status' => 'error', 'response' => 'User not found']);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['status' => 'error', 'response' => 'Email is already verified']);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json(['status' => 'success', 'response' => 'Verification link sent!']);
+
+    }catch (\Exception $e) {
+
+        return response()->json([
+            'status' => 'error',
+            'response' => $e->getMessage(),
+        ]);
+        
+    }
+
+    // return response()->json(['response'=> 'Verification link sent!']);
+})->middleware(['throttle:6,1'])->name('verification.send');
 
 
 Route::post('/forgot-password', function (Request $request) {
