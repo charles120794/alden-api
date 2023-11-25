@@ -11,7 +11,7 @@ use Illuminate\Validation\ValidationException;
 use App\Models\Reservation;
 use App\Models\Notification;
 use App\Events\MyEvent;
-use App\Events\ActivityLogEvent;
+use App\Events\NotificationEvent;
 
 class NotificationController extends Controller
 {
@@ -22,7 +22,7 @@ class NotificationController extends Controller
 
 			$notifs = Notification::where('user_id', auth()->id())->with('userCreated', 'resortInfo.createdUser', 'reservationInfo.priceInfo')->orderBy('created_at', 'desc')->get();
 
-			event(new ActivityLogEvent($notifs));
+			event(new NotificationEvent($notifs));
 
 			return $notifs;
 
