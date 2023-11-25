@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Notification;
 
 class NotificationEvent implements ShouldBroadcast
 {
@@ -16,9 +17,9 @@ class NotificationEvent implements ShouldBroadcast
 
     public $notifications;
 
-    public function __construct($notifications)
+    public function __construct()
     {
-        $this->notifications = $notifications;
+        $this->notifications = Notification::where('user_id', auth()->id())->with('userCreated', 'resortInfo.createdUser', 'reservationInfo.priceInfo')->orderBy('created_at', 'desc')->get();
     }
 
     public function broadcastOn()
