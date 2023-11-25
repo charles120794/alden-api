@@ -20,8 +20,6 @@ class NotificationController extends Controller
 	{
 		try {
 
-			event(new NotificationEvent());
-
 			return Notification::where('user_id', auth()->id())->with('userCreated', 'resortInfo.createdUser', 'reservationInfo.priceInfo')->orderBy('created_at', 'desc')->get();
 
 		} catch (\Exception $e) {
