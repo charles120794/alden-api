@@ -407,6 +407,7 @@ class ResortController extends Controller
                 ]));
 
                 return response()->json([
+                    'status' => 'success',
                     'response' => 'Reservation confirmed',
                 ]);
 
@@ -434,6 +435,7 @@ class ResortController extends Controller
                 ]));
 
                 return response()->json([
+                    'status' => 'success',
                     'response' => 'Reservation rejected',
                 ]);
                 
@@ -442,6 +444,7 @@ class ResortController extends Controller
             
         } catch (\Exception $e) {
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
         }
