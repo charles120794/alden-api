@@ -142,6 +142,7 @@ class UserController extends Controller
             ]));
 
             return response()->json([
+                'status' => 'success',
                 'authenticated' => true,
                 'response' => 'New payment method successfully added',
                 'data' => PaymentMethod::where('created_by', auth()->id())->where('archive', 0)->get(),
@@ -149,6 +150,7 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
         }
@@ -168,6 +170,7 @@ class UserController extends Controller
             ]));
 
             return response()->json([
+                'status' => 'success',
                 'authenticated' => true,
                 'response' => 'Payment method successfully deleted',
                 'data' => PaymentMethod::where('created_by', auth()->id())->where('archive', 0)->get(),
@@ -175,6 +178,7 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
         }
