@@ -14,31 +14,20 @@ class NotificationEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $notifications;
+
+    public function __construct( $notifications)
     {
-        //
+        $this->notifications = $notifications;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
     public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
-    }
+      {
+          return ['notif-channel-'. auth()->id()];
+      }
 
-    public function broadcastWith()
-    {
-        return [
-            'message' => 'A new notification has been generated!',
-            // Add more data as needed
-        ];
-    }
+      public function broadcastAs()
+      {
+          return 'notif-event-'. auth()->id();
+      }
 }

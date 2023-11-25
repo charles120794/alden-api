@@ -50,6 +50,7 @@ class AdminController extends Controller
                 'allResortByDateCount' => $allResortByDateCount,
                 'activityLog' => $activityLog
             ]));
+            
 
             event(new ActivityLogEvent($activityLog));
 
