@@ -59,16 +59,16 @@ class AdminController extends Controller
 
             return response()->json([
                 'response' => $e->getMessage(),
-                'allUserCount' => $allUserCount,
-                'userCount' => $userCount,
-                'ownerCount' => $ownerCount,
-                'allUserByDateCount' => $allUserByDateCount,
-                'allResortCount' => $allResortCount,
-                'allActiveResortCount' => $allActiveResortCount,
-                'allInactiveResortCount' => $allInactiveResortCount,
-                'capturedResortCount' => $capturedResortCount,
-                'allResortByDateCount' => $allResortByDateCount,
-                'activityLog' => $activityLog,
+                // 'allUserCount' => $allUserCount,
+                // 'userCount' => $userCount,
+                // 'ownerCount' => $ownerCount,
+                // 'allUserByDateCount' => $allUserByDateCount,
+                // 'allResortCount' => $allResortCount,
+                // 'allActiveResortCount' => $allActiveResortCount,
+                // 'allInactiveResortCount' => $allInactiveResortCount,
+                // 'capturedResortCount' => $capturedResortCount,
+                // 'allResortByDateCount' => $allResortByDateCount,
+                // 'activityLog' => $activityLog,
             ]);
         }
     }
