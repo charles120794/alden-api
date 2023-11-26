@@ -39,6 +39,8 @@
       regarding the reservation at {{$resort_name}}.
       </p>
 
+      <p><strong>Note:</strong>Please open your QuickRent account to confirm or reject this reservation.</p>
+
       <p>Warm regards,</br>
         QuickRent Online
       </p>
