@@ -150,6 +150,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
         return $request->user();
     });
 
+
     //ADMIN
     Route::get('/reports', [AdminController::class, 'index']);
     Route::post('/activity/create', [ActivityLogController::class, 'create']);

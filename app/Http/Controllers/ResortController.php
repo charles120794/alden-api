@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use DB;
 use Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailResortReserve;
+use App\Mail\MailConfirmReservation;
+use App\Mail\MailRejectReservation;
 use App\Models\User;
 use App\Models\Resorts;
 use App\Models\ResortRatings;
+use App\Models\ResortPricings;
 use App\Models\Reservation;
 use App\Models\Notification;
 use App\Models\PaymentMethod;
@@ -329,7 +334,10 @@ class ResortController extends Controller
                 throw new \Exception("Image is required", 1);
             }
 
-            $owner = Resorts::where('id', $request->resort_id)->first();
+            $ownerInfo = User::findorfail($request->resort_owner_id);
+            $userInfo = User::findorfail($request->resort_owner_id);
+            $resortInfo = Resorts::findorfail($request->resort_id);
+            $pricingInfo = ResortPricings::findorfail($request->pricing_id);
 
             $reserve = Reservation::insertGetId([
                 'resort_id' => $request->resort_id,
@@ -344,12 +352,23 @@ class ResortController extends Controller
                 'created_by' => Auth()->User()->id
             ]);
 
+            //send email notification
+            Mail::to($ownerInfo->email)->send(new MailResortReserve(
+                $resortInfo->resort_name,
+                $pricingInfo->price_desc,
+                date('Y-m-d', strtotime($request->reserve_date)),
+                auth()->user()->name,
+                auth()->user()->email,
+                auth()->user()->contact_no,
+                $screenshot_path
+            ));
+
             (new NotificationController)->create(
                 new Request(
                     [
                     'resort_id' => $request->resort_id, 
                     'reservation_id' => $reserve,
-                    'user_id' => $owner->created_by,
+                    'user_id' => $request->resort_owner_id,
                     'message' => 'Your resort has been reserved',
                     'type' => 'RESORT_RESERVED',
                     'source' => auth()->id(),
@@ -382,12 +401,29 @@ class ResortController extends Controller
     {
         try {
             $notif = new NotificationController;
+            $userInfo = User::findorfail($request->data['created_by']);
+            $resortInfo = Resorts::findorfail($request->data['resort_id']);
+            $reserveInfo = Reservation::findorfail($request->data['reservation_id']);
+            $priceInfo = ResortPricings::findorfail($reserveInfo->pricing_id);
 
 
             if($request->action == 'confirm'){
+
                 Reservation::where('id', $request->data['reservation_id'])->update([
                     'confirm_status' => 1, //owner confirmed 
                 ]);
+
+                // send email notification to user
+                Mail::to($userInfo->email)->send(new MailConfirmReservation(
+                    $resortInfo->resort_name,
+                    $priceInfo->price_desc,
+                    $reserveInfo->reserve_date,
+                    $reserveInfo->ref_no,
+                    auth()->user()->name,
+                    auth()->user()->email,
+                    auth()->user()->contact_no,
+                    $resortInfo->resort_address
+                ));
 
                 
                 $notif->create(
@@ -403,6 +439,7 @@ class ResortController extends Controller
                         ]
                     ));
 
+
                 $userName = auth()->user()->name;
                 (new ActivityLogController)->create(new Request([
                     'activity' => ("Owner $userName has confirmed a reservation")
@@ -414,9 +451,21 @@ class ResortController extends Controller
                 ]);
 
             }else{
+
                 Reservation::where('id', $request->data['reservation_id'])->update([
                     'confirm_status' => 2, //owner reject reservation 
                 ]);
+
+                Mail::to($userInfo->email)->send(new MailRejectReservation(
+                    $resortInfo->resort_name,
+                    $priceInfo->price_desc,
+                    $reserveInfo->reserve_date,
+                    $reserveInfo->ref_no,
+                    auth()->user()->name,
+                    auth()->user()->email,
+                    auth()->user()->contact_no,
+                    $resortInfo->resort_address
+                ));
 
                 $notif->create(
                     new Request(
