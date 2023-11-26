@@ -48,7 +48,6 @@ class AdminController extends Controller
                 'allInactiveResortCount' => $allInactiveResortCount,
                 'capturedResortCount' => $capturedResortCount,
                 'allResortByDateCount' => $allResortByDateCount,
-                'activityLog' => $activityLog
             ]));
             
 
