@@ -153,6 +153,7 @@ Route::middleware(['auth:sanctum', 'cors'])->group(function () {
 
     //ADMIN
     Route::get('/reports', [AdminController::class, 'index']);
+    Route::get('/logs', [ActivityLogController::class, 'index']);
     Route::post('/activity/create', [ActivityLogController::class, 'create']);
 
     // USERS
