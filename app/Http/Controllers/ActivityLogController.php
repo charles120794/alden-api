@@ -13,7 +13,7 @@ class ActivityLogController extends Controller
 
         try {
 
-            return ActivityLog::with('userCreated')->orderBy('created_at', 'asc')->get();
+            return ActivityLog::with('userCreated')->orderBy('created_at', 'desc')->get();
 
         } catch (\Exception $e) {
 
