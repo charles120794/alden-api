@@ -120,7 +120,7 @@ class ResortController extends Controller
 
             foreach($request->amenities as $row) {
                 // CREATE AMENITIES
-                if($row){
+                if(isset($row['amenitiesTitle'])){
                     $ans = json_decode($row['amenitiesTitle'],true);
                     if(is_array($ans)){
                         DB::table('resort_amenities')->insert([
