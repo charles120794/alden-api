@@ -120,19 +120,18 @@ class ResortController extends Controller
 
             foreach($request->amenities as $row) {
                 // CREATE AMENITIES
-                var_dump($request->amenities);
-                var_dump($row);
-               
-                    if(is_array($row) && isset($row["amenitiesTitle"])){
-                        DB::table('resort_amenities')->insert([
-                            'resort_id' => $resort,
-                            'description' => $row["amenitiesTitle"],
-                            'created_at' => now(),
-                            'created_by' => Auth()->User()->id
-                        ]);
-                    }else {
-                        throw new \Exception("No amenity array found", 1);
-                    }
+                $item = json_decode($row, true);
+
+                if(json_last_error() === JSON_ERROR_NONE){
+                    DB::table('resort_amenities')->insert([
+                        'resort_id' => $resort,
+                        'description' => $item["amenitiesTitle"],
+                        'created_at' => now(),
+                        'created_by' => Auth()->User()->id
+                    ]);
+                }else {
+                    throw new \Exception("No amenity array found", 1);
+                }
                 
             }
 
