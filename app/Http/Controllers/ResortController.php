@@ -81,40 +81,40 @@ class ResortController extends Controller
 
         try {
 
-            // DB::beginTransaction();
+            DB::beginTransaction();
 
-            // $business_permit_path = "";
-            // if ($request->hasFile('business_permit')) {
+            $business_permit_path = "";
+            if ($request->hasFile('business_permit')) {
 
-            //     $file = $request->file('business_permit');
-            //     $filename = time() . '_' . $file->getClientOriginalName();
-            //     $file->storeAs('public', $filename); 
+                $file = $request->file('business_permit');
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename); 
 
-            //     $business_permit_path = Storage::disk('public')->url($filename);
-            // } else {
-            //     throw new \Exception("Image is required", 1);
-            // }
+                $business_permit_path = Storage::disk('public')->url($filename);
+            } else {
+                throw new \Exception("Image is required", 1);
+            }
 
-            // $resort = DB::table('resort')->insertGetId([
-            //     'resort_name' => $request->resort_name,
-            //     'resort_desc' => $request->resort_desc,
-            //     'resort_address' => $request->resort_address,
-            //     'resort_region' => $request->resort_region,
-            //     'resort_province' => $request->resort_province,
-            //     'resort_city' => $request->resort_city,
-            //     'resort_barangay' => $request->resort_barangay,
-            //     'region' => $request->resort_region_name,
-            //     'province' => $request->resort_province_name,
-            //     'city' => $request->resort_city_name,
-            //     'barangay' => $request->resort_barangay_name,
-            //     'business_permit' => $business_permit_path,
-            //     'capture_status' => 0,
-            //     'is_for_rent' => 0,
-            //     'capture_date_from' => date('Y-m-d', strtotime($request->capture_date_from)),
-            //     'capture_date_to' => date('Y-m-d', strtotime($request->capture_date_to)),
-            //     'created_at' => now(),
-            //     'created_by' => Auth()->User()->id
-            // ]);
+            $resort = DB::table('resort')->insertGetId([
+                'resort_name' => $request->resort_name,
+                'resort_desc' => $request->resort_desc,
+                'resort_address' => $request->resort_address,
+                'resort_region' => $request->resort_region,
+                'resort_province' => $request->resort_province,
+                'resort_city' => $request->resort_city,
+                'resort_barangay' => $request->resort_barangay,
+                'region' => $request->resort_region_name,
+                'province' => $request->resort_province_name,
+                'city' => $request->resort_city_name,
+                'barangay' => $request->resort_barangay_name,
+                'business_permit' => $business_permit_path,
+                'capture_status' => 0,
+                'is_for_rent' => 0,
+                'capture_date_from' => date('Y-m-d', strtotime($request->capture_date_from)),
+                'capture_date_to' => date('Y-m-d', strtotime($request->capture_date_to)),
+                'created_at' => now(),
+                'created_by' => Auth()->User()->id
+            ]);
 
 
             foreach ($request->amenities as $row) {
@@ -123,75 +123,72 @@ class ResortController extends Controller
                 if ($amenity !== null) {
                     // CREATE AMENITIES
                     DB::table('resort_amenities')->insert([
-                        'resort_id'   => 1000,
+                        'resort_id'   => $resort,
                         'description' => $amenity['amenitiesTitle'],
                         'created_at'  => now(),
                         'created_by'  => Auth()->user()->id,
                     ]);
-                } else {
-                    throw new \Exception("AmenitiesTitle not found", 1);
-                }
+                } 
+
             }
         
-            // foreach($request->policies as $row) {
-            //     // CREATE POLICIES
-            //     if(isset($row['policiesTitle'])){
-            //         $ans = json_decode($row['policiesTitle'],true);
-            //         if(is_array($ans)){
-            //             DB::table('resort_policy')->insert([
-            //                 'resort_id' => $resort,
-            //                 'description' => $row['policiesTitle'],
-            //                 'created_at' => now(),
-            //                 'created_by' => Auth()->User()->id
-            //             ]);
-            //         }
-            //     }
+            foreach($request->policies as $row) {
+                // CREATE POLICIES
+                $policy = json_decode($row, true);
+
+                if($policy !== null){
+                    DB::table('resort_policy')->insert([
+                        'resort_id' => $resort,
+                        'description' => $policy['policiesTitle'],
+                        'created_at' => now(),
+                        'created_by' => Auth()->User()->id
+                    ]);
+                }
                 
-            // }
+            }
 
-            // foreach($request->pricing as $row) {
-            //     // CREATE PRICING
-            //     if(isset($row['description'])){
-            //         $ans = json_decode($row['description'],true);
-            //         if(is_array($ans)){
-            //             DB::table('resort_pricing')->insert([
-            //                 'resort_id' => $resort,
-            //                 'price_desc' => $row['description'],
-            //                 'time_from' => $row['time_from'],
-            //                 'time_to' => $row['time_from'],
-            //                 'price' => $row['price'],
-            //                 'downpayment_percent' => $row['downpayment_percent'],
-            //                 'created_at' => now(),
-            //                 'created_by' => Auth()->User()->id
-            //             ]);
-            //         }
-            //     }
+            foreach($request->pricing as $row) {
+                // CREATE PRICING
+                $price = json_decode($row, true);
+
+                if($price !== null){
+                    DB::table('resort_pricing')->insert([
+                        'resort_id' => $resort,
+                        'price_desc' => $price['description'],
+                        'time_from' => $price['time_from'],
+                        'time_to' => $price['time_from'],
+                        'price' => $price['price'],
+                        'downpayment_percent' => $price['downpayment_percent'],
+                        'created_at' => now(),
+                        'created_by' => Auth()->User()->id
+                    ]);
+                }
                 
-            // }
+            }
 
-            // DB::commit();
+            DB::commit();
 
-            // (new CaptureRequestController)->create(new Request([
-            //     'resort_id' => $resort,
-            //     'capture_date_from' => $request->capture_date_from,
-            //     'capture_date_to' => $request->capture_date_to,
-            // ]));
+            (new CaptureRequestController)->create(new Request([
+                'resort_id' => $resort,
+                'capture_date_from' => $request->capture_date_from,
+                'capture_date_to' => $request->capture_date_to,
+            ]));
 
-            // //notify admin
-            // (new NotificationController)->create(new Request([
-            //     'resort_id' => $resort,
-            //     'user_id' => '20',
-            //     'message' => "A new resort has been posted. Check resort's available schedule for 360 image capturing.",
-            //     'type' => 'RESORT_POSTED',
-            //     'source' => auth()->id(),
-            // ]));
+            //notify admin
+            (new NotificationController)->create(new Request([
+                'resort_id' => $resort,
+                'user_id' => '20',
+                'message' => "A new resort has been posted. Check resort's available schedule for 360 image capturing.",
+                'type' => 'RESORT_POSTED',
+                'source' => auth()->id(),
+            ]));
 
-            // $userName = auth()->user()->name;
-            // (new ActivityLogController)->create(new Request([
-            //     'activity' => ("Owner $userName has posted a new resort")
-            // ]));
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("Owner $userName has posted a new resort")
+            ]));
 
-            // (new AdminController)->index();
+            (new AdminController)->index();
 
             return response()->json([
                 'status' => 'success',
