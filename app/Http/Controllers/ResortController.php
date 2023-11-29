@@ -120,12 +120,12 @@ class ResortController extends Controller
             // $amenities = json_decode($request->amenities, true);
             // if(json_last_error() === JSON_ERROR_NONE){
                 $amenities = $request->input('amenities');
-                foreach($amenities as $row) {
+                foreach($amenities as $amenity) {
                     // CREATE AMENITIES
-
+                    $amenityTitle = $amenity['amenitiesTitle'];
                         DB::table('resort_amenities')->insert([
                             'resort_id' => $resort,
-                            'description' => $row["amenitiesTitle"],
+                            'description' => $amenityTitle,
                             'created_at' => now(),
                             'created_by' => Auth()->User()->id
                         ]);
