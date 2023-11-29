@@ -125,7 +125,7 @@ class ResortController extends Controller
                 if(json_last_error() === JSON_ERROR_NONE){
                     DB::table('resort_amenities')->insert([
                         'resort_id' => $resort,
-                        'description' => $item["amenitiesTitle"],
+                        'description' => $row["amenitiesTitle"],
                         'created_at' => now(),
                         'created_by' => Auth()->User()->id
                     ]);
