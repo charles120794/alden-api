@@ -116,6 +116,8 @@ class CaptureRequestController extends Controller
                     Resorts::where('id', $request->resort_id)->update([
                         'is_for_rent' => 1,
                         'capture_status' => 1,
+                        'captured_at' => now(),
+                        'updated_at' => now(),
                     ]);
         
                     CaptureRequest::where('id', $request->request_id)->update([
