@@ -117,22 +117,16 @@ class ResortController extends Controller
                 'created_by' => Auth()->User()->id
             ]);
 
-            $amenities = json_decode($request->amenities, true);
-            // if(json_last_error() === JSON_ERROR_NONE){
-                foreach($amenities as $row) {
-                    // CREATE AMENITIES
-                        DB::table('resort_amenities')->insert([
-                            'resort_id' => $resort,
-                            'description' => $row["amenitiesTitle"],
-                            'created_at' => now(),
-                            'created_by' => Auth()->User()->id
-                        ]);
-                    
-                }
-            // }else {
-            //     throw new \Exception("Error decoding JSON string: " . json_last_error_msg(), 1);
-            // }
-
+            foreach($request->amenities as $row) {
+                // CREATE AMENITIES
+                    DB::table('resort_amenities')->insert([
+                        'resort_id' => $resort,
+                        'description' => $row["amenitiesTitle"],
+                        'created_at' => now(),
+                        'created_by' => Auth()->User()->id
+                    ]);
+                
+            }
             // foreach($request->policies as $row) {
             //     // CREATE POLICIES
             //     if(isset($row['policiesTitle'])){
