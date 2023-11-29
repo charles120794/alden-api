@@ -117,10 +117,10 @@ class ResortController extends Controller
             ]);
 
             
-            // $amenities = json_decode($request->amenities, true);
+            $amenities = json_decode($request->amenities, true);
             // if(json_last_error() === JSON_ERROR_NONE){
 
-                foreach($request->amenities as $row) {
+                foreach($amenities as $row) {
                     // CREATE AMENITIES
 
                         DB::table('resort_amenities')->insert([
