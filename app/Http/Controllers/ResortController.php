@@ -120,53 +120,53 @@ class ResortController extends Controller
 
             foreach($request->amenities as $row) {
                 // CREATE AMENITIES
-                if(isset($row['amenitiesTitle'])){
-                    $ans = json_decode($answer['amenitiesTitle'],true);
-                    if(is_array($ans)){
+                // if(isset($row['amenitiesTitle'])){
+                //     $ans = json_decode($answer['amenitiesTitle'],true);
+                    // if(is_array($ans)){
                         DB::table('resort_amenities')->insert([
                             'resort_id' => $resort,
                             'description' => json_decode($row["amenitiesTitle"]),
                             'created_at' => now(),
                             'created_by' => Auth()->User()->id
                         ]);
-                    }
-                }
+                    // }
+                // }
                 
             }
 
             foreach($request->policies as $row) {
                 // CREATE POLICIES
-                if(isset($row['policiesTitle'])){
-                    $ans = json_decode($answer['policiesTitle'],true);
-                    if(is_array($ans)){
+                // if(isset($row['policiesTitle'])){
+                //     $ans = json_decode($answer['policiesTitle'],true);
+                    // if(is_array($ans)){
                         DB::table('resort_policy')->insert([
                             'resort_id' => $resort,
                             'description' => $row['policiesTitle'],
                             'created_at' => now(),
                             'created_by' => Auth()->User()->id
                         ]);
-                    }
-                }
+                    // }
+                // }
                 
             }
 
             foreach($request->pricing as $row) {
                 // CREATE PRICING
-                if(isset($row['description'])){
-                    $ans = json_decode($answer['description'],true);
-                    if(is_array($ans)){
+                // if(isset($row['description'])){
+                //     $ans = json_decode($answer['description'],true);
+                    // if(is_array($ans)){
                         DB::table('resort_pricing')->insert([
                             'resort_id' => $resort,
                             'price_desc' => $row['description'],
                             'time_from' => $row['time_from'],
-                            'time_to' => $row['time_from'],
+                            'time_to' => $row['time_to'],
                             'price' => $row['price'],
                             'downpayment_percent' => $row['downpayment_percent'],
                             'created_at' => now(),
                             'created_by' => Auth()->User()->id
                         ]);
-                    }
-                }
+                    // }
+                // }
                 
             }
 
