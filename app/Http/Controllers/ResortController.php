@@ -122,7 +122,7 @@ class ResortController extends Controller
                 $amenities = $request->input('amenities');
                 foreach($amenities as $amenity) {
                     // CREATE AMENITIES
-                    $amenityTitle = $amenity['amenitiesTitle'];
+                    $amenityTitle = json_decode($amenity['amenitiesTitle'], true);
                         DB::table('resort_amenities')->insert([
                             'resort_id' => $resort,
                             'description' => $amenityTitle,
