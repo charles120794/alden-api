@@ -140,6 +140,7 @@ class CaptureRequestController extends Controller
                     
         
                     return response()->json([
+                        'status' => 'success',
                         'response' => 'Image uploaded Successfully!',
                     ]);
 
@@ -157,6 +158,7 @@ class CaptureRequestController extends Controller
         } catch (\Exception $e) {
 
             return response()->json([
+                'status' => 'error',
                 'response' => $e->getMessage(),
             ]);
             
