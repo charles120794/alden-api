@@ -53,6 +53,12 @@ class CaptureRequestController extends Controller
                 'created_at' => now(),
             ]);
 
+            Resorts::where('id', $request->resort_id)->update([
+                'capture_status' => 0,
+                'capture_date_from' => date('Y-m-d', strtotime($request->capture_date_from)),
+                'capture_date_to' => date('Y-m-d', strtotime($request->capture_date_to)),
+            ]);
+
             $userName = auth()->user()->name;
             (new ActivityLogController)->create(new Request([
                 'activity' => ("User $userName requested to 360 image capture a resort")
