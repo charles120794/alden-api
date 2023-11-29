@@ -117,16 +117,25 @@ class ResortController extends Controller
                 'created_by' => Auth()->User()->id
             ]);
 
-            foreach($request->amenities as $row) {
-                // CREATE AMENITIES
+
+             if (is_array($row)) {
+                // Check if 'amenitiesTitle' exists in the current object
+                if (isset($row['amenitiesTitle'])) {
+                    // CREATE AMENITIES
                     DB::table('resort_amenities')->insert([
-                        'resort_id' => $resort,
-                        'description' => $row["amenitiesTitle"],
-                        'created_at' => now(),
-                        'created_by' => Auth()->User()->id
+                        'resort_id'   => $resort,
+                        'description' => $row['amenitiesTitle'],
+                        'created_at'  => now(),
+                        'created_by'  => Auth()->user()->id,
                     ]);
-                
+                } else {
+                    // Handle the case where 'amenitiesTitle' is not set in the current object
+                }
+            } else {
+                // Handle the case where $row is not an array
             }
+
+
             // foreach($request->policies as $row) {
             //     // CREATE POLICIES
             //     if(isset($row['policiesTitle'])){
