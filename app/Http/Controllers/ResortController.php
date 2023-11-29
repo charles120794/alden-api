@@ -118,19 +118,19 @@ class ResortController extends Controller
 
 
             foreach ($request->amenities as $row) {
-                return json_decode($row, true);
+                $amenity = json_decode($row, true);
 
-                // if ($amenity !== null) {
-                //     // CREATE AMENITIES
-                //     DB::table('resort_amenities')->insert([
-                //         'resort_id'   => $resort,
-                //         'description' => $amenity['amenitiesTitle'],
-                //         'created_at'  => now(),
-                //         'created_by'  => Auth()->user()->id,
-                //     ]);
-                // } else {
-                //     throw new \Exception("AmenitiesTitle not found", 1);
-                // }
+                if ($amenity !== null) {
+                    // CREATE AMENITIES
+                    DB::table('resort_amenities')->insert([
+                        'resort_id'   => $resort,
+                        'description' => $amenity['amenitiesTitle'],
+                        'created_at'  => now(),
+                        'created_by'  => Auth()->user()->id,
+                    ]);
+                } else {
+                    throw new \Exception("AmenitiesTitle not found", 1);
+                }
             }
         
             // foreach($request->policies as $row) {
