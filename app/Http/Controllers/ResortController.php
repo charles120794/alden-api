@@ -156,7 +156,7 @@ class ResortController extends Controller
                         'resort_id' => $resort,
                         'price_desc' => $price['description'],
                         'time_from' => $price['time_from'],
-                        'time_to' => $price['time_from'],
+                        'time_to' => $price['time_to'],
                         'price' => $price['price'],
                         'downpayment_percent' => $price['downpayment_percent'],
                         'created_at' => now(),
