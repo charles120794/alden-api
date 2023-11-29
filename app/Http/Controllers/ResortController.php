@@ -117,9 +117,9 @@ class ResortController extends Controller
             ]);
 
             
-            $amenities = json_decode($request->amenities, true);
+            // $amenities = json_decode($request->amenities, true);
             // if(json_last_error() === JSON_ERROR_NONE){
-
+                $amenities = $request->input('amenities');
                 foreach($amenities as $row) {
                     // CREATE AMENITIES
 
