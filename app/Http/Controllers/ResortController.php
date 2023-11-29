@@ -80,6 +80,7 @@ class ResortController extends Controller
 	{
 
         try {
+            
 
             DB::beginTransaction();
 
@@ -116,16 +117,16 @@ class ResortController extends Controller
                 'created_by' => Auth()->User()->id
             ]);
 
-            
+            dd($request->all());
             // $amenities = json_decode($request->amenities, true);
             // if(json_last_error() === JSON_ERROR_NONE){
                 $amenities = $request->input('amenities');
-                foreach($amenities as $amenity) {
+                foreach($amenities as $row) {
                     // CREATE AMENITIES
-                    $amenityTitle = json_decode($amenity['amenitiesTitle'], true);
+                    $amenityTitle = $amenity['amenitiesTitle'];
                         DB::table('resort_amenities')->insert([
                             'resort_id' => $resort,
-                            'description' => $amenityTitle,
+                            'description' => $row->amenitiesTitle,
                             'created_at' => now(),
                             'created_by' => Auth()->User()->id
                         ]);
