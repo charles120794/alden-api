@@ -117,22 +117,22 @@ class ResortController extends Controller
             ]);
 
             
+            $amenities = json_decode($request->amenities, true);
+            if(json_last_error() === JSON_ERROR_NONE){
 
-            foreach($request->amenities as $row) {
-                // CREATE AMENITIES
-                $item = json_decode($row, true);
+                foreach($amenities as $row) {
+                    // CREATE AMENITIES
 
-                if(json_last_error() === JSON_ERROR_NONE){
-                    DB::table('resort_amenities')->insert([
-                        'resort_id' => $resort,
-                        'description' => $item["amenitiesTitle"],
-                        'created_at' => now(),
-                        'created_by' => Auth()->User()->id
-                    ]);
-                }else {
-                    throw new \Exception("No amenity array found", 1);
+                        DB::table('resort_amenities')->insert([
+                            'resort_id' => $resort,
+                            'description' => $row["amenitiesTitle"],
+                            'created_at' => now(),
+                            'created_by' => Auth()->User()->id
+                        ]);
+                    
                 }
-                
+            }else {
+                throw new \Exception("Error decoding JSON string: " . json_last_error_msg(), 1);
             }
 
             // foreach($request->policies as $row) {
