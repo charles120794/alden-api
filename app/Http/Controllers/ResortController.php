@@ -120,7 +120,7 @@ class ResortController extends Controller
 
             foreach($request->amenities as $row) {
                 // CREATE AMENITIES
-                if(isset($row['amenitiesTitle'])){
+                // if(isset($row['amenitiesTitle'])){
                     $ans = json_decode($row['amenitiesTitle'],true);
                     if(is_array($ans)){
                         DB::table('resort_amenities')->insert([
@@ -130,7 +130,7 @@ class ResortController extends Controller
                             'created_by' => Auth()->User()->id
                         ]);
                     }
-                }
+                // }
                 
             }
 
