@@ -128,6 +128,8 @@ class ResortController extends Controller
                             'created_at' => now(),
                             'created_by' => Auth()->User()->id
                         ]);
+                    }else {
+                        throw new \Exception("No amenity array found", 1);
                     }
                 
             }
