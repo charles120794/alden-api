@@ -80,7 +80,6 @@ class ResortController extends Controller
 	{
 
         try {
-            dd($request->all());
 
             DB::beginTransaction();
 
