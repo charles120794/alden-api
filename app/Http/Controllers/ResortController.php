@@ -134,8 +134,7 @@ class ResortController extends Controller
                             throw new \Exception("AmenitiesTitle not found", 1);
                         }
                 }
-            } 
-            else {
+            } else {
                 throw new \Exception("Not an array", 1);
             }
             // foreach($request->policies as $row) {
