@@ -283,6 +283,8 @@ class ResortController extends Controller
                     DB::table('resort_pricing')->insert([
                         'resort_id' => $request->id,
                         'price_desc' => $row["price_desc"],
+                        'time_from' => $row["time_from"],
+                        'time_to' => $row["time_to"],
                         'price' => $row["price"],
                         'downpayment_percent' => $row["downpayment_percent"],
                         'created_at' => now(),
