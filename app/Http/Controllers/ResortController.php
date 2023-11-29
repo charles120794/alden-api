@@ -117,8 +117,8 @@ class ResortController extends Controller
             ]);
 
             
-            $amenities = json_decode($request->amenities, true);
-            if(json_last_error() === JSON_ERROR_NONE){
+            // $amenities = json_decode($request->amenities, true);
+            // if(json_last_error() === JSON_ERROR_NONE){
 
                 foreach($amenities as $row) {
                     // CREATE AMENITIES
@@ -131,9 +131,9 @@ class ResortController extends Controller
                         ]);
                     
                 }
-            }else {
-                throw new \Exception("Error decoding JSON string: " . json_last_error_msg(), 1);
-            }
+            // }else {
+            //     throw new \Exception("Error decoding JSON string: " . json_last_error_msg(), 1);
+            // }
 
             // foreach($request->policies as $row) {
             //     // CREATE POLICIES
