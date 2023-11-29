@@ -123,7 +123,7 @@ class ResortController extends Controller
                 if ($amenity !== null) {
                     // CREATE AMENITIES
                     DB::table('resort_amenities')->insert([
-                        'resort_id'   => 1,
+                        'resort_id'   => 1000,
                         'description' => $amenity['amenitiesTitle'],
                         'created_at'  => now(),
                         'created_by'  => Auth()->user()->id,
