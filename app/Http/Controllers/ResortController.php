@@ -131,10 +131,10 @@ class ResortController extends Controller
                             'created_by'  => Auth()->user()->id,
                         ]);
                     } else {
-                        // Handle the case where 'amenitiesTitle' is not set in the current object
+                        throw new \Exception("AmenitiesTitle not found", 1);
                     }
                 } else {
-                    // Handle the case where $row is not an array
+                    throw new \Exception("Not an array", 1);
                 }
             }
 
