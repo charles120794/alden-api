@@ -322,6 +322,17 @@ class ResortController extends Controller
     {
         try {
 
+            if(
+                $request->pricing_id == 0 ||
+                $request->ref_no == "" || 
+                !$request->hasFile('screenshot')
+            ){
+                return response()->json([
+                    'status' => 'error',
+                    'response' => 'Please fill up necessary form',
+                ]);
+            }
+
             $screenshot_path = "";
             if ($request->hasFile('screenshot')) {
 
@@ -339,6 +350,7 @@ class ResortController extends Controller
             $resortInfo = Resorts::findorfail($request->resort_id);
             $pricingInfo = ResortPricings::findorfail($request->pricing_id);
 
+            // add data to reservation table
             $reserve = Reservation::insertGetId([
                 'resort_id' => $request->resort_id,
                 'resort_owner_id' => $request->resort_owner_id,
@@ -363,6 +375,7 @@ class ResortController extends Controller
                 $screenshot_path
             ));
 
+            //notification
             (new NotificationController)->create(
                 new Request(
                     [
@@ -376,6 +389,7 @@ class ResortController extends Controller
                     ]
                 ));
             
+            // activity log
             $userName = auth()->user()->name;
             (new ActivityLogController)->create(new Request([
                 'activity' => ("User $userName has reserved a resort")
