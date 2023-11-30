@@ -322,14 +322,10 @@ class ResortController extends Controller
     {
         try {
 
-            if(
-                $request->pricing_id == 0 ||
-                $request->ref_no == "" || 
-                !$request->hasFile('screenshot')
-            ){
+            if($request->pricing_id == 0 || $request->ref_no == "" || !$request->hasFile('screenshot')){
                 return response()->json([
                     'status' => 'error',
-                    'response' => 'Please fill up necessary form',
+                    'response' => 'Please fill up necessary fields',
                 ]);
             }
 
@@ -399,8 +395,6 @@ class ResortController extends Controller
             return response()->json([
                 'status' => 'success',
 				'response' => 'Resort has been reserved successfully',
-				'reserveDate' => date('Y-m-d', strtotime($request->reserve_date)),
-				'reserveDate2' => $request->reserve_date,
 			]);
             
         } catch (\Exception $e) {
