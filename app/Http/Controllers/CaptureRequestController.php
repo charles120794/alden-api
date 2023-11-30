@@ -84,75 +84,89 @@ class CaptureRequestController extends Controller
 	{
 
         try {
+
+            $countImages = DB::table('resort_images')->where('resort_id', $request->resort_id)->where('archive', 0)->count();
+            $countVrImages = DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->where('archive', 0)->count();
+
+            if (
+                (!$request->hasFile('resort_image') && !$request->hasFile('resort_vr_image')) ||
+                (count(request()->file('resort_image'))==0 && count(request()->file('resort_vr_image'))==0)
+            ){
+                return response()->json([
+                    'status' => 'error',
+                    'response' => 'Invalid Action: Choose thumbnail or 360 images',
+                ]);
+            }
             
-            if ($request->hasFile('resort_image') && $request->hasFile('resort_vr_image')) {
-                
-                if (count(request()->file('resort_image'))>2 && count(request()->file('resort_vr_image'))>2) {
+
+            if($countImages==0 && count(request()->file('resort_image'))<3){
+                return response()->json([
+                    'status' => 'error',
+                    'response' => 'New resort: Add at least 3 thumbnails',
+                ]);
+            }
+
+            if($countVrImages==0 && count(request()->file('resort_vr_image'))<3){
+                return response()->json([
+                    'status' => 'error',
+                    'response' => 'New resort: Add at least 3 360 images',
+                ]);
+            }
 
 
-                    foreach(request()->file('resort_image') as $key => $file) {
-                        $filename = time() . '_' . $file->getClientOriginalName();
-                        $file->storeAs('public', $filename);
-                        $getFileName = Storage::disk('public')->url($filename);
-                        DB::table('resort_images')->insert([
-                            'resort_id' => $request->resort_id,
-                            'resort_image' => $getFileName,
-                            'created_at' => now(),
-                        ]);
-                    }
-
-                    
-                    foreach(request()->file('resort_vr_image') as $key => $file) {
-                        $filename = time() . '_' . $file->getClientOriginalName();
-                        $file->storeAs('public', $filename);
-                        $getFileName = Storage::disk('public')->url($filename);
-                        DB::table('resort_vr_images')->insert([
-                            'resort_id' => $request->resort_id,
-                            'resort_vr_image' => $getFileName,
-                            'created_at' => now(),
-                        ]);
-                    }
-
-                    Resorts::where('id', $request->resort_id)->update([
-                        'is_for_rent' => 1,
-                        'capture_status' => 1,
-                        'captured_at' => now(),
-                        'updated_at' => now(),
-                    ]);
-        
-                    CaptureRequest::where('id', $request->request_id)->update([
-                        'capture_status' => 1,
-                        'captured_at' => now(),
-                    ]);
-
-                    //notify owner
-                    (new NotificationController)->create(new Request([
-                        'resort_id' => $request->resort_id,
-                        'user_id' => $request->resort_owner,
-                        'message' => "Your resort is finally posted with a brilliant 360 images that serves as a virtual tour of the resort",
-                        'type' => 'RESORT_CAPTURED',
-                        'source' => auth()->id(),
-                    ]));
-
-                    (new ActivityLogController)->create(new Request([
-                        'activity' => ("A new resort has been uploaded with 360 images")
-                    ]));
-                    
-        
-                    return response()->json([
-                        'status' => 'success',
-                        'response' => 'Image uploaded Successfully!',
-                    ]);
-
-                } else {
-                    throw new \Exception("Please pick at least 3 thumbnail and 360 images", 1);
-                }
-
-            } else {
-                throw new \Exception("Thumbnail and 360 images is required", 1);
+            foreach(request()->file('resort_image') as $key => $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename);
+                $getFileName = Storage::disk('public')->url($filename);
+                DB::table('resort_images')->insert([
+                    'resort_id' => $request->resort_id,
+                    'resort_image' => $getFileName,
+                    'created_at' => now(),
+                ]);
             }
 
             
+            foreach(request()->file('resort_vr_image') as $key => $file) {
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->storeAs('public', $filename);
+                $getFileName = Storage::disk('public')->url($filename);
+                DB::table('resort_vr_images')->insert([
+                    'resort_id' => $request->resort_id,
+                    'resort_vr_image' => $getFileName,
+                    'created_at' => now(),
+                ]);
+            }
+
+            Resorts::where('id', $request->resort_id)->update([
+                'is_for_rent' => 1,
+                'capture_status' => 1,
+                'captured_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            CaptureRequest::where('id', $request->request_id)->update([
+                'capture_status' => 1,
+                'captured_at' => now(),
+            ]);
+
+            //notify owner
+            (new NotificationController)->create(new Request([
+                'resort_id' => $request->resort_id,
+                'user_id' => $request->resort_owner,
+                'message' => "Your resort is finally posted with a brilliant 360 images that serves as a virtual tour of the resort",
+                'type' => 'RESORT_CAPTURED',
+                'source' => auth()->id(),
+            ]));
+
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("A new resort has been uploaded with 360 images")
+            ]));
+            
+
+            return response()->json([
+                'status' => 'success',
+                'response' => 'Image uploaded Successfully!',
+            ]);
 
             
         } catch (\Exception $e) {
