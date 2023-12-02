@@ -103,6 +103,7 @@ class CaptureRequestController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'response' => 'New resort: Add at least 3 thumbnails',
+                    'count' => $countImages,
                 ]);
             }
 
@@ -130,7 +131,7 @@ class CaptureRequestController extends Controller
             } else {
                 throw new \Exception("Thumbnail image not found", 1);
             }
-            
+
 
             if($request->hasFile('resort_vr_image')){
 
