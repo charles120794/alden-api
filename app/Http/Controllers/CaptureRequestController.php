@@ -127,9 +127,7 @@ class CaptureRequestController extends Controller
                     ]);
                 }
 
-            } else {
-                throw new \Exception("Thumbnail image not found", 1);
-            }
+            } 
 
 
             if($request->hasFile('resort_vr_image')){
@@ -145,14 +143,8 @@ class CaptureRequestController extends Controller
                     ]);
                 }
 
-            } else {
-                throw new \Exception("360 image not found", 1);
-            }
+            } 
 
-
-            
-
-            
             
 
             Resorts::where('id', $request->resort_id)->update([
