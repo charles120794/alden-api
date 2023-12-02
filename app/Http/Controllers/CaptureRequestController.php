@@ -114,28 +114,46 @@ class CaptureRequestController extends Controller
             }
 
 
-            foreach(request()->file('resort_image') as $key => $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public', $filename);
-                $getFileName = Storage::disk('public')->url($filename);
-                DB::table('resort_images')->insert([
-                    'resort_id' => $request->resort_id,
-                    'resort_image' => $getFileName,
-                    'created_at' => now(),
-                ]);
+            if($request->hasFile('resort_image')){
+
+                foreach(request()->file('resort_image') as $key => $file) {
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->storeAs('public', $filename);
+                    $getFileName = Storage::disk('public')->url($filename);
+                    DB::table('resort_images')->insert([
+                        'resort_id' => $request->resort_id,
+                        'resort_image' => $getFileName,
+                        'created_at' => now(),
+                    ]);
+                }
+
+            } else {
+                throw new \Exception("Thumbnail image not found", 1);
+            }
+            
+
+            if($request->hasFile('resort_vr_image')){
+
+                foreach(request()->file('resort_vr_image') as $key => $file) {
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->storeAs('public', $filename);
+                    $getFileName = Storage::disk('public')->url($filename);
+                    DB::table('resort_vr_images')->insert([
+                        'resort_id' => $request->resort_id,
+                        'resort_vr_image' => $getFileName,
+                        'created_at' => now(),
+                    ]);
+                }
+
+            } else {
+                throw new \Exception("360 image not found", 1);
             }
 
+
             
-            foreach(request()->file('resort_vr_image') as $key => $file) {
-                $filename = time() . '_' . $file->getClientOriginalName();
-                $file->storeAs('public', $filename);
-                $getFileName = Storage::disk('public')->url($filename);
-                DB::table('resort_vr_images')->insert([
-                    'resort_id' => $request->resort_id,
-                    'resort_vr_image' => $getFileName,
-                    'created_at' => now(),
-                ]);
-            }
+
+            
+            
 
             Resorts::where('id', $request->resort_id)->update([
                 'is_for_rent' => 1,
