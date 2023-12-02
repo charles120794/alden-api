@@ -103,6 +103,7 @@ Route::post('/forgot-password', function (Request $request) {
         return $status === Password::RESET_LINK_SENT
                     ? response()->json(['status' => 'success', 'response' => 'Password reset link sent successfully '])
                     : response()->json(['status' => 'error', 'response' => __($status)], 400);
+                    
     } catch (\Exception $e) {
 
         return response()->json([
