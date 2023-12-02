@@ -50,6 +50,10 @@
       <li>Contact No.: {{$user_contact}}</li>
     </ul>
     </br>
+    <p>The owner said: </br>
+    {{$note}}
+    </p>
+    </br>
     <p>Once again, we apologize for any inconvenience caused and appreciate your understanding in this 
       matter. We value your interest in {{$resort_name}} and hope for the opportunity to
       welcome you or your guests in the future.</p>

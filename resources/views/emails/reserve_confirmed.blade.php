@@ -45,6 +45,10 @@
       <li>Contact No.: {{$user_contact}}</li>
     </ul>
     </br>
+    <p>The owner said: </br>
+    {{$note}}
+    </p>
+    </br>
     <p><strong>Note:</strong>This will also serve you as a official reciept. 
     <strong>Please print the attachment sent to your notification in QuickRent Online or this email to show 
     it to the front desk.</strong></p>

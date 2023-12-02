@@ -419,6 +419,7 @@ class ResortController extends Controller
 
                 Reservation::where('id', $request->data['reservation_id'])->update([
                     'confirm_status' => 1, //owner confirmed 
+                    'note' => $request->note ?? 'No note from the owner'
                 ]);
 
                 // send email notification to user
@@ -430,7 +431,8 @@ class ResortController extends Controller
                     auth()->user()->name,
                     auth()->user()->email,
                     auth()->user()->contact_no,
-                    $resortInfo->resort_address
+                    $resortInfo->resort_address,
+                    $request->note ?? 'No note from the owner'
                 ));
 
                 
@@ -462,6 +464,7 @@ class ResortController extends Controller
 
                 Reservation::where('id', $request->data['reservation_id'])->update([
                     'confirm_status' => 2, //owner reject reservation 
+                    'note' => $request->note ?? 'No note from the owner'
                 ]);
 
                 Mail::to($userInfo->email)->send(new MailRejectReservation(
@@ -472,7 +475,8 @@ class ResortController extends Controller
                     auth()->user()->name,
                     auth()->user()->email,
                     auth()->user()->contact_no,
-                    $resortInfo->resort_address
+                    $resortInfo->resort_address,
+                    $request->note ?? 'No note from the owner'
                 ));
 
                 $notif->create(

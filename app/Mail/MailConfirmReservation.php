@@ -17,9 +17,9 @@ class MailConfirmReservation extends Mailable
      * @return void
      */
 
-    public $resort_name, $price_desc, $reserve_date, $ref_no, $user_name, $user_email, $user_contact, $resort_address;
+    public $resort_name, $price_desc, $reserve_date, $ref_no, $user_name, $user_email, $user_contact, $resort_address, $note;
 
-    public function __construct($resort_name, $price_desc, $reserve_date, $ref_no, $user_name, $user_email, $user_contact, $resort_address)
+    public function __construct($resort_name, $price_desc, $reserve_date, $ref_no, $user_name, $user_email, $user_contact, $resort_address, $note)
     {
         $this->resort_name = $resort_name;
         $this->price_desc = $price_desc;
@@ -29,6 +29,7 @@ class MailConfirmReservation extends Mailable
         $this->user_email = $user_email;
         $this->user_contact = $user_contact;
         $this->resort_address = $resort_address;
+        $this->note = $note;
     }
 
     /**
