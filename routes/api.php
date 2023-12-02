@@ -82,16 +82,36 @@ Route::post('/email/resend-verification', function (Request $request) {
 
 // The Email Password Reset Notice
 Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
+
+    try{
+        $request->validate(['email' => 'required|email']);
+
+        $userInfo = User::where('email', $request->email)->count();
+
+        if($userInfo === 0){
+            return response()->json([
+                'status' => 'error',
+                'response' => 'Email not found',
+            ]);
+        }
  
-    $status = Password::sendResetLink(
-        $request->only('email'),
+        $status = Password::sendResetLink(
+            $request->only('email'),
+            
+        );
+    
+        return $status === Password::RESET_LINK_SENT
+                    ? response()->json(['status' => 'success', 'response' => 'Password reset link sent successfully '])
+                    : response()->json(['status' => 'error', 'response' => __($status)], 400);
+    } catch (\Exception $e) {
+
+        return response()->json([
+            'status' => 'error',
+            'response' => $e->getMessage(),
+        ]);
         
-    );
- 
-    return $status === Password::RESET_LINK_SENT
-                ? response()->json(['status' => 'success', 'response' => 'Password reset link sent successfully '])
-                : response()->json(['status' => 'error', 'response' => __($status)], 400);
+    }
+
 })->middleware('guest')->name('password.email');
 
 
