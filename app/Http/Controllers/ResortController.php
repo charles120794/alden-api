@@ -529,36 +529,49 @@ class ResortController extends Controller
     
 
     public function reviewResort(Request $request){
-        ResortRatings::insert([
-            'resort_id' => $request->resort_id,
-            'resort_owner_id' => $request->resort_owner_id,
-            'reservation_id' => $request->reservation_id,
-            'rating' => $request->currentValue,
-            'feedback' => $request->comment,
-            'created_by' => auth()->id(),
-            'created_at' => now(),
-        ]);
+        
+        try{
 
-        Reservation::where('id', $request->reservation_id)->update([
-            'rate_status' => 1,
-        ]);
+            ResortRatings::insert([
+                'resort_id' => $request->resort_id,
+                'resort_owner_id' => $request->resort_owner_id,
+                'reservation_id' => $request->reservation_id,
+                'rating' => $request->currentValue,
+                'feedback' => $request->comment,
+                'created_by' => auth()->id(),
+                'created_at' => now(),
+            ]);
+    
+            Reservation::where('id', $request->reservation_id)->update([
+                'rate_status' => 1,
+            ]);
+    
+            //notify owner
+            (new NotificationController)->create(new Request([
+                'resort_id' => $request->resort_id,
+                'reservation_id' => $request->reservation_id,
+                'user_id' => $request->resort_owner_id,
+                'message' => "A previous customer has rated and commented on your resort.",
+                'type' => 'RESORT_REVIEWED',
+                'source' => auth()->id(),
+            ]));
+    
+            $userName = auth()->user()->name;
+            (new ActivityLogController)->create(new Request([
+                'activity' => ("User $userName has rated and reviewed a resort")
+            ]));
+    
+            return response()->json([
+                'status'=>"success",
+                'response'=>"Resort reviewed successfully."
+            ]);
 
-        //notify owner
-        (new NotificationController)->create(new Request([
-            'resort_id' => $request->resort_id,
-            'reservation_id' => $request->reservation_id,
-            'user_id' => $request->resort_owner_id,
-            'message' => "A previous customer has rated and commented on your resort.",
-            'type' => 'RESORT_REVIEWED',
-            'source' => auth()->id(),
-        ]));
-
-        $userName = auth()->user()->name;
-        (new ActivityLogController)->create(new Request([
-            'activity' => ("User $userName has rated and reviewed a resort")
-        ]));
-
-        return response()->json(['response'=>"Resort reviewed successfully."]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'response' => $e->getMessage(),
+            ]);
+        }
         
     }
 
