@@ -71,6 +71,7 @@ class LoginController extends Controller
             (new AdminController)->index();
             
             return response()->json([
+                'status' => 'success',
                 'authenticated' => true,
                 'response' => 'User logged in successfully',
                 'token' => array_reverse(explode('|', $token->plainTextToken))[0],
@@ -80,6 +81,7 @@ class LoginController extends Controller
         } catch (\Exception $e) {
 
             return response()->json([
+                'status' => 'error',
                 'authenticated' => false,
                 'response' => 'Invalid Email or Password',
                 'token' => ''
