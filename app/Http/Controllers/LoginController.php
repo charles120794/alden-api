@@ -53,7 +53,7 @@ class LoginController extends Controller
             (new NotificationController)->notifiReservation();
 
             $userName = auth()->user()->name;
-            $userName = auth()->user()->type;
+            $userType = auth()->user()->type;
             $role = "";
 
             if ($userType == 3) {
