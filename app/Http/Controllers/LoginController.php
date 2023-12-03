@@ -53,10 +53,21 @@ class LoginController extends Controller
             (new NotificationController)->notifiReservation();
 
             $userName = auth()->user()->name;
+            $userName = auth()->user()->type;
+            $role = "";
+
+            if ($userType == 3) {
+                $role = 'Admin';
+            } elseif ($userType == 2) {
+                $role = 'Owner';
+            } else {
+                $role = 'User';
+            }
+            
             (new ActivityLogController)->create(new Request([
-                'activity' => ("User $userName logged in")
+                'activity' => ("$role $userName logged in")
             ]));
-     
+                
             (new AdminController)->index();
             
             return response()->json([
