@@ -39,9 +39,9 @@ class LoginController extends Controller
     {
         try {
 
-            $userInfo = User::where('email', $request->email)->count();
+            $userInfo = User::where('email', $request->email)->first();
 
-            if($userInfo === 0){
+            if (!$userInfo) {
                 return response()->json([
                     'status' => 'error',
                     'response' => 'Email not found',
