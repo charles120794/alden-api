@@ -221,8 +221,19 @@ class LoginController extends Controller
     public function destroy(Request $request)
     {
         $userName = auth()->user()->name;
+        $userType = auth()->user()->type;
+        $role = "";
+
+        if ($userType == 3) {
+            $role = 'Admin';
+        } elseif ($userType == 2) {
+            $role = 'Owner';
+        } else {
+            $role = 'User';
+        }
+        
         (new ActivityLogController)->create(new Request([
-            'activity' => ("User $userName logged out")
+            'activity' => ("$role $userName logged in")
         ]));
 
         $request->user()->currentAccessToken()->delete();
