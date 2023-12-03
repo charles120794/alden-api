@@ -83,7 +83,7 @@ class LoginController extends Controller
             return response()->json([
                 'status' => 'error',
                 'authenticated' => false,
-                'response' => 'Invalid Email or Password',
+                'response' => $e->getMessage(),
                 'token' => ''
             ]);
         }
