@@ -48,6 +48,13 @@ class LoginController extends Controller
                 ]);
             }
 
+            if (!Hash::check($request->password, $userInfo->password)) {
+                return response()->json([
+                    'status' => 'error',
+                    'response' => 'Incorrect password',
+                ]);
+            }
+
             $request->authenticate();
 
             $token = $request->user()->createToken($request->token_name);
