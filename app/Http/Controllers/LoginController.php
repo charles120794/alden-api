@@ -39,6 +39,15 @@ class LoginController extends Controller
     {
         try {
 
+            $userInfo = User::where('email', $request->email)->count();
+
+            if($userInfo === 0){
+                return response()->json([
+                    'status' => 'error',
+                    'response' => 'Email not found',
+                ]);
+            }
+
             $request->authenticate();
 
             $token = $request->user()->createToken($request->token_name);
