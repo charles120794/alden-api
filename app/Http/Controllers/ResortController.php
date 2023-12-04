@@ -43,7 +43,7 @@ class ResortController extends Controller
                 ]);
             });
 
-            if(request()->isSortByRate){
+            if(request()->isSortByRate == true){
                 if(request()->sortBy == "asc"){
                     $searchResort->sortBy('ratings_avarage');
                 }else{
