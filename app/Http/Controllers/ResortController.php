@@ -24,13 +24,17 @@ class ResortController extends Controller
     public function index()
     {
         try {
-            return Resorts::with('createdUser.paymentMethods')->when(!empty(request()->search), function($query) {
+            $searchResort =  Resorts::with('createdUser.paymentMethods')->when(!empty(request()->search), function($query) {
                 return $query->where('resort_name', 'like', '%' . request()->search. '%')
                     ->orWhere('region', 'like', '%' . request()->search. '%')
                     ->orWhere('province', 'like', '%' . request()->search. '%')
                     ->orWhere('city', 'like', '%' . request()->search. '%')
                     ->orWhere('barangay', 'like', '%' . request()->search. '%');
-            })->get()->map(function($value) {
+            });
+            
+            $getResorts = $searchResort->get();
+            
+            return $getResorts->map(function($value) {
                 return collect($value)->merge([
                     'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->where('archive', 0)->get(),
                     'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->where('archive', 0)->get(),
