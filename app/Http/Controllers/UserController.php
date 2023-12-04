@@ -190,17 +190,7 @@ class UserController extends Controller
     {
         try {
 
-            $users = new User;
-
-            if($request->has('approve_status')) {
-                $users = $users->where('approve_status', 0);//pending users
-            }
-
-            $users = $users->get();
-
-            return response()->json(
-                $users
-            );
+            return User::get();
 
         } catch (\Exception $e) {
             return response()->json([
