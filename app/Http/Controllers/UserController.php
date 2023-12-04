@@ -76,7 +76,15 @@ class UserController extends Controller
 
             } else {
                 $profile_picture_path = $request->profile_picture;
-                // throw new \Exception("Image is required", 1);
+            }
+
+            $mResponse = 'Successfully updated';
+
+            if($request->email != auth()->user()->email){
+
+                Auth()->User()->update(['email_verified_at' => null]);
+                $mResponse = 'Successfully updated. Please verify new email';
+
             }
 
             Auth()->User()->update([
@@ -92,7 +100,7 @@ class UserController extends Controller
             return response()->json([
                 'status' => "success",
                 'authenticated' => true,
-                'response' => 'Successfully updated',
+                'response' => $mResponse,
                 'data' => [
                     'name' => $request->first_name . ' ' . $request->last_name,
                     'first_name' => $request->first_name,
