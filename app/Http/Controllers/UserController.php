@@ -109,6 +109,7 @@ class UserController extends Controller
                     'contact_no' => $request->contact_no,
                     'profile_picture' => $profile_picture_path,
                     'updated_at' => now(),
+                    'email_verified_at' => auth()->user()->email_verified_at,
                 ]
             ]);
 
