@@ -26,8 +26,6 @@ class ResortController extends Controller
         try {
             return Resorts::with('createdUser.paymentMethods')->when(!empty(request()->search), function($query) {
                 return $query->where('resort_name', 'like', '%' . request()->search. '%')
-                    ->orWhere('resort_desc', 'like', '%' . request()->search. '%')
-                    ->orWhere('resort_address', 'like', '%' . request()->search. '%')
                     ->orWhere('region', 'like', '%' . request()->search. '%')
                     ->orWhere('province', 'like', '%' . request()->search. '%')
                     ->orWhere('city', 'like', '%' . request()->search. '%')
