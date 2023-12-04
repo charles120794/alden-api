@@ -43,6 +43,14 @@ class ResortController extends Controller
                 ]);
             });
 
+            if(request()->isSortByRate){
+                if(request()->sortBy == "asc"){
+                    $searchResort->sortBy('ratings_avarage');
+                }else{
+                    $searchResort->sortByDesc('ratings_avarage');
+                }
+            }
+
             return $searchResort;
 
         } catch (\Exception $e) {
