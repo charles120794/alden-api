@@ -165,7 +165,7 @@ Route::post('/pusher/test', [ChatController::class, 'testingPusher']);
 
 
 
-Route::middleware(['auth:sanctum', 'cors'])->group(function () {
+Route::middleware(['auth:sanctum', 'cors', 'throttle:60,1'])->group(function () {
 
     Route::get('/user', function (Request $request) {
         return $request->user();
