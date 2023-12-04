@@ -24,17 +24,13 @@ class ResortController extends Controller
     public function index()
     {
         try {
-            $searchResort =  Resorts::with('createdUser.paymentMethods')->when(!empty(request()->search), function($query) {
+            $searchResort = Resorts::with('createdUser.paymentMethods')->when(!empty(request()->search), function($query) {
                 return $query->where('resort_name', 'like', '%' . request()->search. '%')
                     ->orWhere('region', 'like', '%' . request()->search. '%')
                     ->orWhere('province', 'like', '%' . request()->search. '%')
                     ->orWhere('city', 'like', '%' . request()->search. '%')
                     ->orWhere('barangay', 'like', '%' . request()->search. '%');
-            });
-            
-            $getResorts = $searchResort->get();
-            
-            return $getResorts->map(function($value) {
+            })->get()->map(function($value) {
                 return collect($value)->merge([
                     'amenities' => DB::table('resort_amenities')->where('resort_id', $value->id)->where('archive', 0)->get(),
                     'policies' => DB::table('resort_policy')->where('resort_id', $value->id)->where('archive', 0)->get(),
@@ -45,7 +41,10 @@ class ResortController extends Controller
                     'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->where('archive', 0)->get(),
                     'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
                 ]);
-            })->sortBy('ratings_avarage', 'desc');
+            });
+
+            return $searchResort;
+
         } catch (\Exception $e) {
             return response()->json([
                 'response' => $e->getMessage(),
