@@ -45,7 +45,7 @@ class ResortController extends Controller
                     'pricing' => DB::table('resort_pricing')->where('resort_id', $value->id)->where('archive', 0)->get(),
                     'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
                 ]);
-            });
+            })->sortBy('ratings_avarage', 'desc');
         } catch (\Exception $e) {
             return response()->json([
                 'response' => $e->getMessage(),
