@@ -206,6 +206,7 @@ Route::middleware(['auth:sanctum', 'cors', 'throttle:60,1'])->group(function () 
     // NOTIFICATION
     //
     Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/admin', [NotificationController::class, 'adminNotifications']);
     Route::get('/notification/show', [NotificationController::class, 'show']);
     Route::post('/notification/create', [NotificationController::class, 'create']);
     Route::post('/notification/submit', [NotificationController::class, 'submit']);
