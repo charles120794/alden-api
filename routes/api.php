@@ -186,7 +186,7 @@ Route::middleware(['auth:sanctum', 'cors', 'throttle:60,1'])->group(function () 
     Route::post('/user/paymethod/create', [UserController::class, 'addPaymentMethod']);
     Route::post('/user/paymethod/delete', [UserController::class, 'deletePaymentMethod']);
     Route::get('/user/bookmarks', [UserController::class, 'allBookmarks']);
-    Route::post('/user/bookmarks/update', [UserController::class, 'updateBookmarks'])->middleware('throttle:3,1'); // 3 requests per 1 second
+    Route::post('/user/bookmarks/update', [UserController::class, 'updateBookmarks']); // 3 requests per 1 second
 
 
     Route::get('/resort/list', [ResortController::class, 'getResortList']);
