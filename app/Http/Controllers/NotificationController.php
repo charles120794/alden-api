@@ -29,6 +29,19 @@ class NotificationController extends Controller
 		}
 	}
 
+	public function adminNotifications(Request $request)
+	{
+		try {
+
+			return Notification::where('user_id', 20)->with('userCreated', 'resortInfo.createdUser', 'reservationInfo.priceInfo')->orderBy('created_at', 'desc')->get();
+
+		} catch (\Exception $e) {
+			return response()->json([
+                'response' => $e->getMessage(),
+            ]);
+		}
+	}
+
 	public function show(Request $request)
 	{
 		try {
