@@ -73,8 +73,10 @@ class LoginController extends Controller
             $role = "";
 
             if ($userType == 3) {
+                $role = 'Super Admin';
+            } else if ($userType == 2) {
                 $role = 'Admin';
-            } elseif ($userType == 2) {
+            } else if ($userType == 1) {
                 $role = 'Owner';
             } else {
                 $role = 'User';
@@ -225,8 +227,10 @@ class LoginController extends Controller
         $role = "";
 
         if ($userType == 3) {
+            $role = 'Super Admin';
+        } else if ($userType == 2) {
             $role = 'Admin';
-        } elseif ($userType == 2) {
+        } else if ($userType == 1) {
             $role = 'Owner';
         } else {
             $role = 'User';
