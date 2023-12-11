@@ -39,18 +39,7 @@ class ReservationController extends Controller
                                         ->groupBy('resort_name')
                                         ->get();
 
-            // Iterate through each reservation and update status if 'created_at' is past today
-            foreach ($reservation_list as $reservation) {
-                $createdAt = Carbon::parse($reservation->created_at);
-
-                // Check if 'created_at' is past today
-                if ($createdAt->isPast()) {
-                    // Update 'status' column as needed
-                    $reservation->update([
-                        'confirm_status' => 3,
-                    ]);
-                }
-            }
+            Reservation::where('created_at', '<', now())->update(['confirm_status' => 3]);
 
             return response()->json([
                 'reservation_list' => $reservation_list,
