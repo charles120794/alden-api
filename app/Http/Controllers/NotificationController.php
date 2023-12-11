@@ -148,7 +148,7 @@ class NotificationController extends Controller
 									}
             }
 
-						if($reserve->confirm_status == 0){
+						if($reserve->confirm_status == 3){
 							$count = Notification::query()
                     ->where('resort_id',  $reserve->resort_id)
                     ->where('reservation_id',  $reserve->id)
