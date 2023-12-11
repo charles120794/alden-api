@@ -39,7 +39,9 @@ class ReservationController extends Controller
                                         ->groupBy('resort_name')
                                         ->get();
 
-            Reservation::where('created_at', '<', now())->update(['confirm_status' => 3]);
+            Reservation::where('created_at', '<', now())
+                    ->where('confirm_status', 0)
+                    ->update(['confirm_status' => 3]);
 
             return response()->json([
                 'reservation_list' => $reservation_list,
