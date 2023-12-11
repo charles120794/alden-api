@@ -157,20 +157,28 @@ class NotificationController extends Controller
                     ->where('source',  20)
                     ->count();
 
-                if($count == 0) {
-										//add to db if notification does not exist
-                    Notification::insert([
-                        'resort_id' => $reserve->resort_id,
-                        'reservation_id' => $reserve->id,
-                        'user_id' => $reserve->created_by,
-                        'message' => "Your reservation was not processed by the owner. Please contact the owner as we assure you that we will also make action on this issue",
-                        'type' => 'UNPROCESSED_RESERVE',
-                        'status' => 0,
-                        'created_at' => now(),
-                        'created_by' => 20,
-                        'source' => 20,
-                    ]);
-									}
+							if($count == 0) {
+									//add to db if notification does not exist
+									Notification::insert([
+											'resort_id' => $reserve->resort_id,
+											'reservation_id' => $reserve->id,
+											'user_id' => $reserve->resort_owner_id,
+											'message' => "A reservation by $reserve->created_by was not processed. Please contact the customer and clarify the problem.",
+											'type' => 'UNPROCESSED_RESERVE',
+											'status' => 0,
+											'created_at' => now(),
+											'created_by' => 20,
+											'source' => 20,
+									]);
+								}
+
+								$count = Notification::query()
+                    ->where('resort_id',  $reserve->resort_id)
+                    ->where('reservation_id',  $reserve->id)
+                    ->where('user_id',  $reserve->created_by)
+                    ->where('type',  'UNPROCESSED_RESERVE')
+                    ->where('source',  20)
+                    ->count();
 						}
         }
     }
