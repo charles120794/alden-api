@@ -47,7 +47,7 @@ class ReservationController extends Controller
                 if ($createdAt->isPast()) {
                     // Update 'status' column as needed
                     $reservation->update([
-                        'status' => 'your_desired_status_value',
+                        'confirm_status' => 3,
                     ]);
                 }
             }
