@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Storage;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Resorts;
@@ -38,6 +39,19 @@ class ReservationController extends Controller
                                         ->groupBy('resort_name')
                                         ->get();
 
+            // Iterate through each reservation and update status if 'created_at' is past today
+            foreach ($reservation_list as $reservation) {
+                $createdAt = Carbon::parse($reservation->created_at);
+
+                // Check if 'created_at' is past today
+                if ($createdAt->isPast()) {
+                    // Update 'status' column as needed
+                    $reservation->update([
+                        'status' => 'your_desired_status_value',
+                    ]);
+                }
+            }
+
             return response()->json([
                 'reservation_list' => $reservation_list,
                 'review_list' => $review_list,
@@ -50,5 +64,4 @@ class ReservationController extends Controller
             ]);
         }
     }
-
 }
