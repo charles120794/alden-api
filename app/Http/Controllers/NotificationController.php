@@ -164,7 +164,7 @@ class NotificationController extends Controller
                     ->where('source',  20)
                     ->count();
 
-							$userInfo = User::findorfail($request->created_by);
+							$userInfo = User::findorfail($reserve->created_by);
 
 
 							if($countOwnerNotif == 0) {
