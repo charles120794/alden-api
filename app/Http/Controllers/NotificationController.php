@@ -148,30 +148,13 @@ class NotificationController extends Controller
                     ]);
 									}
             }
+        }
+
+				$reservationOwner = Reservation::where('resort_owner_id', auth()->id())->where('rate_status', 0)->get();
+
+        foreach ($reservationOwner as $reserve) {
 
 						if($reserve->confirm_status == 3){
-							$count = Notification::query()
-                    ->where('resort_id',  $reserve->resort_id)
-                    ->where('reservation_id',  $reserve->id)
-                    ->where('user_id',  $reserve->created_by)
-                    ->where('type',  'UNPROCESSED_RESERVE')
-                    ->where('source',  20)
-                    ->count();
-
-							if($count == 0) {
-								//add to db if notification does not exist
-								Notification::insert([
-										'resort_id' => $reserve->resort_id,
-										'reservation_id' => $reserve->id,
-										'user_id' => $reserve->created_by,
-										'message' => "Your reservation was not processed by the owner. Please contact the owner as we assure you that we will also make action on this issue",
-										'type' => 'UNPROCESSED_RESERVE',
-										'status' => 0,
-										'created_at' => now(),
-										'created_by' => 20,
-										'source' => 20,
-								]);
-							}
 
 							$countOwnerNotif = Notification::query()
                     ->where('resort_id',  $reserve->resort_id)
