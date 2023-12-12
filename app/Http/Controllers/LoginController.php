@@ -150,7 +150,7 @@ class LoginController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'status' => 1,
-                'type' => $request->type ?? 0,
+                'type' => $request->type,
             ]);
 
 
