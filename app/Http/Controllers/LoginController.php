@@ -113,6 +113,9 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+
+    // Sign Up
     public function store(Request $request)
     {
         
@@ -147,7 +150,7 @@ class LoginController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'status' => 1,
-                'type' => $request->type
+                'type' => $request->type ?? 0,
             ]);
 
 
