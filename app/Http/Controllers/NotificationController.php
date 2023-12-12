@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use App\Models\Reservation;
 use App\Models\Notification;
+use App\Models\User;
 use App\Events\MyEvent;
 use App\Events\NotificationEvent;
 
@@ -172,7 +173,7 @@ class NotificationController extends Controller
 								]);
 							}
 
-							$countOnerNotif = Notification::query()
+							$countOwnerNotif = Notification::query()
                     ->where('resort_id',  $reserve->resort_id)
                     ->where('reservation_id',  $reserve->id)
                     ->where('user_id',  $reserve->resort_owner_id)
@@ -180,13 +181,16 @@ class NotificationController extends Controller
                     ->where('source',  20)
                     ->count();
 
-							if($countOnerNotif == 0) {
+							$userInfo = User::findorfail($request->created_by);
+
+
+							if($countOwnerNotif == 0) {
 								//add to db if notification does not exist
 								Notification::insert([
 										'resort_id' => $reserve->resort_id,
 										'reservation_id' => $reserve->id,
 										'user_id' => $reserve->resort_owner_id,
-										'message' => "A reservation by $reserve->created_by was not processed. Please contact the customer to address the issue",
+										'message' => "A reservation by $userInfo->name was not processed. Please contact the customer to address the issue",
 										'type' => 'UNPROCESSED_RESERVE',
 										'status' => 0,
 										'created_at' => now(),
