@@ -97,22 +97,29 @@ class CaptureRequestController extends Controller
                     'response' => 'Invalid Action: Choose thumbnail or 360 images',
                 ]);
             }
+
+            if($request->hasFile('resort_image')){
+                if($countImages == 0 && count(request()->file('resort_image')) < 3){
+                    return response()->json([
+                        'status' => 'error',
+                        'response' => 'New resort: Add at least 3 thumbnails',
+                    ]);
+                }
+            } 
+            
+            if($request->hasFile('resort_image')){
+                if($countVrImages == 0 && count(request()->file('resort_vr_image[]')) < 3){
+                    return response()->json([
+                        'status' => 'error',
+                        'response' => 'New resort: Add at least 3 360 images',
+                    ]);
+                }    
+
+            } 
+
             
 
-            if($countImages == 0 && count(request()->file('resort_image[]')) < 3){
-                return response()->json([
-                    'status' => 'error',
-                    'response' => 'New resort: Add at least 3 thumbnails',
-                ]);
-            }
-
-            if($countVrImages == 0 && count(request()->file('resort_vr_image[]')) < 3){
-                return response()->json([
-                    'status' => 'error',
-                    'response' => 'New resort: Add at least 3 360 images',
-                ]);
-            }
-
+       
 
             if($request->hasFile('resort_image')){
 
