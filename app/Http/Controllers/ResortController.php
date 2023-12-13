@@ -404,7 +404,7 @@ class ResortController extends Controller
                     ->where('resort_id', $request->resort_id)
                     ->where('reservation_id', $request->reservation_id)
                     ->where('created_by', auth()->id())
-                    ->get();
+                    ->first();
 
         return $review;
     }
