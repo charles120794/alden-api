@@ -17,12 +17,31 @@ class MailResortReserve extends Mailable
      * @return void
      */
 
-    public $resort_name, $price_desc, $reserve_date, $user_name, $user_email, $user_contact, $screenshot;
+    public $resort_name, 
+            $price_desc, 
+            $time_from, 
+            $time_to, 
+            $reserve_date, 
+            $user_name, 
+            $user_email, 
+            $user_contact, 
+            $screenshot;
 
 
-    public function __construct($resort_name, $price_desc, $reserve_date, $user_name, $user_email, $user_contact, $screenshot)
+    public function __construct($resort_name, 
+                                $price_desc, 
+                                $time_from, 
+                                $time_to, 
+                                $reserve_date, 
+                                $user_name, 
+                                $user_email, 
+                                $user_contact, 
+                                $screenshot)
     {
         $this->resort_name = $resort_name;
+        $this->price_desc = $price_desc;
+        $this->time_from = $time_from;
+        $this->time_to = $time_to;
         $this->price_desc = $price_desc;
         $this->reserve_date = $reserve_date;
         $this->user_name = $user_name;

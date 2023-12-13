@@ -32,6 +32,7 @@
     <p><strong>Here are the reservation summary:</strong></p>
     <ul>
       <li>Reservation Date: {{$reserve_date}}</li>
+      <li>Time: {{$time_from}} - {{$time_to}}</li>
       <li>Description: {{$price_desc}}</li>
       <li>Payment Reference No.: {{$ref_no}}</li>
     </ul>
