@@ -339,7 +339,7 @@ class ResortController extends Controller
         
         try{
 
-            ResortRatings::insert([
+            $rate_id = ResortRatings::insertGetId([
                 'resort_id' => $request->resort_id,
                 'resort_owner_id' => $request->resort_owner_id,
                 'reservation_id' => $request->reservation_id,
@@ -348,6 +348,23 @@ class ResortController extends Controller
                 'created_by' => auth()->id(),
                 'created_at' => now(),
             ]);
+            
+            if($request->hasFile('rate_image')){
+
+                foreach(request()->file('rate_image') as $key => $file) {
+                    $filename = time() . '_' . $file->getClientOriginalName();
+                    $file->storeAs('public', $filename);
+                    $getFileName = Storage::disk('public')->url($filename);
+                    DB::table('rate_images')->insert([
+                        'resort_id' => $request->resort_id,
+                        'resort_rate_id' => $rate_id,
+                        'rate_image' => $getFileName,
+                        'created_by' => auth()->id(),
+                        'created_at' => now(),
+                    ]);
+                }
+
+            } 
     
             Reservation::where('id', $request->reservation_id)->update([
                 'rate_status' => 1,

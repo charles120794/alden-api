@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ResortRatings extends Model
+class RateImages extends Model
 {
     use HasFactory;
 
-    protected $table = "resort_rate";
+    protected $table = "rate_images";
 
     protected $primaryKey = "id";
 
@@ -20,13 +20,8 @@ class ResortRatings extends Model
         return $this->hasOne(User::class, 'id', 'created_by');
     }
 
-    public function resortInfo()
+    public function rateInfo()
     {
-        return $this->hasOne(Resorts::class, 'id', 'resort_id');
-    }
-
-    public function rateImages()
-    {
-        return $this->hasOne(RateImages::class, 'resort_rate_id', 'id');
+        return $this->hasOne(ResortRatings::class, 'id', 'resort_rate_id');
     }
 }
