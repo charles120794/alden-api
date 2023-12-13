@@ -119,7 +119,7 @@ class ReservationController extends Controller
                     'resort_id' => $request->resort_id, 
                     'reservation_id' => $reserve,
                     'user_id' => $request->resort_owner_id,
-                    'message' => "$userName reserved your resort",
+                    'message' => "Customer $userName reserved your resort",
                     'type' => 'RESORT_RESERVED',
                     'source' => auth()->id(),
                     'created_by' => auth()->id()
