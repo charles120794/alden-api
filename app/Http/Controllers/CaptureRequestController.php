@@ -92,8 +92,7 @@ class CaptureRequestController extends Controller
             $countVrImageInput = 0;
 
             if (
-                (!$request->hasFile('resort_image') && !$request->hasFile('resort_vr_image')) ||
-                (count(request()->file('resort_image'))==0 && count(request()->file('resort_vr_image'))==0)
+                !$request->hasFile('resort_image') && !$request->hasFile('resort_vr_image')
             ){
                 return response()->json([
                     'status' => 'error',
