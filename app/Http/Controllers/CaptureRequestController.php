@@ -109,7 +109,7 @@ class CaptureRequestController extends Controller
                 if($countImages == 0 && $countImageInput < 3){
                     return response()->json([
                         'status' => 'error',
-                        'response' => "Resort should have at least 3 thumbnails. \nCurrent thumbnails: $countImages \nCurrent 360: $countVrImages",
+                        'response' => "Resort should have at least 3 thumbnails. \nCurrent thumbnails: $countImages \nUploaded: $countImageInput",
                     ]);
                 }
             } 
@@ -122,7 +122,7 @@ class CaptureRequestController extends Controller
                 if($countVrImages == 0 && $countVrImageInput < 3){
                     return response()->json([
                         'status' => 'error',
-                        'response' => "Resort should have at least 3 360 images. \nCurrent thumbnails: $countVrImages",
+                        'response' => "Resort should have at least 3 360 images. \nCurrent thumbnails: $countVrImages \nUploaded: $countVrImageInput",
                     ]);
                 }    
 
