@@ -42,7 +42,6 @@ class MailResortReserve extends Mailable
         $this->price_desc = $price_desc;
         $this->time_from = $time_from;
         $this->time_to = $time_to;
-        $this->price_desc = $price_desc;
         $this->reserve_date = $reserve_date;
         $this->user_name = $user_name;
         $this->user_email = $user_email;
