@@ -27,6 +27,6 @@ class ResortRatings extends Model
 
     public function rateImages()
     {
-        return $this->hasOne(RateImages::class, 'resort_rate_id', 'id');
+        return $this->hasMany(RateImages::class, 'resort_rate_id', 'id');
     }
 }
