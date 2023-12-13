@@ -88,6 +88,9 @@ class CaptureRequestController extends Controller
             $countImages = DB::table('resort_images')->where('resort_id', $request->resort_id)->where('archive', 0)->count();
             $countVrImages = DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->where('archive', 0)->count();
 
+            $countImageInput = 0;
+            $countVrImageInput = 0;
+
             if (
                 (!$request->hasFile('resort_image') && !$request->hasFile('resort_vr_image')) ||
                 (count(request()->file('resort_image'))==0 && count(request()->file('resort_vr_image'))==0)
@@ -99,19 +102,27 @@ class CaptureRequestController extends Controller
             }
 
             if($request->hasFile('resort_image')){
-                if($countImages == 0 && count(request()->file('resort_image')) < 3){
+                foreach(request()->file('resort_image') as $key => $file) {
+                    $countImageInput += 1;
+                }
+
+                if($countImages == 0 && $countImageInput < 3){
                     return response()->json([
                         'status' => 'error',
-                        'response' => 'New resort: Add at least 3 thumbnails',
+                        'response' => "Resort should have at least 3 thumbnails. \nCurrent thumbnails: $countImages",
                     ]);
                 }
             } 
             
             if($request->hasFile('resort_vr_image')){
-                if($countVrImages == 0 && count(request()->file('resort_vr_image')) < 3){
+                foreach(request()->file('resort_vr_image') as $key => $file) {
+                    $countVrImageInput += 1;
+                }
+
+                if($countVrImages == 0 && $countVrImageInput < 3){
                     return response()->json([
                         'status' => 'error',
-                        'response' => 'New resort: Add at least 3 360 images',
+                        'response' => "Resort should have at least 3 360 images. \nCurrent thumbnails: $countVrImages",
                     ]);
                 }    
 
