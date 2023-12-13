@@ -129,34 +129,69 @@ class NotificationController extends Controller
         foreach ($reservation as $reserve) {
 
             if($reserve->reserve_date < now()) {
-                //check first if notification already exists
-                $count = Notification::query()
-                    ->where('resort_id',  $reserve->resort_id)
-                    ->where('reservation_id',  $reserve->id)
-                    ->where('user_id',  $reserve->created_by)
-                    ->where('type',  'TO_REVIEW')
-                    ->where('source',  20)
-                    ->count();
+							if($reserve->confirm_status == 1){
+								//check first if notification already exists
+								$count = Notification::query()
+										->where('resort_id',  $reserve->resort_id)
+										->where('reservation_id',  $reserve->id)
+										->where('user_id',  $reserve->created_by)
+										->where('type',  'TO_REVIEW')
+										->where('source',  20)
+										->count();
 
-                if($count == 0) {
-										//add to db if notification does not exist
-                    Notification::insert([
-                        'resort_id' => $reserve->resort_id,
-                        'reservation_id' => $reserve->id,
-                        'user_id' => $reserve->created_by,
-                        'message' => "Please rate your experience",
-                        'type' => 'TO_REVIEW',
-                        'status' => 0,
-                        'created_at' => now(),
-                        'created_by' => 20,
-                        'source' => 20,
-                    ]);
-									}
+								if($count == 0) {
+									//add to db if notification does not exist
+									Notification::insert([
+											'resort_id' => $reserve->resort_id,
+											'reservation_id' => $reserve->id,
+											'user_id' => $reserve->created_by,
+											'message' => "Please rate your experience",
+											'type' => 'TO_REVIEW',
+											'status' => 0,
+											'created_at' => now(),
+											'created_by' => 20,
+											'source' => 20,
+									]);
+								}
+							} 
+							else if ($reserve->confirm_status == 3)
+							{
+								$countOwnerNotif = Notification::query()
+								->where('resort_id',  $reserve->resort_id)
+								->where('reservation_id',  $reserve->id)
+								->where('user_id',  $reserve->created_by)
+								->where('type',  'UNPROCESSED_RESERVE')
+								->where('source',  20)
+								->count();
+
+								$ownerInfo = User::findorfail($reserve->resort_owner_id);
+
+								if($countOwnerNotif == 0) {
+									//add to db if notification does not exist
+									Notification::insert([
+											'resort_id' => $reserve->resort_id,
+											'reservation_id' => $reserve->id,
+											'user_id' => $reserve->created_by,
+											'message' => "Your reservation to $ownerInfo->name' resort was not processed. Please contact the owner to address the issue and assure you that we will take action on this",
+											'type' => 'UNPROCESSED_RESERVE',
+											'status' => 0,
+											'created_at' => now(),
+											'created_by' => 20,
+											'source' => 20,
+									]);
+								}
+							}
+							else if ($reserve->confirm_status == 3)
+							{
+								Reservation::where('created_at', '<', now())
+														->where('confirm_status', 0)
+														->update(['confirm_status' => 3]);
+							}
+							
             }
         }
 
 				$reservationOwner = Reservation::where('resort_owner_id', auth()->id())->where('rate_status', 0)->get();
-
         foreach ($reservationOwner as $reserve) {
 
 						if($reserve->confirm_status == 3){
@@ -170,7 +205,6 @@ class NotificationController extends Controller
                     ->count();
 
 							$userInfo = User::findorfail($reserve->created_by);
-
 
 							if($countOwnerNotif == 0) {
 								//add to db if notification does not exist

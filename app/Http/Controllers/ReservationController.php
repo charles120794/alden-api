@@ -77,11 +77,10 @@ class ReservationController extends Controller
 
                 $screenshot_path = Storage::disk('public')->url($filename);
             } else {
-                throw new \Exception("Image is required", 1);
+                throw new \Exception("Payment screenshot is required", 1);
             }
 
             $ownerInfo = User::findorfail($request->resort_owner_id);
-            $userInfo = User::findorfail($request->resort_owner_id);
             $resortInfo = Resorts::findorfail($request->resort_id);
             $pricingInfo = ResortPricings::findorfail($request->pricing_id);
 
