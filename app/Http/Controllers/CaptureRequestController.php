@@ -99,7 +99,7 @@ class CaptureRequestController extends Controller
             }
 
             if($request->hasFile('resort_image')){
-                if($countImages == 0 && request()->file('resort_image')->count() < 3){
+                if($countImages == 0 && count(request()->file('resort_image')) < 3){
                     return response()->json([
                         'status' => 'error',
                         'response' => 'New resort: Add at least 3 thumbnails',
@@ -108,7 +108,9 @@ class CaptureRequestController extends Controller
             } 
             
             if($request->hasFile('resort_vr_image')){
-                if($countVrImages == 0 && (request()->file('resort_vr_image')->count() < 3)){
+                $vrImages = request()->file('resort_vr_image');
+
+                if($countVrImages == 0 && is_array($vrImages) && count($vrImages) < 3){
                     return response()->json([
                         'status' => 'error',
                         'response' => 'New resort: Add at least 3 360 images',
