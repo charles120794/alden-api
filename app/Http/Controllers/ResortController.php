@@ -419,6 +419,9 @@ class ResortController extends Controller
             $reserveInfo = Reservation::findorfail($request->data['reservation_id']);
             $priceInfo = ResortPricings::findorfail($reserveInfo->pricing_id);
 
+            $reserve_time_from = $priceInfo->time_from;
+            $reserve_time_to = $priceInfo->time_to;
+
 
             if($request->action == 'confirm'){
 
@@ -431,8 +434,8 @@ class ResortController extends Controller
                 Mail::to($userInfo->email)->send(new MailConfirmReservation(
                     $resortInfo->resort_name,
                     $priceInfo->price_desc,
-                    $priceInfo->time_from->format('M d, Y h:i a'),
-                    $priceInfo->time_to->format('M d, Y h:i a'),
+                    $reserve_time_from->format('M d, Y h:i a'),
+                    $reserve_time_to->format('M d, Y h:i a'),
                     $reserveInfo->reserve_date,
                     $reserveInfo->ref_no,
                     auth()->user()->name,
