@@ -400,7 +400,8 @@ class ResortController extends Controller
     }
 
     public function showResortReview(Request $request){
-        $review = ResortRatings::where('resort_id', $request->resort_id)
+        $review = ResortRatings::with('rateImages')
+                    ->where('resort_id', $request->resort_id)
                     ->where('reservation_id', $request->reservation_id)
                     ->where('created_by', auth()->id())
                     ->get();
