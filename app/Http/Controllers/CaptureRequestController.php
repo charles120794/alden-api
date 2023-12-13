@@ -91,9 +91,7 @@ class CaptureRequestController extends Controller
             $countImageInput = 0;
             $countVrImageInput = 0;
 
-            if (
-                !$request->hasFile('resort_image') && !$request->hasFile('resort_vr_image')
-            ){
+            if (!$request->hasFile('resort_image') && !$request->hasFile('resort_vr_image')){
                 return response()->json([
                     'status' => 'error',
                     'response' => 'Invalid Action: Choose thumbnail or 360 images',
@@ -108,7 +106,7 @@ class CaptureRequestController extends Controller
                 if($countImages == 0 && $countImageInput < 3){
                     return response()->json([
                         'status' => 'error',
-                        'response' => "Resort should have at least 3 thumbnails. \nCurrent thumbnails: $countImages \nUploaded: $countImageInput",
+                        'response' => "Resort should have at least 3 thumbnails. \n\nCurrent thumbnails: $countImages \nUploaded: $countImageInput",
                     ]);
                 }
             } 
@@ -121,7 +119,7 @@ class CaptureRequestController extends Controller
                 if($countVrImages == 0 && $countVrImageInput < 3){
                     return response()->json([
                         'status' => 'error',
-                        'response' => "Resort should have at least 3 360 images. \nCurrent thumbnails: $countVrImages \nUploaded: $countVrImageInput",
+                        'response' => "Resort should have at least 3 360 images. \n\nCurrent 360: $countVrImages \nUploaded: $countVrImageInput",
                     ]);
                 }    
 
