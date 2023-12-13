@@ -15,6 +15,7 @@ use App\Models\Notification;
 use App\Mail\MailResortReserve;
 use App\Mail\MailConfirmReservation;
 use App\Mail\MailRejectReservation;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\NotificationController;
 
 class ReservationController extends Controller
