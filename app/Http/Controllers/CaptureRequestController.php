@@ -107,7 +107,7 @@ class CaptureRequestController extends Controller
                 }
             } 
             
-            if($request->hasFile('resort_image')){
+            if($request->hasFile('resort_vr_image')){
                 if($countVrImages == 0 && count(request()->file('resort_vr_image[]')) < 3){
                     return response()->json([
                         'status' => 'error',
@@ -116,10 +116,6 @@ class CaptureRequestController extends Controller
                 }    
 
             } 
-
-            
-
-       
 
             if($request->hasFile('resort_image')){
 

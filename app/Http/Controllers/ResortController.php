@@ -376,6 +376,7 @@ class ResortController extends Controller
                 $screenshot_path
             ));
 
+            $userName = auth()->user()->name;
             //notification
             (new NotificationController)->create(
                 new Request(
@@ -383,7 +384,7 @@ class ResortController extends Controller
                     'resort_id' => $request->resort_id, 
                     'reservation_id' => $reserve,
                     'user_id' => $request->resort_owner_id,
-                    'message' => 'Your resort has been reserved',
+                    'message' => "$userName reserved your resort",
                     'type' => 'RESORT_RESERVED',
                     'source' => auth()->id(),
                     'created_by' => auth()->id()
@@ -391,7 +392,6 @@ class ResortController extends Controller
                 ));
             
             // activity log
-            $userName = auth()->user()->name;
             (new ActivityLogController)->create(new Request([
                 'activity' => ("User $userName has reserved a resort")
             ]));
