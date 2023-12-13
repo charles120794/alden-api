@@ -367,9 +367,9 @@ class ResortController extends Controller
             Mail::to($ownerInfo->email)->send(new MailResortReserve(
                 $resortInfo->resort_name,
                 $pricingInfo->price_desc,
-                $pricingInfo->time_from,
-                $pricingInfo->time_to,
-                date('Y-m-d', strtotime($request->reserve_date)),
+                Carbon::parse($pricingInfo->time_from)->format('h:i a'),
+                Carbon::parse($pricingInfo->time_to)->format('h:i a'),
+                Carbon::parse($request->reserve_date)->format('M d, Y'),
                 auth()->user()->name,
                 auth()->user()->email,
                 auth()->user()->contact_no,
@@ -419,9 +419,6 @@ class ResortController extends Controller
             $reserveInfo = Reservation::findorfail($request->data['reservation_id']);
             $priceInfo = ResortPricings::findorfail($reserveInfo->pricing_id);
 
-            $reserve_time_from = Carbon::parse($priceInfo->time_from);
-            $reserve_time_to = Carbon::parse($priceInfo->time_to);
-
             if($request->action == 'confirm'){
 
                 Reservation::where('id', $request->data['reservation_id'])->update([
@@ -433,8 +430,8 @@ class ResortController extends Controller
                 Mail::to($userInfo->email)->send(new MailConfirmReservation(
                     $resortInfo->resort_name,
                     $priceInfo->price_desc,
-                    $reserve_time_from->format('h:i a'),
-                    $reserve_time_to->format('h:i a'),
+                    Carbon::parse($priceInfo->time_from)->format('h:i a'),
+                    Carbon::parse($priceInfo->time_to)->format('h:i a'),
                     Carbon::parse($reserveInfo->reserve_date)->format('M d, Y'),
                     $reserveInfo->ref_no,
                     auth()->user()->name,
@@ -479,9 +476,9 @@ class ResortController extends Controller
                 Mail::to($userInfo->email)->send(new MailRejectReservation(
                     $resortInfo->resort_name,
                     $priceInfo->price_desc,
-                    $priceInfo->time_from,
-                    $priceInfo->time_to,
-                    $reserveInfo->reserve_date,
+                    Carbon::parse($priceInfo->time_from)->format('h:i a'),
+                    Carbon::parse($priceInfo->time_to)->format('h:i a'),
+                    Carbon::parse($reserveInfo->reserve_date)->format('M d, Y'),
                     $reserveInfo->ref_no,
                     auth()->user()->name,
                     auth()->user()->email,
