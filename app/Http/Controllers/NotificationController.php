@@ -119,7 +119,7 @@ class NotificationController extends Controller
 
 	public function notifiReservation()
     {
-				Reservation::where('created_at', '<', now())
+				Reservation::where('reserve_date', '<', now())
 											->where('confirm_status', 0)
 											->update(['confirm_status' => 3]);
 
