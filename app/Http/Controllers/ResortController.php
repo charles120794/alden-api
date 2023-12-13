@@ -435,7 +435,7 @@ class ResortController extends Controller
                     $priceInfo->price_desc,
                     $reserve_time_from->format('h:i a'),
                     $reserve_time_to->format('h:i a'),
-                    $reserveInfo->reserve_date,
+                    Carbon::parse($reserveInfo->reserve_date)->format('M d, Y'),
                     $reserveInfo->ref_no,
                     auth()->user()->name,
                     auth()->user()->email,
