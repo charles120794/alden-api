@@ -420,7 +420,7 @@ class ResortController extends Controller
             $priceInfo = ResortPricings::findorfail($reserveInfo->pricing_id);
 
             $reserve_time_from = Carbon::parse($priceInfo->time_from);
-            $reserve_time_to = Carbon::parse($$priceInfo->time_to);
+            $reserve_time_to = Carbon::parse($priceInfo->time_to);
 
             if($request->action == 'confirm'){
 
