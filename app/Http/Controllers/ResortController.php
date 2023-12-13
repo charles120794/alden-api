@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use DB;
 use Storage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailResortReserve;
@@ -430,8 +431,8 @@ class ResortController extends Controller
                 Mail::to($userInfo->email)->send(new MailConfirmReservation(
                     $resortInfo->resort_name,
                     $priceInfo->price_desc,
-                    $priceInfo->time_from,
-                    $priceInfo->time_to,
+                    $priceInfo->time_from->format('M d, Y h:i a'),
+                    $priceInfo->time_to->format('M d, Y h:i a'),
                     $reserveInfo->reserve_date,
                     $reserveInfo->ref_no,
                     auth()->user()->name,
