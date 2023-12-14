@@ -58,7 +58,7 @@ class ResortController extends Controller
 
             $resort->amenities = DB::table('resort_amenities')->where('resort_id', $request->resort_id)->where('archive', 0)->get();
             $resort->policies = DB::table('resort_policy')->where('resort_id', $request->resort_id)->where('archive', 0)->get();
-            $resort->ratings = ResortRatings::with('createdUser', 'rateImages')->where('resort_id', $request->resort_id)->get();
+            $resort->ratings = ResortRatings::with('createdUser', 'rateImages')->where('resort_id', $request->resort_id)->orderBy('created_at', 'asc')->get();
             $resort->ratings_avarage = DB::table('resort_rate')->where('resort_id', $request->resort_id)->avg('rating') ?? 0;
             $resort->images = DB::table('resort_images')->where('resort_id', $request->resort_id)->where('archive', 0)->get();
             $resort->images_vr = DB::table('resort_vr_images')->where('resort_id', $request->resort_id)->where('archive', 0)->get();
