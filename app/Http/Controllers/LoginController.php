@@ -59,7 +59,7 @@ class LoginController extends Controller
 
             $token = $request->user()->createToken($request->token_name);
 
-            $request->user()->status = 1;
+            $request->user()->status = 1; //change status to active
 
             $request->user()->save();
 
@@ -149,7 +149,7 @@ class LoginController extends Controller
                 'contact_no' => $request->contact_no,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'status' => 1,
+                'status' => 0, //default status inactive
                 'type' => $request->type ?? 0,
             ]);
 
@@ -245,7 +245,7 @@ class LoginController extends Controller
 
         $request->user()->currentAccessToken()->delete();
 
-        $request->user()->status = 0;
+        $request->user()->status = 0; //change status to inactive
 
         $request->user()->save();
 
