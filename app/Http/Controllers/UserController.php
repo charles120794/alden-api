@@ -65,16 +65,26 @@ class UserController extends Controller
     public function updateProfile(Request $request)
     {
         try {
+            $mResponse = 'Successfully updated';
 
-            // Check if the email already exists
-            $existingUser = User::where('email', $request->email)->first();
+            if($request->email != auth()->user()->email){
+                 // Check if the email already exists
+                $existingUser = User::where('email', $request->email)->first();
 
-            if ($existingUser) {
-                return response()->json([
-                    'status' => 'error',
-                    'response' => 'Email is already in use',
-                ]);
+                if ($existingUser) {
+                    return response()->json([
+                        'status' => 'error',
+                        'response' => 'Email is already in use',
+                    ]);
+                }
+
+                
+                Auth()->User()->update(['email_verified_at' => null]);
+                $mResponse = 'Successfully updated. Please verify new email';
+
             }
+
+            
 
             $profile_picture_path = "";
             if ($request->hasFile('profile_picture')) {
@@ -88,14 +98,7 @@ class UserController extends Controller
                 $profile_picture_path = $request->profile_picture;
             }
 
-            $mResponse = 'Successfully updated';
-
-            if($request->email != auth()->user()->email){
-
-                Auth()->User()->update(['email_verified_at' => null]);
-                $mResponse = 'Successfully updated. Please verify new email';
-
-            }
+            
 
             Auth()->User()->update([
                 'name' => $request->first_name . ' ' . $request->last_name,
