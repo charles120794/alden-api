@@ -41,17 +41,17 @@ class LoginController extends Controller
 
             $userInfo = User::where('email', $request->email)->first();
 
-            if (!$userInfo) {
-                return response()->json([
-                    'status' => 'error',
-                    'response' => 'Email not found',
-                ]);
-            }
+            // if (!$userInfo) {
+            //     return response()->json([
+            //         'status' => 'error',
+            //         'response' => 'Email not found',
+            //     ]);
+            // }
 
-            if (!Hash::check($request->password, $userInfo->password)) {
+            if (!$userInfo || !Hash::check($request->password, $userInfo->password)) {
                 return response()->json([
                     'status' => 'error',
-                    'response' => 'Incorrect password',
+                    'response' => 'Incorrect email or password',
                 ]);
             }
 
