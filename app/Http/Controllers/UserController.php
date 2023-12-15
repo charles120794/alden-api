@@ -66,6 +66,16 @@ class UserController extends Controller
     {
         try {
 
+            // Check if the email already exists
+            $existingUser = User::where('email', $request->email)->first();
+
+            if ($existingUser) {
+                return response()->json([
+                    'status' => 'error',
+                    'response' => 'Email is already in use',
+                ]);
+            }
+
             $profile_picture_path = "";
             if ($request->hasFile('profile_picture')) {
 
