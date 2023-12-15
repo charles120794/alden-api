@@ -285,7 +285,7 @@ class UserController extends Controller
                 (new ActivityLogController)->create(new Request([
                     'activity' => ("User $ownerName->name has been rejected to be an owner")
                 ]));
-
+ 
                 //notify user
                 (new NotificationController)->create(new Request([
                     'user_id' => $request->user_id,
