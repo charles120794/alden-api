@@ -78,7 +78,7 @@ class UserController extends Controller
                     ]);
                 }
 
-                
+
                 Auth()->User()->update(['email_verified_at' => null]);
                 $mResponse = 'Successfully updated. Please verify new email';
 
@@ -259,6 +259,14 @@ class UserController extends Controller
                     'activity' => ("User $ownerName->name has been approved to be an owner")
                 ]));
 
+                //notify user
+                (new NotificationController)->create(new Request([
+                    'user_id' => $request->user_id,
+                    'message' => "Your application to be an owner has been approved",
+                    'type' => 'CONFIRMED_OWNER',
+                    'source' => auth()->id(),
+                ]));
+
                 return response()->json([
                     'authenticated' => true,
                     'response' => 'Successfully updated',
@@ -276,6 +284,14 @@ class UserController extends Controller
 
                 (new ActivityLogController)->create(new Request([
                     'activity' => ("User $ownerName->name has been rejected to be an owner")
+                ]));
+
+                //notify user
+                (new NotificationController)->create(new Request([
+                    'user_id' => $request->user_id,
+                    'message' => "Your application to be an owner has been rejected",
+                    'type' => 'REJECT_OWNER',
+                    'source' => auth()->id(),
                 ]));
 
                 return response()->json([
