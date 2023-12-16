@@ -22,7 +22,10 @@ class UserController extends Controller
             $userInfo->bookmarks = Bookmarks::with('resortInfo.images')->where('created_by', auth()->id())->get();
 
             
-            return $userInfo;
+            return response()->json([
+                'status' => 'success',
+                'data' => $userInfo,
+            ]);
 
         } catch (\Exception $e) {
 
