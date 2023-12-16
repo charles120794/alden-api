@@ -179,6 +179,7 @@ Route::middleware(['auth:sanctum', 'cors', 'throttle:60,1'])->group(function () 
 
     // USERS
     Route::get('/users', [UserController::class, 'getAllUser']);
+    Route::get('/users/data', [UserController::class, 'indexShow']);
     Route::get('/users/pending', [UserController::class, 'getAllPendingUser']);
     Route::post('/user/update', [UserController::class, 'updateProfile']);
     Route::post('/user/update/owner', [UserController::class, 'updateToOwner']);

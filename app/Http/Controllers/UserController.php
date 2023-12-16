@@ -10,6 +10,29 @@ use App\Models\Bookmarks;
 
 class UserController extends Controller
 {
+    public function indexShow(Request $request)
+	{
+
+        try {
+
+            $userInfo = User::findorfail($request->id);
+
+            $userInfo->payment_methods = PaymentMethod::where('created_by', auth()->id())->where('archive', 0)->get();
+            $userInfo->bookmarks = Bookmarks::with('resortInfo.images')->where('created_by', auth()->id())->get();
+
+            
+            return $userInfo;
+
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => 'error',
+                'response' => $e->getMessage(),
+            ]);
+        }
+
+	}
+
 	public function updateToOwner(Request $request)
 	{
 
