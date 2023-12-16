@@ -15,7 +15,8 @@ class UserController extends Controller
 
         try {
 
-            $userInfo = User::findorfail($request->id);
+            $userInfo = auth()->user();
+            // $userInfo = User::findorfail($request->id);
 
             $userInfo->payment_methods = PaymentMethod::where('created_by', auth()->id())->where('archive', 0)->get();
             $userInfo->bookmarks = Bookmarks::with('resortInfo.images')->where('created_by', auth()->id())->get();
