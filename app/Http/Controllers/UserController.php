@@ -279,7 +279,8 @@ class UserController extends Controller
             if($request->action == 'approve'){
                 $owner->update([
                     'type' => 1,
-                    'approve_status' => 1
+                    'approve_status' => 1,
+                    'note' => $request->note,
                 ]);
 
                 (new ActivityLogController)->create(new Request([
@@ -295,6 +296,7 @@ class UserController extends Controller
                 ]));
 
                 return response()->json([
+                    'status' => 'success',
                     'authenticated' => true,
                     'response' => 'Successfully updated',
                     'data' => [
@@ -306,7 +308,8 @@ class UserController extends Controller
 
             }else{
                 $owner->update([
-                    'approve_status' => 2
+                    'approve_status' => 2,
+                    'note' => $request->note,
                 ]);
 
                 (new ActivityLogController)->create(new Request([
@@ -322,6 +325,7 @@ class UserController extends Controller
                 ]));
 
                 return response()->json([
+                    'status' => 'success',
                     'authenticated' => true,
                     'response' => 'Successfully updated',
                     'data' => [
@@ -337,6 +341,7 @@ class UserController extends Controller
 
         } catch (\Exception $e) {
             return response()->json([
+                'status' => 'error',
                 'authenticated' => true,
                 'response' => $e->getMessage(),
                 'token' => ''
