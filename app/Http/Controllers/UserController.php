@@ -298,7 +298,7 @@ class UserController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'authenticated' => true,
-                    'response' => 'Successfully updated',
+                    'response' => 'Successfully approved user to owner',
                     'data' => [
                         'type' => 1,
                         'approve_status' => 1
@@ -327,7 +327,7 @@ class UserController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'authenticated' => true,
-                    'response' => 'Successfully updated',
+                    'response' => 'Application rejected successfully',
                     'data' => [
                         'type' => 0,
                         'approve_status' => 2
