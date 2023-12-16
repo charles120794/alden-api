@@ -21,6 +21,8 @@ class ResortController extends Controller
     public function index()
     {
         try {
+            (new NotificationController)->notifiReservation();
+
             $searchResort = Resorts::with('createdUser.paymentMethods')->when(!empty(request()->search), function($query) {
                 return $query->where('resort_name', 'like', '%' . request()->search. '%')
                     ->orWhere('region', 'like', '%' . request()->search. '%')
@@ -39,8 +41,6 @@ class ResortController extends Controller
                     'reservation' => DB::table('resort_reservation')->where('resort_id', $value->id)->get(),
                 ]);
             });
-
-            (new NotificationController)->notifiReservation();
 
             return $searchResort;
 
