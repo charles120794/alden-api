@@ -40,6 +40,7 @@ class ResortController extends Controller
                 ]);
             });
 
+            (new NotificationController)->notifiReservation();
 
             return $searchResort;
 
