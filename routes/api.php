@@ -24,7 +24,8 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\User;
-
+use App\Mail\MailFeedback;
+use Illuminate\Support\Facades\Mail;
 
 
 /*
@@ -50,6 +51,30 @@ Route::get('/image', function (Request $request) {
         ->header('Access-Control-Allow-Origin', '*'); // Adjust to your needs
 });
 
+// Send us Feedback
+Route::post('/email/feedback', function (Request $request) {
+    try{
+        
+        //send email notification
+        Mail::to(env('MAIL_FROM_ADDRESS', 'quickrent.online@gmail.com'))->send(new MailFeedback(
+            $request->feedback,
+            $request->name,
+            $request->subject,
+            $request->email,
+        ));
+
+        return response()->json(['status' => 'success', 'response' => 'Feedback sent!']);
+
+    }catch (\Exception $e) {
+
+        return response()->json([
+            'status' => 'error',
+            'response' => $e->getMessage(),
+        ]);
+        
+    }
+
+})->middleware(['throttle:6,1']);
 
 // Resending The Verification Email
 Route::post('/email/resend-verification', function (Request $request) {
